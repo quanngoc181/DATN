@@ -1,35 +1,25 @@
 package com.hust.datn.entity;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "ACCOUNT")
-public class Account {
-	@Id
-	@GeneratedValue
-	private Integer id;
+public class Account extends ParentEntity {
 	private String username;
 	private String password;
 
 	public Account() {
+		super();
 	}
 
-	public Account(int id, String username, String password) {
-		super();
-		this.id = id;
+	public Account(UUID id, LocalDateTime createAt, LocalDateTime updateAt, String username, String password) {
+		super(id, createAt, updateAt);
 		this.username = username;
 		this.password = password;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
