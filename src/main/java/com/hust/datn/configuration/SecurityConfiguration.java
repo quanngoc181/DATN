@@ -56,13 +56,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorize -> authorize
-			.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/").permitAll()
+			.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/favicon.ico", "/").permitAll()
 			.antMatchers("/admin/**").hasRole("ADMIN")
-			.antMatchers("/user/**").hasRole("USER")
+			.antMatchers("/user/**", "/change-password", "/login-success").hasRole("USER")
 			.anyRequest().denyAll()
 		).formLogin(form ->form
-			.loginPage("/login").permitAll()
-		).rememberMe().tokenRepository(tokenRepository());
+			.loginPage("/login").permitAll().defaultSuccessUrl("/login-success", true)
+		).rememberMe(remember -> remember
+			.tokenRepository(tokenRepository())
+		);
 	}
 	
 	@Bean
