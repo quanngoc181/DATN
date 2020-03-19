@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Admin</title>
+<th:block th:include="fragment/head"></th:block>
 </head>
 <body>
 	<form action="#" th:action="@{/logout}" method="post">
-		<input type="submit" value="Logout" />
+		<button type="submit" class="btn btn-outline-danger">Logout</button>
 	</form>
+
+	<th:block th:include="fragment/script"></th:block>
 </body>
 </html>
