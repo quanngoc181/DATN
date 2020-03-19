@@ -56,9 +56,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorize -> authorize
-			.antMatchers("/css/**", "/").permitAll()
+			.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/").permitAll()
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.antMatchers("/user/**").hasRole("USER")
+			.anyRequest().denyAll()
 		).formLogin(form ->form
 			.loginPage("/login").permitAll()
 		).rememberMe().tokenRepository(tokenRepository());
