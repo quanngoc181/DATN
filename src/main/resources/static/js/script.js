@@ -1,3 +1,5 @@
 $(function(){
-	console.log('Hello Spring Boot !!!');
+	var windowHeight = window.innerHeight;
+	
+	$('body').css('min-height', windowHeight);
 });

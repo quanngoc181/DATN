@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Please Log In</title>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/login.css" />
 </head>
 <body>
-	<h1>Please Log In</h1>
 	<div th:if="${param.error}">Invalid username and password.</div>
 	<div th:if="${param.logout}">You have been logged out.</div>
 	<form th:action="@{/login}" method="post">
@@ -18,5 +17,8 @@
 		</div>
 		<input type="submit" value="Log in" />
 	</form>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/login.js"></script>
 </body>
 </html>

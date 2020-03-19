@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-h1 {
-	color: purple;
-}
-
 ::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;

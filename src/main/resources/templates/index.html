@@ -2,38 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="https://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Hello Spring Boot</title>
-
-<link rel="stylesheet"
-	href="/vendors/fontawesome-5.12.1/css/all.min.css" />
-<link rel="stylesheet"
-	href="/vendors/bootstrap-4.4.1/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/css/style.css" />
+<th:block th:include="fragment/head"></th:block>
 </head>
 <body>
 	<form action="#" th:action="@{/logout}" method="post">
-		<input type="submit" value="Logout" />
+		<input type="submit" class="btn btn-danger" value="Logout" />
 	</form>
 
-	<h1>Hello Spring Boot !!!</h1>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-6">
-				<i class="fab fa-500px"></i>
-			</div>
-			<div class="col-6">
-				<i class="fab fa-500px"></i>
-			</div>
-		</div>
-	</div>
-
-	<div style="height: 1000px; width: 2000px;"></div>
-
-	<script src="/vendors/jquery-3.4.1/jquery.min.js"></script>
-	<script src="/vendors/popperjs/popper.js"></script>
-	<script src="/vendors/bootstrap-4.4.1/js/bootstrap.min.js"></script>
-	<script src="/js/script.js"></script>
+	<th:block th:include="fragment/script"></th:block>
 </body>
 </html>
