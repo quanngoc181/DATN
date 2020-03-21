@@ -1,25 +1,31 @@
 package com.hust.datn.entity;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Nationalized;
 
 @Entity
 @Table(name = "ACCOUNT")
 public class Account extends ParentEntity {
 	private String username;
-	private String password;
+	
+	@Nationalized
+	private String firstName;
+	
+	@Nationalized
+	private String lastName;
 
 	public Account() {
 		super();
 	}
 
-	public Account(UUID id, LocalDateTime createAt, LocalDateTime updateAt, String username, String password) {
-		super(id, createAt, updateAt);
+	public Account(UUID id, String username, String firstName, String lastName) {
+		super.setId(id);
 		this.username = username;
-		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
 	}
 
 	public String getUsername() {
@@ -30,11 +36,19 @@ public class Account extends ParentEntity {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 }

@@ -8,6 +8,7 @@
 	<form action="#" th:action="@{/logout}" method="post">
 		<button type="submit" class="btn btn-outline-danger">Logout</button>
 	</form>
+	<a th:href="@{/user/update-info}" class="btn btn-outline-danger">Update Info</a>
 
 	<th:block th:include="fragment/script"></th:block>
 </body>

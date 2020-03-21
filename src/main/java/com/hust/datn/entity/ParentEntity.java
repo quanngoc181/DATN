@@ -18,16 +18,19 @@ public class ParentEntity {
 	private LocalDateTime createAt;
 
 	private LocalDateTime updateAt;
+	
+	@PrePersist
+	protected void onCreate() {
+		createAt = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updateAt = LocalDateTime.now();
+	}
 
 	public ParentEntity() {
 		super();
-	}
-
-	public ParentEntity(UUID id, LocalDateTime createAt, LocalDateTime updateAt) {
-		super();
-		this.id = id;
-		this.createAt = createAt;
-		this.updateAt = updateAt;
 	}
 
 	public UUID getId() {
@@ -52,15 +55,5 @@ public class ParentEntity {
 
 	public void setUpdateAt(LocalDateTime updateAt) {
 		this.updateAt = updateAt;
-	}
-
-	@PrePersist
-	protected void onCreate() {
-		createAt = LocalDateTime.now();
-	}
-
-	@PreUpdate
-	protected void onUpdate() {
-		updateAt = LocalDateTime.now();
 	}
 }

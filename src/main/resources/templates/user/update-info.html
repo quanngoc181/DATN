@@ -11,23 +11,23 @@
 		<div class="row">
 			<div class="col-4 offset-4">
 				<div class="login-container">
-					<h1 class="text-center">Change Password</h1>
-					<form th:action="@{/change-password}" method="post">
+					<h1 class="text-center">Update Info</h1>
+					<form th:action="@{/user/update-info}" method="post">
 						<p th:text="${message}" class="form-text text-muted"></p>
 	
 						<div class="form-group">
-							<label for="oldpass">Old Password</label>
-							<input type="password" class="form-control" id="oldpass" name="oldpass">
+							<label for="username">Username</label>
+							<input th:value="${account.username}" type="text" class="form-control" id="username" name="username" disabled="disabled">
 						</div>
 						<div class="form-group">
-							<label for="newpass">New Password</label>
-							<input type="password" class="form-control" id="newpass" name="newpass">
+							<label for="firstName">First Name</label>
+							<input th:value="${account.firstName}" type="text" class="form-control" id="firstName" name="firstName">
 						</div>
 						<div class="form-group">
-							<label for="confirmpass">Confirm Password</label>
-							<input type="password" class="form-control" id="confirmpass" name="confirmpass">
+							<label for="lastName">Last Name</label>
+							<input th:value="${account.lastName}" type="text" class="form-control" id="lastName" name="lastName">
 						</div>
-						<button type="submit" class="btn btn-primary">Change Password</button>
+						<button type="submit" class="btn btn-primary">Update</button>
 					</form>
 				</div>
 			</div>

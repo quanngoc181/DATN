@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.hust.datn.entity.Account;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Integer> {
+public interface AccountRepository extends JpaRepository<Account, Integer>, AccountRepositoryCustom {
 
 }

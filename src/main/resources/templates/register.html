@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/login.css" />
+</head>
+<body>
+	<div style="height: 100px;"></div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-4 offset-4">
+				<div class="login-container">
+					<h1 class="text-center">Register</h1>
+					<form th:action="@{/register}" method="post">
+						<p th:text="${message}" class="form-text text-muted"></p>
+	
+						<div class="form-group">
+							<label for="firstName">First Name</label>
+							<input type="text" class="form-control" id="firstName" name="firstName">
+						</div>
+						<div class="form-group">
+							<label for="lastName">Last Name</label>
+							<input type="text" class="form-control" id="lastName" name="lastName">
+						</div>
+						<div class="form-group">
+							<label for="username">Username</label>
+							<input type="text" class="form-control" id="username" name="username">
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password">
+						</div>
+						<div class="form-group">
+							<label for="confirmPassword">Confirm Password</label>
+							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword">
+						</div>
+						<button type="submit" class="btn btn-primary">Register</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/login.js"></script>
+</body>
+</html>

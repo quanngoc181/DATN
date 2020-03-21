@@ -5,9 +5,11 @@
 <th:block th:include="fragment/head"></th:block>
 </head>
 <body>
+	<a th:href="@{/login}" class="btn btn-outline-danger">Login</a>
 	<form action="#" th:action="@{/logout}" method="post">
 		<button type="submit" class="btn btn-outline-danger">Logout</button>
 	</form>
+	<a th:href="@{/register}" class="btn btn-outline-danger">Register</a>
 
 	<th:block th:include="fragment/script"></th:block>
 </body>

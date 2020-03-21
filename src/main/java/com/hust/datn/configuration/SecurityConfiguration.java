@@ -35,15 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public UserDetailsManager users(DataSource dataSource) {
-//		UserDetails user = User.builder().username("user").password(passwordEncoder.encode("user")).roles("USER")
-//				.build();
-//		UserDetails admin = User.builder().username("admin").password(passwordEncoder.encode("admin"))
-//				.roles("USER", "ADMIN").build();
 
 		JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-
-//		users.createUser(user);
-//		users.createUser(admin);
 
 		return users;
 	}
@@ -56,12 +49,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorize -> authorize
-			.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/favicon.ico", "/").permitAll()
+			.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/favicon.ico", "/", "/register").permitAll()
 			.antMatchers("/admin/**").hasRole("ADMIN")
-			.antMatchers("/user/**", "/change-password", "/login-success").hasRole("USER")
+			.antMatchers("/user/**").hasRole("USER")
 			.anyRequest().denyAll()
 		).formLogin(form ->form
-			.loginPage("/login").permitAll().defaultSuccessUrl("/login-success", true)
+			.loginPage("/login").permitAll().defaultSuccessUrl("/user/login-success", true)
 		).rememberMe(remember -> remember
 			.tokenRepository(tokenRepository())
 		);
