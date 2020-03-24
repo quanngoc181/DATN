@@ -9,7 +9,7 @@ public class RegisterAccountCommand {
 	
 	public void validate() throws Exception {
 		if (!password.equals(confirmPassword))
-			throw new Exception("Wrong confirm password");
+			throw new Exception("Mật khẩu nhập lại không trùng khớp");
 	}
 	
 	public RegisterAccountCommand() {

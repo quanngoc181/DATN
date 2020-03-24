@@ -38,7 +38,7 @@ public class AccountController {
 			command.validate();
 			
 			if(userDetailsManager.userExists(command.username))
-				throw new Exception("Username exist");
+				throw new Exception("Tài khoản này đã tồn tại");
 
 			UserDetails user = User
 					.builder()
@@ -52,7 +52,7 @@ public class AccountController {
 			Account account = new Account(null, command.username, command.firstName, command.lastName);
 			accountRepository.save(account);
 
-			model.addAttribute("message", "Registered successfully");
+			model.addAttribute("message", "Đăng ký tài khoản thành công");
 		} catch (Exception e) {
 			model.addAttribute("message", e.getMessage());
 		}

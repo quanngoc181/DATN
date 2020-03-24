@@ -5,31 +5,38 @@
 <th:block th:include="fragment/head"></th:block>
 <link rel="stylesheet" href="/css/login.css" />
 </head>
-<body>
-	<div style="height: 100px;"></div>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-4 offset-4">
-				<div class="login-container">
-					<h1 class="text-center">Update Info</h1>
-					<form th:action="@{/user/update-info}" method="post">
-						<p th:text="${message}" class="form-text text-muted"></p>
-	
-						<div class="form-group">
-							<label for="username">Username</label>
-							<input th:value="${account.username}" type="text" class="form-control" id="username" name="username" disabled="disabled">
+<body class="hold-transition login-page">
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="/"><b>ĐATN20166630</b></a>
+		</div>
+		<div class="card">
+			<div class="card-body login-card-body">
+				<p class="login-box-msg">Cập nhật thông tin</p>
+
+				<form th:action="@{/user/update-info}" method="post">
+					<p th:if="${message}" th:text="${message}" class="form-text text-muted"></p>
+				
+					<div class="input-group mb-3">
+						<input th:value="${account.username}" type="text" id="username" name="username" class="form-control" disabled>
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-envelope"></span></div>
 						</div>
-						<div class="form-group">
-							<label for="firstName">First Name</label>
-							<input th:value="${account.firstName}" type="text" class="form-control" id="firstName" name="firstName">
+					</div>
+					<div class="input-group mb-3">
+						<input th:value="${account.firstName}" type="text" id="firstName" name="firstName" class="form-control" placeholder="Họ đệm">
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-user"></span></div>
 						</div>
-						<div class="form-group">
-							<label for="lastName">Last Name</label>
-							<input th:value="${account.lastName}" type="text" class="form-control" id="lastName" name="lastName">
+					</div>
+					<div class="input-group mb-3">
+						<input th:value="${account.lastName}" type="text" id="lastName" name="lastName" class="form-control" placeholder="Tên">
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-user"></span></div>
 						</div>
-						<button type="submit" class="btn btn-primary">Update</button>
-					</form>
-				</div>
+					</div>
+					<button type="submit" class="btn btn-primary btn-block">Cập nhật</button>
+				</form>
 			</div>
 		</div>
 	</div>

@@ -5,32 +5,45 @@
 <th:block th:include="fragment/head"></th:block>
 <link rel="stylesheet" href="/css/login.css" />
 </head>
-<body>
-	<div style="height: 100px;"></div>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-4 offset-4">
-				<div class="login-container">
-					<h1 class="text-center">Login</h1>
-					<form th:action="@{/login}" method="post">
-						<p th:if="${param.error}" class="form-text text-muted">Invalid username or password</p>
-						<p th:if="${param.logout}" class="form-text text-muted">You have been logged out</p>
-	
-						<div class="form-group">
-							<label for="username">Username</label>
-							<input type="text" class="form-control" id="username" name="username">
+<body class="hold-transition login-page">
+
+	<div class="login-box">
+		<div class="login-logo">
+			<a href="/"><b>ĐATN20166630</b></a>
+		</div>
+		<div class="card">
+			<div class="card-body login-card-body">
+				<p class="login-box-msg">Quý khách vui lòng đăng nhập</p>
+
+				<form th:action="@{/login}" method="post">
+					<p th:if="${param.error}" class="form-text text-muted">Tài khoản hoặc mật khẩu không đúng</p>
+					<p th:if="${param.logout}" class="form-text text-muted">Đã đăng xuất</p>
+				
+					<div class="input-group mb-3">
+						<input type="text" id="username" name="username" class="form-control" placeholder="Tài khoản">
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-envelope"></span></div>
 						</div>
-						<div class="form-group">
-							<label for="password">Password</label>
-							<input type="password" class="form-control" id="password" name="password">
+					</div>
+					<div class="input-group mb-3">
+						<input type="password" id="password" name="password" class="form-control" placeholder="Mật khẩu">
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-lock"></span></div>
 						</div>
-						<div class=" form-group custom-control custom-checkbox">
-						  	<input type="checkbox" class="custom-control-input" id="remember-me" name="remember-me">
-						  	<label class="custom-control-label" for="remember-me">Remember Me</label>
-						</div>
-						<button type="submit" class="btn btn-primary">Login</button>
-					</form>
-				</div>
+					</div>
+					<div class="icheck-primary mb-3">
+						<input type="checkbox" id="remember-me" name="remember-me">
+						<label for="remember-me">Ghi nhớ đăng nhập</label>
+					</div>
+					<button type="submit" class="btn btn-primary btn-block mb-3">Đăng nhập</button>
+				</form>
+
+				<p class="mb-1">
+					<a href="#">Quên mật khẩu</a>
+				</p>
+				<p class="mb-0">
+					<a href="/register">Đăng ký tài khoản</a>
+				</p>
 			</div>
 		</div>
 	</div>

@@ -49,15 +49,15 @@ public class UserController {
 			if(!oldpass.equals(newpass)) {
 				if(passwordEncoder.matches(oldpass, password)) {
 					userDetailsManager.changePassword(password, passwordEncoder.encode(newpass));
-					model.addAttribute("message", "Password changed successfully");
+					model.addAttribute("message", "Đổi mật khẩu thành công");
 				} else {
-					model.addAttribute("message", "Wrong current password");
+					model.addAttribute("message", "Sai mật khẩu");
 				}
 			} else {
-				model.addAttribute("message", "No change in password");
+				model.addAttribute("message", "Mật khẩu mới không được trùng mật khẩu cũ");
 			}
 		} else {
-			model.addAttribute("message", "Wrong confirm password");
+			model.addAttribute("message", "Mật khẩu nhập lại không khớp");
 		}
 		
 		return "user/change-password";
@@ -82,7 +82,7 @@ public class UserController {
 		
 		accountRepository.save(account);
 		
-		model.addAttribute("message", "Update info successfully");
+		model.addAttribute("message", "Cập nhật thông tin thành công");
 		model.addAttribute("account", account);
 		
 		return "user/update-info";
