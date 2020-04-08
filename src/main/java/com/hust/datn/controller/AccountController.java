@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.hust.datn.command.RegisterAccountCommand;
 import com.hust.datn.entity.Account;
+import com.hust.datn.entity.ReceiveAddress;
 import com.hust.datn.repository.AccountRepository;
+import com.hust.datn.service.AccountService;
 
 @Controller
 public class AccountController {
@@ -26,6 +28,9 @@ public class AccountController {
 	
 	@Autowired
 	AccountRepository accountRepository;
+	
+	@Autowired
+	AccountService accountService;
 
 	@GetMapping("/register")
 	public String register() {
@@ -49,7 +54,32 @@ public class AccountController {
 			
 			userDetailsManager.createUser(user);
 			
-			Account account = new Account(null, command.username, command.firstName, command.lastName);
+			int accNum = accountService.generateAccountNumber();
+			
+			Account account = new Account(
+				null,
+				command.username,
+				command.firstName,
+				command.lastName,
+				accNum,
+				command.birthday,
+				command.gender,
+				command.phone,
+				command.email,
+				command.address,
+				0,
+				null
+			);
+			
+			account.addReceiveAddress(
+				new ReceiveAddress(
+					null,
+					command.firstName.concat(" ").concat(command.lastName),
+					command.phone,
+					command.address
+				)
+			);
+			
 			accountRepository.save(account);
 
 			model.addAttribute("message", "Đăng ký tài khoản thành công");

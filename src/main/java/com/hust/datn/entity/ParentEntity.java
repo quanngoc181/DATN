@@ -3,6 +3,7 @@ package com.hust.datn.entity;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -13,6 +14,7 @@ import javax.persistence.PreUpdate;
 public class ParentEntity {
 	@Id
 	@GeneratedValue
+	@Column(columnDefinition = "uniqueidentifier")
 	private UUID id;
 
 	private LocalDateTime createAt;

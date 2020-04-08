@@ -1,3 +1,3 @@
 $(function(){
-
+	$('[data-mask]').inputmask();
 });

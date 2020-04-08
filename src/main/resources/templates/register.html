@@ -24,24 +24,68 @@
 							<div class="input-group-text"><span class="fas fa-user"></span></div>
 						</div>
 					</div>
+					
 					<div class="input-group mb-3">
 						<input type="text" id="lastName" name="lastName" class="form-control" placeholder="Tên">
 						<div class="input-group-append">
 							<div class="input-group-text"><span class="fas fa-user"></span></div>
 						</div>
 					</div>
+
 					<div class="input-group mb-3">
-						<input type="text" id="username" name="username" class="form-control" placeholder="Tài khoản">
+						<input type="text" class="form-control" name="birthday" placeholder="Ngày sinh" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+						<div class="input-group-append">
+							<span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+						</div>
+					</div>
+
+					<div class="input-group mb-3">
+						<div class="icheck-primary d-inline mr-5">
+							<input type="radio" id="gender-male" name="gender" value="1" checked>
+							<label for="gender-male">Nam</label>
+						</div>
+						
+						<div class="icheck-primary d-inline">
+							<input type="radio" id="gender-female" value="2" name="gender">
+							<label for="gender-female">Nữ</label>
+						</div>
+					</div>
+					
+					<div class="input-group mb-3">
+						<input type="text" id="phone" name="phone" class="form-control" placeholder="Số điện thoại">
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-phone"></span></div>
+						</div>
+					</div>
+					
+					<div class="input-group mb-3">
+						<input type="text" id="email" name="email" class="form-control" placeholder="Email">
 						<div class="input-group-append">
 							<div class="input-group-text"><span class="fas fa-envelope"></span></div>
 						</div>
 					</div>
+					
+					<div class="input-group mb-3">
+						<input type="text" id="address" name="address" class="form-control" placeholder="Địa chỉ">
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-map-marker-alt"></span></div>
+						</div>
+					</div>
+
+					<div class="input-group mb-3">
+						<input type="text" id="username" name="username" class="form-control" placeholder="Tài khoản">
+						<div class="input-group-append">
+							<div class="input-group-text"><span class="fas fa-user"></span></div>
+						</div>
+					</div>
+					
 					<div class="input-group mb-3">
 						<input type="password" id="password" name="password" class="form-control" placeholder="Mật khẩu">
 						<div class="input-group-append">
 							<div class="input-group-text"><span class="fas fa-lock"></span></div>
 						</div>
 					</div>
+					
 					<div class="input-group mb-3">
 						<input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu">
 						<div class="input-group-append">
