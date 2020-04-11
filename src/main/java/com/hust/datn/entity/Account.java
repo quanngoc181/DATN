@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -38,10 +40,11 @@ public class Account extends ParentEntity {
 
 	private int money;
 
+	@Column(columnDefinition = "varbinary(MAX)")
 	private byte[] avatar;
 
-	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<ReceiveAddress> receiveAddresses = new ArrayList<>();
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<ReceiveAddress> receiveAddresses;
 
 	public Account() {
 		super();
@@ -63,9 +66,25 @@ public class Account extends ParentEntity {
 		this.avatar = avatar;
 	}
 
-	public void addReceiveAddress(ReceiveAddress address) {
-		address.setAccount(this);
-		receiveAddresses.add(address);
+	public void initReceiveAddress() {
+		String call = this.gender == 1 ? "Anh" : "Chị";
+		
+		ReceiveAddress receiveAddress = new ReceiveAddress(null, "Địa chỉ 1",
+				call.concat(" ").concat(this.lastName), this.phone, this.address, true);
+		receiveAddress.setAccount(this);
+
+		this.receiveAddresses = new ArrayList<>();
+		this.receiveAddresses.add(receiveAddress);
+	}
+	
+	public void addReceiveAddress(ReceiveAddress receiveAddress) {
+		receiveAddress.setAccount(this);
+		if(this.receiveAddresses.size() < 4)
+			this.receiveAddresses.add(receiveAddress);
+	}
+	
+	public int countReceiveAddress() {
+		return this.receiveAddresses.size();
 	}
 
 	public String getUsername() {

@@ -2,6 +2,23 @@
 
 body {
 	color: #222831;
+	background-color: #f4f6f9;
+}
+
+section.content {
+	padding: 0 0.5rem;
+}
+
+.swal2-popup.swal2-toast .swal2-content {
+	padding: 0;
+}
+
+.swal2-popup.swal2-toast .swal2-title {
+	margin: 0 0 0 10px;
+}
+
+.swal2-popup.swal2-toast {
+	padding: 10px;
 }
 
 /* ::-webkit-scrollbar { */

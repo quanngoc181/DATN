@@ -1,47 +1,230 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
 <th:block th:include="fragment/head"></th:block>
-<link rel="stylesheet" href="/css/login.css" />
+<link rel="stylesheet" href="/css/update-info.css" />
 </head>
-<body class="hold-transition login-page">
-	<div class="login-box">
-		<div class="login-logo">
-			<a href="/"><b>ĐATN20166630</b></a>
+<body>
+	<div class="container">
+		<div class="content-header">
+			<h1>Cập nhật thông tin</h1>
 		</div>
-		<div class="card">
-			<div class="card-body login-card-body">
-				<p class="login-box-msg">Cập nhật thông tin</p>
 
-				<form th:action="@{/user/update-info}" method="post">
-					<p th:if="${message}" th:text="${message}" class="form-text text-muted"></p>
-				
-					<div class="input-group mb-3">
-						<input th:value="${account.username}" type="text" id="username" name="username" class="form-control" disabled>
-						<div class="input-group-append">
-							<div class="input-group-text"><span class="fas fa-envelope"></span></div>
+		<section class="content">
+			<div class="row">
+				<div class="col-3">
+					<div class="card card-primary card-outline">
+						<div class="card-body box-profile">
+							<div class="text-center position-relative">
+								<img class="profile-user-img img-fluid img-circle" th:src="${avatar}" alt="Avatar" style="height: 100px; object-fit: cover;">
+								<div class="avatar-overlay">Upload</div>
+								<div th:if="${avatarmessage}" th:text="${avatarmessage}"></div>
+
+								<form th:action="@{/user/update-info/avatar}" method="post" id="avatar-form" enctype="multipart/form-data" style="position: fixed; top: -1000px;">
+									<input type="file" name="file" id="avatar-input" />
+								</form>
+							</div>
+
+							<h3 th:text="${account.firstName + ' ' + account.lastName}" class="profile-username text-center"></h3>
+
+							<p th:text="${account.username + ' - ' + account.accountNumber}" class="text-muted text-center"></p>
+
+							<ul class="list-group list-group-unbordered">
+								<li class="list-group-item">
+									<b>Giới tính</b>
+									<a th:text="${account.gender} == 1 ? 'Nam' : 'Nữ'" class="float-right"></a>
+								</li>
+								<li class="list-group-item">
+									<b>Ngày sinh</b>
+									<a th:text="${#temporals.format(account.birthday, 'dd/MM/yyyy')}" class="float-right"></a>
+								</li>
+								<li class="list-group-item">
+									<b>Địa chỉ</b>
+									<a th:text="${account.address}" class="float-right"></a>
+								</li>
+								<li class="list-group-item">
+									<b>SĐT</b>
+									<a th:text="${account.phone}" class="float-right"></a>
+								</li>
+								<li class="list-group-item">
+									<b>Email</b>
+									<a th:text="${account.email}" class="float-right"></a>
+								</li>
+							</ul>
 						</div>
 					</div>
-					<div class="input-group mb-3">
-						<input th:value="${account.firstName}" type="text" id="firstName" name="firstName" class="form-control" placeholder="Họ đệm">
-						<div class="input-group-append">
-							<div class="input-group-text"><span class="fas fa-user"></span></div>
+				</div>
+				<div class="col-9">
+					<div class="row">
+						<div class="col-6">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Thông tin cơ bản</h3>
+								</div>
+
+								<div class="card-body">
+									<form role="form" th:action="@{/user/update-info/basic}" method="post">
+										<p th:if="${basicmessage}" th:text="${basicmessage}" class="form-text text-muted"></p>
+
+										<div class="form-group">
+											<label for="firstName">Họ đệm</label>
+											<input th:value="${account.firstName}" type="text" class="form-control" id="firstName" name="firstName">
+										</div>
+										<div class="form-group">
+											<label for="lastName">Tên</label>
+											<input th:value="${account.lastName}" type="text" class="form-control" id="lastName" name="lastName">
+										</div>
+										<div class="form-group">
+											<label for="birthday">Ngày sinh</label>
+											<input th:value="${#temporals.format(account.birthday, 'dd/MM/yyyy')}" type="text" class="form-control" id="birthday" name="birthday" data-inputmask-alias="datetime"
+												data-inputmask-inputformat="dd/mm/yyyy" data-mask>
+										</div>
+										<div class="form-group">
+											<div class="icheck-primary d-inline mr-5">
+												<input th:field="*{account.gender}" type="radio" id="genderMale" name="gender" value="1">
+												<label for="genderMale">Nam</label>
+											</div>
+											<div class="icheck-primary d-inline">
+												<input th:field="*{account.gender}" type="radio" id="gengerFemale" name="gender" value="2">
+												<label for="gengerFemale">Nữ</label>
+											</div>
+										</div>
+
+										<button type="submit" class="btn btn-primary">Cập nhật</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="card" style="height: calc(100% - 16px);">
+								<div class="card-header">
+									<h3 class="card-title">Thông tin liên hệ</h3>
+								</div>
+
+								<div class="card-body">
+									<p th:if="${contactmessage}" th:text="${contactmessage}" class="form-text text-muted"></p>
+
+									<form role="form" th:action="@{/user/update-info/contact}" method="post">
+										<div class="form-group">
+											<label for="address">Địa chỉ</label>
+											<input th:value="${account.address}" type="text" class="form-control" id="address" name="address">
+										</div>
+										<div class="form-group">
+											<label for="phone">Số điện thoại</label>
+											<input th:value="${account.phone}" type="text" class="form-control" id="phone" name="phone">
+										</div>
+										<div class="form-group">
+											<label for="email">Email</label>
+											<input th:value="${account.email}" type="text" class="form-control" id="email" name="email">
+										</div>
+
+										<button type="submit" class="btn btn-primary">Cập nhật</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Địa chỉ nhận hàng</h3>
+									<div class="card-tools">
+										<button type="button" id="add-address" class="btn btn-tool" title="Thêm địa chỉ">
+											<i class="fas fa-plus"></i>
+										</button>
+									</div>
+								</div>
+
+								<div class="card-body">
+									<div class="row">
+										<div class="col-6" th:each="address: ${reList}">
+											<div class="card" th:classappend="${address.isDefault()} ? 'card-primary' : ''">
+												<div class="card-header">
+													<h3 class="card-title" th:text="${address.addressName}"></h3>
+													<div class="card-tools">
+														<button type="button" class="btn btn-tool" title="Đặt làm mặc định">
+															<i class="fas fa-check"></i>
+														</button>
+														<button type="button" class="btn btn-tool" title="Sửa địa chỉ">
+															<i class="fas fa-edit"></i>
+														</button>
+														<button type="button" class="btn btn-tool" title="Xóa địa chỉ">
+															<i class="fas fa-times"></i>
+														</button>
+													</div>
+												</div>
+												<div class="card-body">
+													<ul class="list-group">
+														<li class="list-group-item">
+															<b>Tên</b>
+															<a class="float-right" th:text="${address.name}"></a>
+														</li>
+														<li class="list-group-item">
+															<b>SĐT</b>
+															<a class="float-right" th:text="${address.phone}"></a>
+														</li>
+														<li class="list-group-item">
+															<b>Địa chỉ</b>
+															<a class="float-right" th:text="${address.address}"></a>
+														</li>
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="input-group mb-3">
-						<input th:value="${account.lastName}" type="text" id="lastName" name="lastName" class="form-control" placeholder="Tên">
-						<div class="input-group-append">
-							<div class="input-group-text"><span class="fas fa-user"></span></div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div class="modal fade" id="add-address-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form th:action="@{/user/receive-address/add}" method="post">
+					<div class="modal-header">
+						<h4 class="modal-title">Thêm địa chỉ</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<label for="modal-addressName" class="col-sm-3 col-form-label">Tên địa chỉ</label>
+							<div class="col-sm-9">
+								<input name="addressName" type="text" class="form-control" id="modal-addressName">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="modal-name" class="col-sm-3 col-form-label">Người nhận</label>
+							<div class="col-sm-9">
+								<input name="name" type="text" class="form-control" id="modal-name">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="modal-address" class="col-sm-3 col-form-label">Địa chỉ</label>
+							<div class="col-sm-9">
+								<input name="address" type="text" class="form-control" id="modal-address">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="modal-phone" class="col-sm-3 col-form-label">Số điện thoại</label>
+							<div class="col-sm-9">
+								<input name="phone" type="text" class="form-control" id="modal-phone">
+							</div>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary btn-block">Cập nhật</button>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Thêm</button>
+					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 
 	<th:block th:include="fragment/script"></th:block>
-	<script src="/js/login.js"></script>
+	<script src="/js/update-info.js"></script>
 </body>
 </html>

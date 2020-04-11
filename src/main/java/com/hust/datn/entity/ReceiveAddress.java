@@ -12,12 +12,17 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "RECEIVE_ADDRESS")
 public class ReceiveAddress extends ParentEntity {
 	@Nationalized
+	private String addressName;
+	
+	@Nationalized
 	private String name;
 	
 	private String phone;
 	
 	@Nationalized
 	private String address;
+	
+	private boolean isDefault;
 	
 	@ManyToOne
 	private Account account;
@@ -26,11 +31,29 @@ public class ReceiveAddress extends ParentEntity {
 		super();
 	}
 
-	public ReceiveAddress(UUID id, String name, String phone, String address) {
+	public ReceiveAddress(UUID id, String addressName, String name, String phone, String address, boolean def) {
 		super.setId(id);
+		this.addressName = addressName;
 		this.name = name;
 		this.phone = phone;
 		this.address = address;
+		this.isDefault = def;
+	}
+
+	public String getAddressName() {
+		return addressName;
+	}
+
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	public String getName() {
