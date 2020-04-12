@@ -14,6 +14,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
 
+import com.hust.datn.exception.InternalException;
+
 @Entity
 @Table(name = "ACCOUNT")
 public class Account extends ParentEntity {
@@ -68,27 +70,48 @@ public class Account extends ParentEntity {
 
 	public void initReceiveAddress() {
 		String call = this.gender == 1 ? "Anh" : "Chị";
-		
-		ReceiveAddress receiveAddress = new ReceiveAddress(null, "Địa chỉ 1",
-				call.concat(" ").concat(this.lastName), this.phone, this.address, true);
+
+		ReceiveAddress receiveAddress = new ReceiveAddress(null, "Địa chỉ 1", call.concat(" ").concat(this.lastName),
+				this.phone, this.address, true);
 		receiveAddress.setAccount(this);
 
 		this.receiveAddresses = new ArrayList<>();
 		this.receiveAddresses.add(receiveAddress);
 	}
-	
+
 	public void addReceiveAddress(ReceiveAddress receiveAddress) {
 		receiveAddress.setAccount(this);
-		if(this.receiveAddresses.size() < 4)
+		if (this.receiveAddresses.size() < 4)
 			this.receiveAddresses.add(receiveAddress);
 	}
-	
+
 	public int countReceiveAddress() {
 		return this.receiveAddresses.size();
 	}
 
 	public String getUsername() {
 		return username;
+	}
+
+	public void setDefaultAddress(UUID id) {
+		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny().orElse(null);
+		
+		if(address != null) {
+			for (ReceiveAddress addr : this.receiveAddresses) {
+				addr.setDefault(false);
+			}
+			address.setDefault(true);
+		}
+	}
+
+	public void deleteReceiveAddress(UUID id) throws InternalException {
+		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny().orElse(null);
+
+		if(address != null) {
+			if(address.isDefault())
+				throw new InternalException("Không thể xóa địa chỉ mặc định");
+			this.receiveAddresses.remove(address);
+		}
 	}
 
 	public void setUsername(String username) {

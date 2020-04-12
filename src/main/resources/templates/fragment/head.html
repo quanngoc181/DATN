@@ -1,24 +1,28 @@
-<meta charset="UTF-8">
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<meta charset="UTF-8">
 
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>Q•Beverage</title>
+	<meta th:name="_csrf" th:content="${_csrf.token}" />
+	<meta th:name="_csrf_header" th:content="${_csrf.headerName}" />
 
-<link rel="stylesheet" href="/vendors/fontawesome-5.12.1/css/all.min.css" />
+	<title>Q•Beverage</title>
 
-<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" href="/vendors/fontawesome-5.12.1/css/all.min.css" />
 
-<link rel="stylesheet" href="/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 
-<link rel="stylesheet" href="/vendors/bootstrap-4.4.1/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 
-<link rel="stylesheet" href="/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+	<link rel="stylesheet" href="/vendors/bootstrap-4.4.1/css/bootstrap.min.css" />
 
-<link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
+	<link rel="stylesheet" href="/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
 
-<link rel="stylesheet" href="/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
+	<link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
 
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
+	<link rel="stylesheet" href="/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
 
-<link rel="stylesheet" href="/css/style.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css" />
+</th:block>

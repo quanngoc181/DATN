@@ -136,18 +136,18 @@
 
 								<div class="card-body">
 									<div class="row">
-										<div class="col-6" th:each="address: ${reList}">
-											<div class="card" th:classappend="${address.isDefault()} ? 'card-primary' : ''">
+										<div class="col-6 receive-address-item" th:each="address: ${reList}">
+											<div class="card" th:classappend="${address.isDefault()} ? 'card-primary' : ''" th:attr="data-id=${address.id}">
 												<div class="card-header">
 													<h3 class="card-title" th:text="${address.addressName}"></h3>
 													<div class="card-tools">
-														<button type="button" class="btn btn-tool" title="Đặt làm mặc định">
+														<button type="button" class="btn btn-tool set-default-address" title="Đặt làm mặc định">
 															<i class="fas fa-check"></i>
 														</button>
 														<button type="button" class="btn btn-tool" title="Sửa địa chỉ">
 															<i class="fas fa-edit"></i>
 														</button>
-														<button type="button" class="btn btn-tool" title="Xóa địa chỉ">
+														<button type="button" class="btn btn-tool delete-address" title="Xóa địa chỉ">
 															<i class="fas fa-times"></i>
 														</button>
 													</div>
