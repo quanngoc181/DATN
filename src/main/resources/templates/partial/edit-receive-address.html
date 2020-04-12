@@ -1,0 +1,40 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<form th:action="@{/user/receive-address/edit}" method="post">
+		<input th:value="${address.id}" type="hidden" name="id" />
+		<div class="modal-header">
+			<h4 class="modal-title">Sửa địa chỉ</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<div class="form-group row">
+				<label for="modal-addressName" class="col-sm-3 col-form-label">Tên địa chỉ</label>
+				<div class="col-sm-9">
+					<input th:value="${address.addressName}" name="addressName" type="text" class="form-control" id="modal-addressName">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="modal-name" class="col-sm-3 col-form-label">Người nhận</label>
+				<div class="col-sm-9">
+					<input th:value="${address.name}" name="name" type="text" class="form-control" id="modal-name">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="modal-address" class="col-sm-3 col-form-label">Địa chỉ</label>
+				<div class="col-sm-9">
+					<input th:value="${address.address}" name="address" type="text" class="form-control" id="modal-address">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="modal-phone" class="col-sm-3 col-form-label">Số điện thoại</label>
+				<div class="col-sm-9">
+					<input th:value="${address.phone}" name="phone" type="text" class="form-control" id="modal-phone">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" class="btn btn-primary">Thêm</button>
+		</div>
+	</form>
+</th:block>

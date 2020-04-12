@@ -85,8 +85,25 @@ public class Account extends ParentEntity {
 			this.receiveAddresses.add(receiveAddress);
 	}
 
+	public void editReceiveAddress(ReceiveAddress receiveAddress) {
+		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> receiveAddress.getId().equals(addr.getId())).findAny().orElse(null);
+
+		if (address != null) {
+			address.setAddressName(receiveAddress.getAddressName());
+			address.setName(receiveAddress.getName());
+			address.setAddress(receiveAddress.getAddress());
+			address.setPhone(receiveAddress.getPhone());
+		}
+	}
+
 	public int countReceiveAddress() {
 		return this.receiveAddresses.size();
+	}
+
+	public ReceiveAddress findReceiveAddress(UUID id) {
+		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny()
+				.orElse(null);
+		return address;
 	}
 
 	public String getUsername() {
@@ -94,9 +111,10 @@ public class Account extends ParentEntity {
 	}
 
 	public void setDefaultAddress(UUID id) {
-		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny().orElse(null);
-		
-		if(address != null) {
+		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny()
+				.orElse(null);
+
+		if (address != null) {
 			for (ReceiveAddress addr : this.receiveAddresses) {
 				addr.setDefault(false);
 			}
@@ -105,10 +123,11 @@ public class Account extends ParentEntity {
 	}
 
 	public void deleteReceiveAddress(UUID id) throws InternalException {
-		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny().orElse(null);
+		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny()
+				.orElse(null);
 
-		if(address != null) {
-			if(address.isDefault())
+		if (address != null) {
+			if (address.isDefault())
 				throw new InternalException("Không thể xóa địa chỉ mặc định");
 			this.receiveAddresses.remove(address);
 		}

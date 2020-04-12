@@ -9,17 +9,13 @@ $(function() {
 
 	$('#add-address').on('click', function() {
 		$.ajax({
-			url : "/user/receive-address/count",
+			url : "/user/receive-address/add",
 			success : function(data) {
-				console.log(data);
-				if (data >= 4) {
-					notify('error', 'Tối đa 4 địa chỉ nhận hàng');
-					return;
-				}
+				$('#add-address-modal .modal-content').html(data);
 				$('#add-address-modal').modal('show');
 			},
-			error : function() {
-
+			error : function(err) {
+				notify('error', err.responseJSON.message);
 			}
 		});
 	});
@@ -60,7 +56,26 @@ $(function() {
 				notify('success', 'Thành công');
 			},
 			error : function(err) {
-				notify('success', err.responseJSON.message);
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
+	
+	$('.edit-address').on('click', function() {
+		let $this = $(this);
+		let id = $this.closest('.card').data('id');
+
+		$.ajax({
+			url : "/user/receive-address/edit",
+			data : {
+				id: id
+			},
+			success : function(data) {
+				$('#add-address-modal .modal-content').html(data);
+				$('#add-address-modal').modal('show');
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
 			}
 		});
 	});
