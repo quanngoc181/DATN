@@ -25,18 +25,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication()
-			.dataSource(dataSource)
-			.passwordEncoder(passwordEncoder);
+		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder);
 	}
 
 	@Bean
 	public UserDetailsManager users(DataSource dataSource) {
-
-		JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
+	    JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
 
 		return users;
 	}
@@ -49,17 +46,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorize -> authorize
-			.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/adminlte/**", "/favicon.ico", "/", "/register").permitAll()
-			.antMatchers("/admin/**").hasRole("ADMIN")
-			.antMatchers("/user/**").hasRole("USER")
-			.anyRequest().denyAll()
-		).formLogin(form ->form
-			.loginPage("/login").permitAll().defaultSuccessUrl("/user/login-success", true)
-		).rememberMe(remember -> remember
-			.tokenRepository(tokenRepository())
-		);
+				.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/adminlte/**", "/favicon.ico", "/",
+						"/register")
+				.permitAll().antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/user/**").hasRole("USER")
+				.anyRequest().denyAll())
+				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/user/login-success", true))
+				.rememberMe(remember -> remember.tokenRepository(tokenRepository()));
 	}
-	
+
 	@Bean
 	public PersistentTokenRepository tokenRepository() {
 		JdbcTokenRepositoryImpl jdbcTokenRepositoryImpl = new JdbcTokenRepositoryImpl();
