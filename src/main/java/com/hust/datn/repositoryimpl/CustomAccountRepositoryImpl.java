@@ -1,20 +1,20 @@
 package com.hust.datn.repositoryimpl;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hust.datn.entity.Account;
-import com.hust.datn.repository.AccountRepositoryCustom;
+import com.hust.datn.repository.CustomAccountRepository;
 
 @Transactional
-public class AccountRepositoryImpl implements AccountRepositoryCustom {
+public class CustomAccountRepositoryImpl implements CustomAccountRepository {
 
-	@PersistenceContext
+	@Autowired
 	EntityManager entityManager;
 
-	public AccountRepositoryImpl() {
+	public CustomAccountRepositoryImpl() {
 	}
 
 	@Override

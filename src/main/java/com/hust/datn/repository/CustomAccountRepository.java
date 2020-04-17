@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.hust.datn.entity.Account;
 
 @Repository
-public interface AccountRepositoryCustom {
+public interface CustomAccountRepository {
 	Account getByUsername(String username);
 }
