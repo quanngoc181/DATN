@@ -23,7 +23,7 @@ public class ReceiveAddressController {
 	
 	@PostMapping("/user/receive-address/add")
 	public String addReceiveAddress(Authentication auth, @ModelAttribute ReceiveAddress receiveAddress) {
-		Account account = accountRepository.getByUsername(auth.getName());
+		Account account = accountRepository.findByUsername(auth.getName());
 		
 		account.addReceiveAddress(receiveAddress);
 		
@@ -35,7 +35,7 @@ public class ReceiveAddressController {
 	@GetMapping("/user/receive-address/add")
 	@ResponseBody
 	public ModelAndView addReceiveAddress(Authentication auth) throws InternalException {
-		Account account = accountRepository.getByUsername(auth.getName());
+		Account account = accountRepository.findByUsername(auth.getName());
 		
 		int count = account.countReceiveAddress();
 		if(count >= 4)
@@ -47,7 +47,7 @@ public class ReceiveAddressController {
 	@PostMapping("/user/receive-address/set-default")
 	@ResponseBody
 	public void setDefaultAddress(Authentication auth, String id) {
-		Account account = accountRepository.getByUsername(auth.getName());
+		Account account = accountRepository.findByUsername(auth.getName());
 
 		account.setDefaultAddress(UUID.fromString(id));
 		
@@ -59,7 +59,7 @@ public class ReceiveAddressController {
 	@PostMapping("/user/receive-address/delete")
 	@ResponseBody
 	public void deleteReceiveAddress(Authentication auth, String id) throws InternalException {
-		Account account = accountRepository.getByUsername(auth.getName());
+		Account account = accountRepository.findByUsername(auth.getName());
 
 		account.deleteReceiveAddress(UUID.fromString(id));
 		
@@ -71,7 +71,7 @@ public class ReceiveAddressController {
 	@GetMapping("/user/receive-address/edit")
 	@ResponseBody
 	public ModelAndView editReceiveAddress(Authentication auth, String id) throws InternalException {
-		Account account = accountRepository.getByUsername(auth.getName());
+		Account account = accountRepository.findByUsername(auth.getName());
 		
 		ReceiveAddress address = account.findReceiveAddress(UUID.fromString(id));
 		if(address == null)
@@ -82,7 +82,7 @@ public class ReceiveAddressController {
 	
 	@PostMapping("/user/receive-address/edit")
 	public String editReceiveAddress(Authentication auth, @ModelAttribute ReceiveAddress receiveAddress) {
-		Account account = accountRepository.getByUsername(auth.getName());
+		Account account = accountRepository.findByUsername(auth.getName());
 		
 		account.editReceiveAddress(receiveAddress);
 		

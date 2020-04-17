@@ -1,11 +1,12 @@
 package com.hust.datn.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,21 +36,16 @@ public class UsersManagementController {
 		String order = request.getParameter("order[0][column]");
 		String col = request.getParameter("columns[" + order + "][name]");
 		
-		System.out.println(draw);
-		System.out.println(start);
-		System.out.println(length);
-		System.out.println(value);
-		System.out.println(dir);
-		System.out.println(order);
-		System.out.println(col);
+		Sort sort;
+		if(dir.equalsIgnoreCase("asc"))
+			sort = Sort.by(Sort.Direction.ASC, col);
+		else
+			sort = Sort.by(Sort.Direction.DESC, col);
 		
 		int countAll = (int) userRepository.count();
-		int countFiltered = userRepository.countFiltered(value);
-		List<Users> data = userRepository.datatable(value, dir, start, length, col);
+		int countFiltered = userRepository.countByUsernameContains(value);
+		List<Users> data = userRepository.findByUsernameContains(value, PageRequest.of(start/length, length, sort));
 
-		List<Users> users = new ArrayList<>();
-		users.add(new Users("test1", "pass1", true));
-		users.add(new Users("test2", "pass2", false));
 		return new DatatableDTO<Users>(draw, countFiltered, countAll, data);
 	}
 }

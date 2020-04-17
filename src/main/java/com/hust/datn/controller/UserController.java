@@ -79,7 +79,7 @@ public class UserController {
 
 	@GetMapping("/user/update-info")
 	public String updateInfo(Authentication auth, Model model) {
-		Account account = accountRepository.getByUsername(auth.getName());
+		Account account = accountRepository.findByUsername(auth.getName());
 
 		model.addAttribute("account", account);
 		
@@ -97,7 +97,7 @@ public class UserController {
 	public String updateInfoBasic(Authentication auth, RegisterAccountCommand command, RedirectAttributes ra) {
 		String username = auth.getName();
 
-		Account account = accountRepository.getByUsername(username);
+		Account account = accountRepository.findByUsername(username);
 		account.setFirstName(command.firstName);
 		account.setLastName(command.lastName);
 		account.setBirthday(command.birthday);
@@ -114,7 +114,7 @@ public class UserController {
 	public String updateInfoContact(Authentication auth, RegisterAccountCommand command, RedirectAttributes ra) {
 		String username = auth.getName();
 
-		Account account = accountRepository.getByUsername(username);
+		Account account = accountRepository.findByUsername(username);
 		account.setAddress(command.address);
 		account.setPhone(command.phone);
 		account.setEmail(command.email);
@@ -139,7 +139,7 @@ public class UserController {
 
 			String username = auth.getName();
 
-			Account account = accountRepository.getByUsername(username);
+			Account account = accountRepository.findByUsername(username);
 			account.setAvatar(bytes);
 
 			accountRepository.save(account);
