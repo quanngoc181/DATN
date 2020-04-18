@@ -1,8 +1,13 @@
 @charset "UTF-8";
 
+html {
+	scroll-behavior: smooth;
+}
+
 body {
 	color: #222831;
 	background-color: #f4f6f9;
+	scroll-behavior: smooth;
 }
 
 section.content {
@@ -21,7 +26,7 @@ section.content {
 	padding: 10px;
 }
 
-.modal-footer > .btn {
+.modal-footer>.btn {
 	margin: 0;
 }
 
@@ -30,6 +35,26 @@ section.content {
 	height: 40px;
 	border: 2px solid #393e46;
 	border-radius: 50%;
+}
+
+.dt-center {
+	text-align: center;
+}
+
+.dt-vertical-align > * {
+	vertical-align: bottom;
+}
+
+.js-datatable {
+	width: 100% !important;
+}
+
+.view-detail {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	background: url(/images/info.svg) center/cover no-repeat;
 }
 
 /* ::-webkit-scrollbar { */

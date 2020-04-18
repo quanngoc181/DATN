@@ -1,7 +1,6 @@
 package com.hust.datn.controller;
 
 import java.util.Base64;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +86,6 @@ public class UserController {
 		model.addAttribute("avatar", encodedAvatar);
 		
 		List<ReceiveAddress> reList = account.getReceiveAddresses();
-		Collections.reverse(reList);
 		model.addAttribute("reList", reList);
 		
 		return "user/update-info";

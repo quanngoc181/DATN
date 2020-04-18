@@ -13,11 +13,21 @@ $(function() {
 	});
 
 	$('[data-mask]').inputmask();
+	
+	initSwitch();
 });
 
 function notify(type, title) {
 	Toast.fire({
 		type : type,
 		title : title
+	});
+}
+
+function initSwitch() {
+	$('.js-switch').each(function(index, element) {
+		new Switchery(element, {
+			size : 'small'
+		});
 	});
 }

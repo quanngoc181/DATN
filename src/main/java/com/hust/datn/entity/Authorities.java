@@ -11,13 +11,14 @@ import javax.persistence.Table;
 public class Authorities {
 	@Id
 	private String username;
+	
 	@Id
 	private String authority;
 	
 	public Authorities() {
 		super();
 	}
-
+	
 	public Authorities(String username, String authority) {
 		super();
 		this.username = username;

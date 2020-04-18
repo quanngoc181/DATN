@@ -9,7 +9,9 @@ import javax.persistence.Table;
 public class Users {
 	@Id
 	private String username;
+	
 	private String password;
+	
 	private boolean enabled;
 	
 	public Users() {
