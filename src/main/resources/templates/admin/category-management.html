@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/category-management.css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+	<div class="wrapper">
+		<th:block th:include="fragment/admin-nav"></th:block>
+
+		<th:block th:include="fragment/admin-aside"></th:block>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Category Management</h1>
+			</section>
+
+			<section class="content">
+
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Category</h3>
+						<div class="card-tools">
+							<button type="button" id="add-category" class="btn btn-tool" title="Thêm danh mục" style="margin-right: 2px;">
+								<i class="fas fa-plus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<table id="category-datatable" class="table table-bordered js-datatable">
+							<thead>
+								<tr>
+									<th>Mã danh mục</th>
+									<th>Tên danh mục</th>
+									<th></th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</section>
+		</div>
+
+		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+
+	<div class="modal fade" id="add-category-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form th:action="@{/admin/category-management/add}" method="post">
+					<div class="modal-header">
+						<h4 class="modal-title">Thêm danh mục</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<label for="modal-name" class="col-sm-3 col-form-label">Tên danh mục</label>
+							<div class="col-sm-9">
+								<input name="name" type="text" class="form-control" id="modal-name">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Thêm</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="edit-category-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form th:action="@{/admin/category-management/edit}" method="post">
+					<input type="hidden" name="id" id="edit-modal-id" />
+					<div class="modal-header">
+						<h4 class="modal-title">Sửa danh mục</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<label for="edit-modal-name" class="col-sm-3 col-form-label">Tên danh mục</label>
+							<div class="col-sm-9">
+								<input name="name" type="text" class="form-control" id="edit-modal-name">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Lưu</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/category-management.js"></script>
+</body>
+</html>

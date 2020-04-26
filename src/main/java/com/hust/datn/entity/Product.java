@@ -2,7 +2,9 @@ package com.hust.datn.entity;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
@@ -13,19 +15,34 @@ public class Product extends ParentEntity {
 	@Nationalized
 	private String name;
 	
+	private String productCode;
+	
 	private int cost;
 	
+	@Column(columnDefinition = "varbinary(MAX)")
 	private byte[] image;
+	
+	@ManyToOne
+	private Category category;
 	
 	public Product() {
 		super();
 	}
 
-	public Product(UUID id, String name, int cost, byte[] image) {
+	public Product(UUID id, String name, String code, int cost, byte[] image) {
 		super.setId(id);
 		this.name = name;
+		this.productCode = code;
 		this.cost = cost;
 		this.image = image;
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
 
 	public String getName() {

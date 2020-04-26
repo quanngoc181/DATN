@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/product-management.css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+	<div class="wrapper">
+		<th:block th:include="fragment/admin-nav"></th:block>
+
+		<th:block th:include="fragment/admin-aside"></th:block>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Product Management</h1>
+			</section>
+
+			<section class="content">
+
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Product</h3>
+					</div>
+					<div class="card-body">
+						<table id="product-datatable" class="table table-bordered js-datatable">
+							<thead>
+								<tr>
+									<th>Mã sản phẩm</th>
+									<th>Tên sản phẩm</th>
+									<th>Giá sản phẩm</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			</section>
+		</div>
+
+		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/product-management.js"></script>
+</body>
+</html>

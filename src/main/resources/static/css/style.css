@@ -57,6 +57,22 @@ section.content {
 	background: url(/images/info.svg) center/cover no-repeat;
 }
 
+.edit-row {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	background: url(/images/edit.svg) center/cover no-repeat;
+}
+
+.delete-row {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	background: url(/images/delete.svg) center/cover no-repeat;
+}
+
 /* ::-webkit-scrollbar { */
 /* 	width: 10px; */
 /* 	height: 10px; */

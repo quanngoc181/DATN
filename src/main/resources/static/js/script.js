@@ -31,3 +31,17 @@ function initSwitch() {
 		});
 	});
 }
+
+function confirmDelete(callback, message = 'Bạn có chắc xóa muốn xóa?') {
+	Swal.fire({
+	  title: 'Xác nhận xóa',
+	  text: message,
+	  type: 'warning',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: 'Xóa!'
+	}).then((result) => {
+	  if(result.value) callback();
+	});
+}

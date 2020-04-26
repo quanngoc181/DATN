@@ -28,7 +28,6 @@ $(function() {
 		}, {
 			data : 'enabled',
 			name : 'enabled',
-			orderable : false,
 			width: "45px",
 			className: "dt-center dt-vertical-align",
 			render : function(data, type, row, meta) {
