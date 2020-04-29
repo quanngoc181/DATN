@@ -48,13 +48,6 @@ $(function() {
 		$('#edit-modal-name').val(data.name);
 		$('#edit-category-modal').modal('show');
 	});
-	
-	$(document).on('click', '.view-detail', function() {
-		let row = $(this).closest('tr');
-		let id = categoryTable.row(row).data().id;
-		
-		console.log(id);
-	});
 
 	$(document).on('click', '.delete-row', function() {
 		let row = $(this).closest('tr');
@@ -75,5 +68,25 @@ $(function() {
 				}
 			});
 		}, "Thao tác này sẽ xóa toàn bộ sản phẩm thuộc danh mục");
+	});
+	
+	$(document).on('click', '.view-detail', function() {
+		let row = $(this).closest('tr');
+		let id = categoryTable.row(row).data().id;
+		
+		$.ajax({
+			url : "/admin/category-management/view-detail",
+			data: {
+				id: id
+			},
+			success : function(data) {
+				$('#category-detail').html(data);
+				
+				document.getElementById("category-detail").scrollIntoView();
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
 	});
 });

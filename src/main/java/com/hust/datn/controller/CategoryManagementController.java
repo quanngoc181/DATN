@@ -1,5 +1,7 @@
 package com.hust.datn.controller;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,9 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.hust.datn.dto.DatatableDTO;
+import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Category;
+import com.hust.datn.entity.Product;
 import com.hust.datn.repository.CategoryRepository;
 import com.hust.datn.service.CategoryService;
 import com.hust.datn.specification.CategorySpecification;
@@ -87,5 +92,22 @@ public class CategoryManagementController {
 		Category category = categoryRepository.findById(ctgId).get();
 
 		categoryRepository.delete(category);
+	}
+	
+	@GetMapping("/admin/category-management/view-detail")
+	@ResponseBody
+	public ModelAndView viewDetail(String id) {
+		UUID ctgId = UUID.fromString(id);
+
+		Category category = categoryRepository.findById(ctgId).get();
+		
+		List<ProductPreviewDTO> dtos = new ArrayList<>();
+		
+		for (Product product : category.getProducts()) {
+			String avatar = product.getImage() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
+			dtos.add(new ProductPreviewDTO(product.getName(), product.getProductCode(), product.getCost(), avatar));
+		}
+		
+		return new ModelAndView("partial/view-category-detail", "products", dtos);
 	}
 }
