@@ -9,6 +9,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "PRODUCT")
 public class Product extends ParentEntity {
@@ -23,6 +25,7 @@ public class Product extends ParentEntity {
 	private byte[] image;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Category category;
 	
 	public Product() {
@@ -35,6 +38,14 @@ public class Product extends ParentEntity {
 		this.productCode = code;
 		this.cost = cost;
 		this.image = image;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public String getProductCode() {

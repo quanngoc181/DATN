@@ -36,6 +36,27 @@
 					</div>
 				</div>
 
+				<div class="row">
+					<div class="col-4" th:each="category: ${categories}">
+						<div class="card" th:attr="data-id=${category.categoryId}">
+							<div class="card-header">
+								<h3 class="card-title" th:text="${category.categoryName + ' - ' + category.categoryCode}"></h3>
+							</div>
+							<div class="card-body product-container">
+								<div class="product-preview" th:each="product: ${category.products}" th:attr="data-id=${product.id}">
+									<div class="image-container">
+										<img th:src="${product.image}" alt="product" />
+									</div>
+									<div class="content">
+										<h5 class="name" th:text="${product.name + ' - ' + product.code}"></h5>
+										<p class="cost"><span th:text="${product.cost}"></span> VNĐ</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</section>
 		</div>
 

@@ -104,8 +104,8 @@ public class CategoryManagementController {
 		List<ProductPreviewDTO> dtos = new ArrayList<>();
 		
 		for (Product product : category.getProducts()) {
-			String avatar = product.getImage() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
-			dtos.add(new ProductPreviewDTO(product.getName(), product.getProductCode(), product.getCost(), avatar));
+			String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
+			dtos.add(new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), avatar));
 		}
 		
 		return new ModelAndView("partial/view-category-detail", "products", dtos);
