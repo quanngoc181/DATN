@@ -123,8 +123,7 @@ public class Account extends ParentEntity {
 	}
 
 	public void deleteReceiveAddress(UUID id) throws InternalException {
-		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny()
-				.orElse(null);
+		ReceiveAddress address = this.receiveAddresses.stream().filter(addr -> id.equals(addr.getId())).findAny().orElse(null);
 
 		if (address != null) {
 			if (address.isDefault())

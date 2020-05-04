@@ -26,10 +26,24 @@ public class Category extends ParentEntity {
 		super();
 	}
 
-	public Category(UUID id, String name, String code) {
+	public Category(UUID id, String name, String code, List<Product> products) {
 		super.setId(id);
 		this.name = name;
 		this.categoryCode = code;
+		this.products = products;
+	}
+	
+	public void addProduct(Product product) {
+		product.setCategory(this);
+		this.products.add(product);
+	}
+	
+	public void deleteProduct(UUID id) {
+		Product product = this.products.stream().filter(prd -> id.equals(prd.getId())).findAny().orElse(null);
+
+		if (product != null) {
+			this.products.remove(product);
+		}
 	}
 
 	public List<Product> getProducts() {

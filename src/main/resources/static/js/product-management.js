@@ -45,4 +45,61 @@ $(function() {
 			}
 		});
 	});
+	
+	$('.add-product').on('click', function() {
+		let id = $(this).closest('.card').data('id');
+		
+		$.ajax({
+			url : "/admin/product-management/add",
+			data: { id: id },
+			success : function(data) {
+				$('#add-product-modal .modal-content').html(data);
+				bsCustomFileInput.init();
+				$('#add-product-modal').modal('show');
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
+	
+	$('.delete-item').on('click', function() {
+		let $this = $(this);
+		let id = $this.closest('.product-preview').data('id');
+		console.log(id);
+		confirmDelete(function() {
+			$.ajax({
+				url : "/admin/product-management/delete",
+				method: 'post',
+				data: { id: id },
+				success : function(data) {
+					$this.closest('.product-preview').remove();
+				},
+				error : function(err) {
+					notify('error', err.responseJSON.message);
+				}
+			});
+		});
+	});
+	
+	$(document).on('click', '#add-product', function(e) {
+		e.preventDefault();
+		let formData = new FormData($('#add-product-form')[0]);
+		
+		$.ajax({
+			url : "/admin/product-management/add",
+			method: 'post',
+			enctype: 'multipart/form-data',
+			processData: false,
+	        contentType: false,
+	        cache: false,
+			data: formData,
+			success : function(data) {
+				location.reload();
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
 });

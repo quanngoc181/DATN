@@ -66,7 +66,7 @@ public class CategoryManagementController {
 	public String addCategory(String name) {
 		String code = categoryService.generateCategoryCode();
 
-		categoryRepository.save(new Category(null, name, code));
+		categoryRepository.save(new Category(null, name, code, new ArrayList<Product>()));
 
 		return "redirect:/admin/category-management";
 	}

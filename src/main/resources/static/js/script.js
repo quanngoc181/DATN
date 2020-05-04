@@ -14,6 +14,8 @@ $(function() {
 
 	$('[data-mask]').inputmask();
 	
+	bsCustomFileInput.init();
+	
 	initSwitch();
 });
 
@@ -44,4 +46,14 @@ function confirmDelete(callback, message = 'Bạn có chắc xóa muốn xóa?')
 	}).then((result) => {
 	  if(result.value) callback();
 	});
+}
+
+function objectifyForm(selector) {
+	let formArray = $(selector).serializeArray();
+	
+    let obj = {};
+    for (var i = 0; i < formArray.length; i++) {
+      obj[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return obj;
 }

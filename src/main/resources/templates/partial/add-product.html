@@ -1,0 +1,43 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<form enctype="multipart/form-data" id="add-product-form">
+		<div class="modal-header">
+			<h4 class="modal-title">Thêm sản phẩm</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<input type="hidden" th:value="${category.id}" name="categoryId">
+			<div class="form-group row">
+				<label for="modal-category" class="col-sm-3 col-form-label">Danh mục</label>
+				<div class="col-sm-9">
+					<input type="text" th:value="${category.name}" class="form-control" id="modal-category" disabled>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="modal-name" class="col-sm-3 col-form-label">Tên sản phẩm</label>
+				<div class="col-sm-9">
+					<input name="name" type="text" class="form-control" id="modal-name">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="modal-cost" class="col-sm-3 col-form-label">Giá sản phẩm</label>
+				<div class="col-sm-9">
+					<input name="cost" type="number" class="form-control" id="modal-cost">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="modal-image" class="col-sm-3 col-form-label">Ảnh sản phẩm</label>
+				<div class="col-sm-9">
+					<div class="custom-file">
+                      <input type="file" name="file" class="custom-file-input" id="modal-image">
+                      <label class="custom-file-label" for="modal-image">Chọn ảnh</label>
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" class="btn btn-primary" id="add-product">Thêm</button>
+		</div>
+	</form>
+</th:block>

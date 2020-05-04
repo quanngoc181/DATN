@@ -32,12 +32,13 @@ public class Product extends ParentEntity {
 		super();
 	}
 
-	public Product(UUID id, String name, String code, int cost, byte[] image) {
+	public Product(UUID id, String name, String code, int cost, byte[] image, Category category) {
 		super.setId(id);
 		this.name = name;
 		this.productCode = code;
 		this.cost = cost;
 		this.image = image;
+		this.category = category;
 	}
 
 	public Category getCategory() {

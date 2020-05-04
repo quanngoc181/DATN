@@ -13,17 +13,23 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.hust.datn.command.AddProductCommand;
 import com.hust.datn.dto.CategoryDTO;
 import com.hust.datn.dto.DatatableDTO;
 import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Category;
 import com.hust.datn.entity.Product;
+import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.CategoryRepository;
 import com.hust.datn.repository.ProductRepository;
+import com.hust.datn.service.ProductService;
 import com.hust.datn.specification.ProductSpecification;
+import com.hust.datn.utilities.StringUtilities;
 
 @Controller
 public class ProductManagementController {
@@ -32,6 +38,12 @@ public class ProductManagementController {
 	
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	StringUtilities stringUtilities;
+	
+	@Autowired
+	ProductService productService;
 	
 	@GetMapping("/admin/product-management")
 	public String productManagement(Model model) {
@@ -96,6 +108,57 @@ public class ProductManagementController {
 		product.setCategory(category);
 		
 		productRepository.save(product);
+		
+		return "";
+	}
+	
+	@GetMapping("/admin/product-management/add")
+	@ResponseBody
+	public ModelAndView addProduct(String id) {
+		UUID ctgId = UUID.fromString(id);
+		
+		Category category = categoryRepository.findById(ctgId).get();
+		
+		return new ModelAndView("partial/add-product", "category", category);
+	}
+	
+	@PostMapping("/admin/product-management/add")
+	@ResponseBody
+	public String addProduct1(@ModelAttribute AddProductCommand command) throws InternalException {
+		String extension = stringUtilities.getExtension(command.file.getOriginalFilename()).get();
+		if(!extension.equals("jpg") && !extension.equals("png")) {
+			throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
+		}
+		
+		try {
+			byte[] bytes = command.file.getBytes();
+			
+			String code = productService.generateProductCode();
+			
+			UUID ctgId = UUID.fromString(command.categoryId);
+			
+			Category category = categoryRepository.findById(ctgId).get();
+			
+			category.addProduct(new Product(null, command.name, code, command.cost, bytes, null));
+			
+			categoryRepository.save(category);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	@PostMapping("/admin/product-management/delete")
+	@ResponseBody
+	public String deleteProduct(String id) {
+		UUID prdId = UUID.fromString(id);
+		
+		Category category = productRepository.findById(prdId).get().getCategory();
+		
+		category.deleteProduct(prdId);
+
+		categoryRepository.save(category);
 		
 		return "";
 	}

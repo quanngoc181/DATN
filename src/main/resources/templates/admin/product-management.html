@@ -41,9 +41,17 @@
 						<div class="card" th:attr="data-id=${category.categoryId}">
 							<div class="card-header">
 								<h3 class="card-title" th:text="${category.categoryName + ' - ' + category.categoryCode}"></h3>
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool add-product" title="Thêm sản phẩm">
+										<i class="fas fa-plus"></i>
+									</button>
+								</div>
 							</div>
 							<div class="card-body product-container">
 								<div class="product-preview" th:each="product: ${category.products}" th:attr="data-id=${product.id}">
+									<div class="control-group">
+										<span class="delete-item"></span>
+									</div>
 									<div class="image-container">
 										<img th:src="${product.image}" alt="product" />
 									</div>
@@ -61,6 +69,14 @@
 		</div>
 
 		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+	
+	<div class="modal fade" id="add-product-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				
+			</div>
+		</div>
 	</div>
 
 	<th:block th:include="fragment/script"></th:block>
