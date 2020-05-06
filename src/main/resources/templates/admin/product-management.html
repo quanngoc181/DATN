@@ -51,6 +51,7 @@
 								<div class="product-preview" th:each="product: ${category.products}" th:attr="data-id=${product.id}">
 									<div class="control-group">
 										<span class="delete-item"></span>
+										<span class="edit-item"></span>
 									</div>
 									<div class="image-container">
 										<img th:src="${product.image}" alt="product" />
@@ -70,12 +71,10 @@
 
 		<th:block th:include="fragment/admin-footer"></th:block>
 	</div>
-	
-	<div class="modal fade" id="add-product-modal">
+
+	<div class="modal fade" id="product-modal">
 		<div class="modal-dialog">
-			<div class="modal-content">
-				
-			</div>
+			<div class="modal-content"></div>
 		</div>
 	</div>
 

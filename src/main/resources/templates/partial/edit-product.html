@@ -1,29 +1,35 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-	<form enctype="multipart/form-data" id="add-product-form">
+	<form enctype="multipart/form-data" id="edit-product-form">
 		<div class="modal-header">
-			<h4 class="modal-title">Thêm sản phẩm</h4>
+			<h4 class="modal-title">Sửa sản phẩm</h4>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 			</button>
 		</div>
 		<div class="modal-body">
-			<input type="hidden" th:value="${category.id}" name="categoryId">
+			<input type="hidden" th:value="${dto.id}" name="id">
 			<div class="form-group row">
 				<label for="modal-category" class="col-sm-3 col-form-label">Danh mục</label>
 				<div class="col-sm-9">
-					<input type="text" th:value="${category.name}" class="form-control" id="modal-category" disabled>
+					<input type="text" th:value="${dto.categoryName}" class="form-control" id="modal-category" disabled>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="modal-code" class="col-sm-3 col-form-label">Mã sản phẩm</label>
+				<div class="col-sm-9">
+					<input type="text" th:value="${dto.code}" class="form-control" id="modal-code" disabled>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="modal-name" class="col-sm-3 col-form-label">Tên sản phẩm</label>
 				<div class="col-sm-9">
-					<input name="name" type="text" class="form-control" id="modal-name">
+					<input name="name" type="text" th:value="${dto.name}" class="form-control" id="modal-name">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="modal-cost" class="col-sm-3 col-form-label">Giá sản phẩm</label>
 				<div class="col-sm-9">
-					<input name="cost" type="number" class="form-control" id="modal-cost">
+					<input name="cost" type="number" th:value="${dto.cost}" class="form-control" id="modal-cost">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -37,12 +43,12 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-9 offset-3">
-					<img id="preview-image" src="https://via.placeholder.com/150" alt="Preview Image" />
+					<img id="preview-image" th:src="${dto.image}" alt="Preview Image" />
 				</div>
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="submit" class="btn btn-primary" id="add-product">Thêm</button>
+			<button type="submit" class="btn btn-primary" id="edit-product">Lưu</button>
 		</div>
 	</form>
 </th:block>

@@ -60,7 +60,7 @@ public class ProductManagementController {
 			List<ProductPreviewDTO> products = new ArrayList<>();
 			for (Product product : category.getProducts()) {
 				String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
-				products.add(new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), avatar));
+				products.add(new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), avatar, product.getCategory().getName()));
 			}
 			dto.products = products;
 			
@@ -142,6 +142,46 @@ public class ProductManagementController {
 			category.addProduct(new Product(null, command.name, code, command.cost, bytes, null));
 			
 			categoryRepository.save(category);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	@GetMapping("/admin/product-management/edit")
+	@ResponseBody
+	public ModelAndView editProduct(String id) {
+		UUID prdId = UUID.fromString(id);
+		
+		Product product = productRepository.findById(prdId).get();
+		
+		String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
+		
+		ProductPreviewDTO dto = new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), avatar, product.getCategory().getName());
+		
+		return new ModelAndView("partial/edit-product", "dto", dto);
+	}
+	
+	@PostMapping("/admin/product-management/edit")
+	@ResponseBody
+	public String editProduct1(@ModelAttribute AddProductCommand command) throws InternalException {
+		String extension = stringUtilities.getExtension(command.file.getOriginalFilename()).get();
+		if(!extension.equals("jpg") && !extension.equals("png")) {
+			throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
+		}
+		
+		try {
+			UUID id = UUID.fromString(command.id);
+			byte[] bytes = command.file.getBytes();
+			
+			Product product = productRepository.findById(id).get();
+			
+			product.setName(command.name);
+			product.setCost(command.cost);
+			product.setImage(bytes);
+			
+			productRepository.save(product);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

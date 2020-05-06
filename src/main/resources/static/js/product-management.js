@@ -53,20 +53,38 @@ $(function() {
 			url : "/admin/product-management/add",
 			data: { id: id },
 			success : function(data) {
-				$('#add-product-modal .modal-content').html(data);
+				$('#product-modal .modal-content').html(data);
 				bsCustomFileInput.init();
-				$('#add-product-modal').modal('show');
+				$('#product-modal').modal('show');
 			},
 			error : function(err) {
 				notify('error', err.responseJSON.message);
 			}
 		});
 	});
-	
+
+	$('.edit-item').on('click', function() {
+		let $this = $(this);
+		let id = $this.closest('.product-preview').data('id');
+
+		$.ajax({
+			url : "/admin/product-management/edit",
+			data: { id: id },
+			success : function(data) {
+				$('#product-modal .modal-content').html(data);
+				bsCustomFileInput.init();
+				$('#product-modal').modal('show');
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
+
 	$('.delete-item').on('click', function() {
 		let $this = $(this);
 		let id = $this.closest('.product-preview').data('id');
-		console.log(id);
+
 		confirmDelete(function() {
 			$.ajax({
 				url : "/admin/product-management/delete",
@@ -101,5 +119,30 @@ $(function() {
 				notify('error', err.responseJSON.message);
 			}
 		});
+	});
+	
+	$(document).on('click', '#edit-product', function(e) {
+		e.preventDefault();
+		let formData = new FormData($('#edit-product-form')[0]);
+		
+		$.ajax({
+			url : "/admin/product-management/edit",
+			method: 'post',
+			enctype: 'multipart/form-data',
+			processData: false,
+	        contentType: false,
+	        cache: false,
+			data: formData,
+			success : function(data) {
+				location.reload();
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
+	
+	$(document).on('change', "#modal-image", function() {
+		readURL(this, "#preview-image");
 	});
 });

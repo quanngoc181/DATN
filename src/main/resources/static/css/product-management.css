@@ -51,5 +51,22 @@
     width: 20px;
     height: 20px;
     cursor: pointer;
+    margin: 2px 0;
     background: url(/images/delete.svg) center/cover no-repeat;
+}
+
+.product-preview .edit-item {
+	display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin: 2px 0;
+    background: url(/images/edit.svg) center/cover no-repeat;
+}
+
+#preview-image {
+	width: 150px;
+	height: 150px;
+	object-fit: contain;
+	border: 1px solid #ddd;
 }
