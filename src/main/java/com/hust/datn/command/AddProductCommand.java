@@ -8,17 +8,27 @@ public class AddProductCommand {
 	public String name;
 	public int cost;
 	public MultipartFile file;
+	public String[] options;
 	
 	public AddProductCommand() {
 	}
 
-	public AddProductCommand(String id, String categoryId, String name, int cost, MultipartFile file) {
+	public AddProductCommand(String id, String categoryId, String name, int cost, MultipartFile file, String[] options) {
 		super();
 		this.id = id;
 		this.categoryId = categoryId;
 		this.name = name;
 		this.cost = cost;
 		this.file = file;
+		this.options = options;
+	}
+
+	public String[] getOptions() {
+		return options;
+	}
+
+	public void setOptions(String[] options) {
+		this.options = options;
 	}
 
 	public String getId() {

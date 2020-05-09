@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StringUtilities {
-	public StringUtilities() {
-
-	}
+	public StringUtilities() { }
 
 	public Optional<String> getExtension(String filename) {
 		return Optional

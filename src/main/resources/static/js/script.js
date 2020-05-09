@@ -6,6 +6,12 @@ const Toast = Swal.mixin({
 });
 
 $(function() {
+	let url = window.location.pathname;
+	let _this = $('.sidebar a[href="'+url+'"]');
+	_this.addClass('active');
+	_this.closest('.nav-item.has-treeview').addClass('menu-open');
+	_this.closest('.nav-item.has-treeview').children('.nav-link').addClass('active');
+	
 	var token = $("meta[name='_csrf']").attr("content");
 	var header = $("meta[name='_csrf_header']").attr("content");
 	$(document).ajaxSend(function(e, xhr, options) {

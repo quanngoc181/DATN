@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/option-management.css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+	<div class="wrapper">
+		<th:block th:include="fragment/admin-nav"></th:block>
+
+		<th:block th:include="fragment/admin-aside"></th:block>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Option Management</h1>
+			</section>
+
+			<section class="content">
+
+				<div class="row">
+					<div class="col-4">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Option</h3>
+								<div class="card-tools">
+									<button type="button" id="add-option" class="btn btn-tool" title="Thêm tùy chọn" style="margin-right: 2px;">
+										<i class="fas fa-plus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<table id="option-datatable" class="table table-bordered js-datatable">
+									<thead>
+										<tr>
+											<th>Tên tùy chọn</th>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-8">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Item</h3>
+							</div>
+							<div class="card-body">
+								<table id="item-datatable" class="table table-bordered js-datatable">
+									<thead>
+										<tr>
+											<th>Tên tùy chọn</th>
+											<th>Tên lựa chọn</th>
+											<th>Giá lựa chọn</th>
+											<th></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</section>
+		</div>
+
+		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+
+	<div class="modal fade" id="add-option-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="add-option-form">
+					<div class="modal-header">
+						<h4 class="modal-title">Thêm tùy chọn</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group row">
+							<label for="add-option-name" class="col-sm-3 col-form-label">Tên tùy chọn</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="add-option-name">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="add-option-submit">Thêm</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="edit-option-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="edit-option-form">
+					<div class="modal-header">
+						<h4 class="modal-title">Sửa tùy chọn</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" id="edit-option-id">
+						<div class="form-group row">
+							<label for="edit-option-name" class="col-sm-3 col-form-label">Tên tùy chọn</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="edit-option-name">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="edit-option-submit">Sửa</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="add-item-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="add-item-form">
+					<div class="modal-header">
+						<h4 class="modal-title">Thêm lựa chọn</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="optionId" id="add-item-optionId">
+						<div class="form-group row">
+							<label for="add-item-name" class="col-sm-3 col-form-label">Tên lựa chọn</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" name="name" id="add-item-name">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="add-item-cost" class="col-sm-3 col-form-label">Giá lựa chọn</label>
+							<div class="col-sm-9">
+								<input type="number" class="form-control" name="cost" id="add-item-cost">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="add-item-submit">Thêm</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="edit-item-modal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<form id="edit-item-form">
+					<div class="modal-header">
+						<h4 class="modal-title">Sửa lựa chọn</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<input type="hidden" name="id" id="edit-item-id">
+						<div class="form-group row">
+							<label for="edit-item-optionName" class="col-sm-3 col-form-label">Tên tùy chọn</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="edit-item-optionName" disabled>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="edit-item-name" class="col-sm-3 col-form-label">Tên lựa chọn</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" name="name" id="edit-item-name">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="edit-item-cost" class="col-sm-3 col-form-label">Giá lựa chọn</label>
+							<div class="col-sm-9">
+								<input type="number" class="form-control" name="cost" id="edit-item-cost">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" id="edit-item-submit">Sửa</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/option-management.js"></script>
+</body>
+</html>

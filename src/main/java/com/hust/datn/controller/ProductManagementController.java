@@ -1,8 +1,10 @@
 package com.hust.datn.controller;
 
 import java.util.ArrayList;
-import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +26,12 @@ import com.hust.datn.dto.DatatableDTO;
 import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Category;
 import com.hust.datn.entity.Product;
+import com.hust.datn.entity.ProductOption;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.CategoryRepository;
+import com.hust.datn.repository.OptionRepository;
 import com.hust.datn.repository.ProductRepository;
+import com.hust.datn.service.OptionService;
 import com.hust.datn.service.ProductService;
 import com.hust.datn.specification.ProductSpecification;
 import com.hust.datn.utilities.StringUtilities;
@@ -45,6 +50,12 @@ public class ProductManagementController {
 	@Autowired
 	ProductService productService;
 	
+	@Autowired
+	OptionRepository optionRepository;
+	
+	@Autowired
+	OptionService optionService;
+	
 	@GetMapping("/admin/product-management")
 	public String productManagement(Model model) {
 		List<Category> categories = categoryRepository.findAll();
@@ -59,8 +70,9 @@ public class ProductManagementController {
 			
 			List<ProductPreviewDTO> products = new ArrayList<>();
 			for (Product product : category.getProducts()) {
-				String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
-				products.add(new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), avatar, product.getCategory().getName()));
+				ProductPreviewDTO productPreviewDTO = ProductPreviewDTO.fromProduct(product);
+				productPreviewDTO.optionArray = optionService.optionsFromString(product.getOptions());
+				products.add(productPreviewDTO);
 			}
 			dto.products = products;
 			
@@ -74,7 +86,7 @@ public class ProductManagementController {
 
 	@GetMapping("/admin/product-management/datatable")
 	@ResponseBody
-	public DatatableDTO<Product> productDatatable(HttpServletRequest request) {
+	public DatatableDTO<ProductPreviewDTO> productDatatable(HttpServletRequest request) {
 		int draw = Integer.parseInt(request.getParameter("draw"));
 		int start = Integer.parseInt(request.getParameter("start"));
 		int length = Integer.parseInt(request.getParameter("length"));
@@ -92,8 +104,15 @@ public class ProductManagementController {
 		int countAll = (int) productRepository.count();
 		int countFiltered = productRepository.count(ProductSpecification.containsTextInNameOrCode(value));
 		List<Product> products = productRepository.findAll(ProductSpecification.containsTextInNameOrCode(value), PageRequest.of(start / length, length, sort));
+		
+		List<ProductPreviewDTO> dtos = new ArrayList<>();
+		for (Product product : products) {
+			ProductPreviewDTO productPreviewDTO = ProductPreviewDTO.fromProduct(product);
+			productPreviewDTO.optionArray = optionService.optionsFromString(product.getOptions());
+			dtos.add(productPreviewDTO);
+		}
 
-		return new DatatableDTO<Product>(draw, countAll, countFiltered, products);
+		return new DatatableDTO<ProductPreviewDTO>(draw, countAll, countFiltered, dtos);
 	}
 	
 	@PostMapping("/admin/product-management/change-category")
@@ -118,20 +137,28 @@ public class ProductManagementController {
 		UUID ctgId = UUID.fromString(id);
 		
 		Category category = categoryRepository.findById(ctgId).get();
+		List<ProductOption> options = optionRepository.findAll();
 		
-		return new ModelAndView("partial/add-product", "category", category);
+		Map<String, Object> model = new HashMap<>();
+		model.put("category", category);
+		model.put("options", options);
+		
+		return new ModelAndView("partial/add-product", model);
 	}
 	
 	@PostMapping("/admin/product-management/add")
 	@ResponseBody
 	public String addProduct1(@ModelAttribute AddProductCommand command) throws InternalException {
-		String extension = stringUtilities.getExtension(command.file.getOriginalFilename()).get();
-		if(!extension.equals("jpg") && !extension.equals("png")) {
-			throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
+		Optional<String> optional = stringUtilities.getExtension(command.file.getOriginalFilename());
+		if(optional.isPresent()) {
+			String extension = optional.get();
+			if(!extension.equals("jpg") && !extension.equals("png")) {
+				throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
+			}
 		}
 		
 		try {
-			byte[] bytes = command.file.getBytes();
+			byte[] bytes = command.file.getBytes().length == 0 ? null : command.file.getBytes();
 			
 			String code = productService.generateProductCode();
 			
@@ -139,7 +166,7 @@ public class ProductManagementController {
 			
 			Category category = categoryRepository.findById(ctgId).get();
 			
-			category.addProduct(new Product(null, command.name, code, command.cost, bytes, null));
+			category.addProduct(new Product(null, command.name, code, command.cost, bytes, command.options == null ? null : String.join(";", command.options), null));
 			
 			categoryRepository.save(category);
 		} catch (Exception e) {
@@ -155,20 +182,24 @@ public class ProductManagementController {
 		UUID prdId = UUID.fromString(id);
 		
 		Product product = productRepository.findById(prdId).get();
+		List<ProductOption> options = optionRepository.findAll();
 		
-		String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
+		Map<String, Object> model = new HashMap<>();
+		model.put("dto", ProductPreviewDTO.fromProduct(product));
+		model.put("options", options);
 		
-		ProductPreviewDTO dto = new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), avatar, product.getCategory().getName());
-		
-		return new ModelAndView("partial/edit-product", "dto", dto);
+		return new ModelAndView("partial/edit-product", model);
 	}
 	
 	@PostMapping("/admin/product-management/edit")
 	@ResponseBody
 	public String editProduct1(@ModelAttribute AddProductCommand command) throws InternalException {
-		String extension = stringUtilities.getExtension(command.file.getOriginalFilename()).get();
-		if(!extension.equals("jpg") && !extension.equals("png")) {
-			throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
+		Optional<String> optional = stringUtilities.getExtension(command.file.getOriginalFilename());
+		if(optional.isPresent()) {
+			String extension = optional.get();
+			if(!extension.equals("jpg") && !extension.equals("png")) {
+				throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
+			}
 		}
 		
 		try {
@@ -179,7 +210,9 @@ public class ProductManagementController {
 			
 			product.setName(command.name);
 			product.setCost(command.cost);
-			product.setImage(bytes);
+			if(bytes.length != 0)
+				product.setImage(bytes);
+			product.setOptions(command.options == null ? null : String.join(";", command.options));
 			
 			productRepository.save(product);
 		} catch (Exception e) {

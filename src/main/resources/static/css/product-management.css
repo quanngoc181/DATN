@@ -24,10 +24,6 @@
 	object-fit: contain;
 }
 
-.product-preview .content {
-	flex-grow: 1;
-}
-
 .product-preview .content .name {
 	margin-bottom: 0;
 }
@@ -35,6 +31,29 @@
 .product-preview .content .cost {
 	margin-bottom: 0;
 	font-weight: bold;
+}
+
+.product-preview .options ul {
+	margin: 0;
+    padding: 0;
+    list-style: none;
+    line-height: 1;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.product-preview .options ul li {
+	margin-bottom: 3px;
+}
+
+.product-preview .options ul li:before {
+	content: '';
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    background: green;
+    border-radius: 50%;
+    margin-right: 3px;
 }
 
 .product-preview .control-group {

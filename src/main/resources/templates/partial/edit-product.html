@@ -17,7 +17,7 @@
 			<div class="form-group row">
 				<label for="modal-code" class="col-sm-3 col-form-label">Mã sản phẩm</label>
 				<div class="col-sm-9">
-					<input type="text" th:value="${dto.code}" class="form-control" id="modal-code" disabled>
+					<input type="text" th:value="${dto.productCode}" class="form-control" id="modal-code" disabled>
 				</div>
 			</div>
 			<div class="form-group row">
@@ -41,9 +41,18 @@
                     </div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mb-3">
 				<div class="col-sm-9 offset-3">
 					<img id="preview-image" th:src="${dto.image}" alt="Preview Image" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label">Tùy chọn</label>
+				<div class="col-sm-9">
+					<div class="icheck-primary" th:each="option: ${options}">
+						<input type="checkbox" name="options" th:id="${option.id}" th:value="${option.id}" th:checked="${#strings.contains(dto.options, option.id)}">
+						<label th:for="${option.id}" th:text="${option.name}"></label>
+					</div>
 				</div>
 			</div>
 		</div>

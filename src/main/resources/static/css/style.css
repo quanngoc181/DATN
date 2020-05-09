@@ -57,6 +57,14 @@ section.content {
 	background: url(/images/info.svg) center/cover no-repeat;
 }
 
+.add-row {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	background: url(/images/add.svg) center/cover no-repeat;
+}
+
 .edit-row {
 	display: inline-block;
 	width: 20px;

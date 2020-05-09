@@ -24,6 +24,8 @@ public class Product extends ParentEntity {
 	@Column(columnDefinition = "varbinary(MAX)")
 	private byte[] image;
 	
+	private String options;
+	
 	@ManyToOne
 	@JsonIgnore
 	private Category category;
@@ -32,13 +34,22 @@ public class Product extends ParentEntity {
 		super();
 	}
 
-	public Product(UUID id, String name, String code, int cost, byte[] image, Category category) {
+	public Product(UUID id, String name, String code, int cost, byte[] image, String options, Category category) {
 		super.setId(id);
 		this.name = name;
 		this.productCode = code;
 		this.cost = cost;
 		this.image = image;
+		this.options = options;
 		this.category = category;
+	}
+
+	public String getOptions() {
+		return options;
+	}
+
+	public void setOptions(String options) {
+		this.options = options;
 	}
 
 	public Category getCategory() {

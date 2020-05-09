@@ -16,6 +16,15 @@ $(function() {
 		}, {
 			data : 'cost',
 			name : 'cost'
+		}, {
+			data : 'categoryName',
+			name : 'categoryName'
+		}, {
+			orderable : false,
+			render : function(data, type, row, meta) {
+				let options = (row.optionArray.map(obj => obj.name)).join(', ');
+				return options;
+			}
 		} ]
 	});
 	
@@ -92,6 +101,7 @@ $(function() {
 				data: { id: id },
 				success : function(data) {
 					$this.closest('.product-preview').remove();
+					productTable.ajax.reload();
 				},
 				error : function(err) {
 					notify('error', err.responseJSON.message);

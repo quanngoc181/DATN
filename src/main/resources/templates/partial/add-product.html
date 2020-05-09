@@ -30,14 +30,23 @@
 				<label for="modal-image" class="col-sm-3 col-form-label">Ảnh sản phẩm</label>
 				<div class="col-sm-9">
 					<div class="custom-file">
-                      <input type="file" name="file" class="custom-file-input" id="modal-image">
-                      <label class="custom-file-label" for="modal-image">Chọn ảnh</label>
-                    </div>
+						<input type="file" name="file" class="custom-file-input" id="modal-image">
+						<label class="custom-file-label" for="modal-image">Chọn ảnh</label>
+					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row mb-3">
 				<div class="col-sm-9 offset-3">
 					<img id="preview-image" src="https://via.placeholder.com/150" alt="Preview Image" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-3 col-form-label">Tùy chọn</label>
+				<div class="col-sm-9">
+					<div class="icheck-primary" th:each="option: ${options}">
+						<input type="checkbox" name="options" th:id="${option.id}" th:value="${option.id}">
+						<label th:for="${option.id}" th:text="${option.name}"></label>
+					</div>
 				</div>
 			</div>
 		</div>
