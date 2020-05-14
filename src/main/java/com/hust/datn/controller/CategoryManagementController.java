@@ -1,6 +1,7 @@
 package com.hust.datn.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,7 @@ import com.hust.datn.entity.Category;
 import com.hust.datn.entity.Product;
 import com.hust.datn.repository.CategoryRepository;
 import com.hust.datn.service.CategoryService;
+import com.hust.datn.service.OptionService;
 import com.hust.datn.specification.CategorySpecification;
 
 @Controller
@@ -30,6 +32,9 @@ public class CategoryManagementController {
 
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	OptionService optionService;
 
 	@GetMapping("/admin/category-management")
 	public String categoryManagement() {
@@ -65,7 +70,7 @@ public class CategoryManagementController {
 	public String addCategory(String name) {
 		String code = categoryService.generateCategoryCode();
 
-		categoryRepository.save(new Category(null, name, code, new ArrayList<Product>()));
+		categoryRepository.save(new Category(null, name, code, new HashSet<>()));
 
 		return "redirect:/admin/category-management";
 	}
@@ -103,7 +108,9 @@ public class CategoryManagementController {
 		List<ProductPreviewDTO> dtos = new ArrayList<>();
 		
 		for (Product product : category.getProducts()) {
-			dtos.add(ProductPreviewDTO.fromProduct(product));
+			ProductPreviewDTO productPreviewDTO = ProductPreviewDTO.fromProduct(product);
+			productPreviewDTO.optionArray = optionService.optionsFromString(product.getOptions());
+			dtos.add(productPreviewDTO);
 		}
 		
 		return new ModelAndView("partial/view-category-detail", "products", dtos);

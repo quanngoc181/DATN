@@ -40,6 +40,23 @@ function initSwitch() {
 	});
 }
 
+function initDatePicker() {
+  $('[data-toggle="datepicker"]').each(function (index, element) {
+    let start = $(this).attr('min');
+    let end = $(this).attr('max');
+
+    $(this).datepicker({
+      autoHide: true,
+      zIndex: 2048,
+      weekStart: 1,
+      startDate: start ? start : null,
+      endDate: end ? end : null,
+      format: 'dd/mm/yyyy',
+      offset: 10
+    });
+  });
+}
+
 function confirmDelete(callback, message = 'Bạn có chắc xóa muốn xóa?') {
 	Swal.fire({
 	  title: 'Xác nhận xóa',

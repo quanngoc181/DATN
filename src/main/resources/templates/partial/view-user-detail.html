@@ -1,70 +1,72 @@
-<div class="row">
-	<div class="col-3">
-		<div class="card card-primary card-outline">
-			<div class="card-body box-profile">
-				<div class="text-center position-relative">
-					<img class="profile-user-img img-fluid img-circle" th:src="${avatar}" alt="Avatar" style="height: 100px; object-fit: cover;">
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<div class="row">
+		<div class="col-3">
+			<div class="card card-primary card-outline">
+				<div class="card-body box-profile">
+					<div class="text-center position-relative">
+						<img class="profile-user-img img-fluid img-circle" th:src="${avatar}" alt="Avatar" style="height: 100px; object-fit: cover;">
+					</div>
+	
+					<h3 th:text="${account.firstName + ' ' + account.lastName}" class="profile-username text-center"></h3>
+					
+					<p th:text="${account.username + ' - ' + account.accountNumber}" class="text-muted text-center mb-0"></p>
+					
+					<p class="font-weight-bold text-center">Số dư: <span th:text="${account.money}"></span> VNĐ</p>
+	
+					<ul class="list-group list-group-unbordered">
+						<li class="list-group-item">
+							<b>Giới tính</b>
+							<a th:text="${account.gender} == 1 ? 'Nam' : 'Nữ'" class="float-right"></a>
+						</li>
+						<li class="list-group-item">
+							<b>Ngày sinh</b>
+							<a th:text="${#temporals.format(account.birthday, 'dd/MM/yyyy')}" class="float-right"></a>
+						</li>
+						<li class="list-group-item">
+							<b>Địa chỉ</b>
+							<a th:text="${account.address}" class="float-right"></a>
+						</li>
+						<li class="list-group-item">
+							<b>SĐT</b>
+							<a th:text="${account.phone}" class="float-right"></a>
+						</li>
+						<li class="list-group-item">
+							<b>Email</b>
+							<a th:text="${account.email}" class="float-right"></a>
+						</li>
+					</ul>
 				</div>
-
-				<h3 th:text="${account.firstName + ' ' + account.lastName}" class="profile-username text-center"></h3>
-				
-				<p th:text="${account.username + ' - ' + account.accountNumber}" class="text-muted text-center mb-0"></p>
-				
-				<p class="font-weight-bold text-center">Số dư: <span th:text="${account.money}"></span> VNĐ</p>
-
-				<ul class="list-group list-group-unbordered">
-					<li class="list-group-item">
-						<b>Giới tính</b>
-						<a th:text="${account.gender} == 1 ? 'Nam' : 'Nữ'" class="float-right"></a>
-					</li>
-					<li class="list-group-item">
-						<b>Ngày sinh</b>
-						<a th:text="${#temporals.format(account.birthday, 'dd/MM/yyyy')}" class="float-right"></a>
-					</li>
-					<li class="list-group-item">
-						<b>Địa chỉ</b>
-						<a th:text="${account.address}" class="float-right"></a>
-					</li>
-					<li class="list-group-item">
-						<b>SĐT</b>
-						<a th:text="${account.phone}" class="float-right"></a>
-					</li>
-					<li class="list-group-item">
-						<b>Email</b>
-						<a th:text="${account.email}" class="float-right"></a>
-					</li>
-				</ul>
 			</div>
 		</div>
-	</div>
-	<div class="col-9">
-		<div class="card">
-			<div class="card-header">
-				<h3 class="card-title">Địa chỉ nhận hàng</h3>
-			</div>
-
-			<div class="card-body">
-				<div class="row">
-					<div class="col-6 receive-address-item" th:each="address: ${reList}">
-						<div class="card" th:classappend="${address.isDefault()} ? 'card-primary' : ''" th:attr="data-id=${address.id}">
-							<div class="card-header">
-								<h3 class="card-title" th:text="${address.addressName}"></h3>
-							</div>
-							<div class="card-body">
-								<ul class="list-group">
-									<li class="list-group-item">
-										<b>Tên</b>
-										<a class="float-right" th:text="${address.name}"></a>
-									</li>
-									<li class="list-group-item">
-										<b>SĐT</b>
-										<a class="float-right" th:text="${address.phone}"></a>
-									</li>
-									<li class="list-group-item">
-										<b>Địa chỉ</b>
-										<a class="float-right" th:text="${address.address}"></a>
-									</li>
-								</ul>
+		<div class="col-9">
+			<div class="card">
+				<div class="card-header">
+					<h3 class="card-title">Địa chỉ nhận hàng</h3>
+				</div>
+	
+				<div class="card-body">
+					<div class="row">
+						<div class="col-6 receive-address-item" th:each="address: ${reList}">
+							<div class="card" th:classappend="${address.isDefault()} ? 'card-primary' : ''" th:attr="data-id=${address.id}">
+								<div class="card-header">
+									<h3 class="card-title" th:text="${address.addressName}"></h3>
+								</div>
+								<div class="card-body">
+									<ul class="list-group">
+										<li class="list-group-item">
+											<b>Tên</b>
+											<a class="float-right" th:text="${address.name}"></a>
+										</li>
+										<li class="list-group-item">
+											<b>SĐT</b>
+											<a class="float-right" th:text="${address.phone}"></a>
+										</li>
+										<li class="list-group-item">
+											<b>Địa chỉ</b>
+											<a class="float-right" th:text="${address.address}"></a>
+										</li>
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -72,4 +74,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</th:block>

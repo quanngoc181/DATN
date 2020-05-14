@@ -166,7 +166,7 @@ public class ProductManagementController {
 			
 			Category category = categoryRepository.findById(ctgId).get();
 			
-			category.addProduct(new Product(null, command.name, code, command.cost, bytes, command.options == null ? null : String.join(";", command.options), null));
+			category.addProduct(new Product(null, command.name, code, command.cost, bytes, command.options == null ? null : String.join(";", command.options)));
 			
 			categoryRepository.save(category);
 		} catch (Exception e) {

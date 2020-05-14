@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/discount-management.css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+	<div class="wrapper">
+		<th:block th:include="fragment/admin-nav"></th:block>
+
+		<th:block th:include="fragment/admin-aside"></th:block>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Discount Management</h1>
+			</section>
+
+			<section class="content">
+
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Discount</h3>
+						<div class="card-tools">
+							<button type="button" id="add-discount" class="btn btn-tool" title="Thêm khuyến mãi" style="margin-right: 2px;">
+								<i class="fas fa-plus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<table id="discount-datatable" class="table table-bordered js-datatable">
+							<thead>
+								<tr>
+									<th>Mô tả</th>
+									<th>Số tiền</th>
+									<th>Đơn vị</th>
+									<th>Bắt đầu</th>
+									<th>Kết thúc</th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				
+				<div id="add-discount-container"></div>
+
+			</section>
+		</div>
+
+		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/discount-management.js"></script>
+</body>
+</html>

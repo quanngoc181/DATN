@@ -81,6 +81,10 @@ section.content {
 	background: url(/images/delete.svg) center/cover no-repeat;
 }
 
+.datepicker-container {
+	box-shadow: none;
+}
+
 /* ::-webkit-scrollbar { */
 /* 	width: 10px; */
 /* 	height: 10px; */

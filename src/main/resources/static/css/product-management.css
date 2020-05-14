@@ -10,6 +10,7 @@
     border-radius: 5px;
     margin-bottom: 15px;
     position: relative;
+    cursor: grab;
 }
 
 .product-preview .image-container {

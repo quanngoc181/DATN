@@ -52,19 +52,22 @@
 							<div class="card-body product-container">
 								<div class="product-preview" th:each="product: ${category.products}" th:attr="data-id=${product.id}">
 									<div class="control-group">
-										<span class="delete-item"></span>
 										<span class="edit-item"></span>
+										<span class="delete-item"></span>
 									</div>
 									<div class="image-container">
 										<img th:src="${product.image}" alt="product" />
 									</div>
 									<div class="content">
 										<h5 class="name" th:text="${product.name + ' - ' + product.productCode}"></h5>
-										<p class="cost"><span th:text="${product.cost}"></span> VNĐ</p>
+										<p class="cost">
+											<span th:text="${product.cost}"></span>
+											VNĐ
+										</p>
 									</div>
 									<div class="options">
 										<ul>
-										 <li th:each="option: ${product.optionArray}" th:text="${option.name}"></li>
+											<li th:each="option: ${product.optionArray}" th:text="${option.name}"></li>
 										</ul>
 									</div>
 								</div>

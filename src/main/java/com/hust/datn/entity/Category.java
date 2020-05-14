@@ -1,6 +1,6 @@
 package com.hust.datn.entity;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -20,13 +20,13 @@ public class Category extends ParentEntity {
 	private String categoryCode;
 
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private List<Product> products;
+	private Set<Product> products;
 
 	public Category() {
 		super();
 	}
 
-	public Category(UUID id, String name, String code, List<Product> products) {
+	public Category(UUID id, String name, String code, Set<Product> products) {
 		super.setId(id);
 		this.name = name;
 		this.categoryCode = code;
@@ -46,11 +46,11 @@ public class Category extends ParentEntity {
 		}
 	}
 
-	public List<Product> getProducts() {
+	public Set<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<Product> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
 

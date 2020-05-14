@@ -1,15 +1,20 @@
 package com.hust.datn.entity;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hust.datn.enums.DiscountUnit;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -30,18 +35,47 @@ public class Product extends ParentEntity {
 	@JsonIgnore
 	private Category category;
 	
+	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
+	private List<DiscountProduct> discounts;
+	
 	public Product() {
 		super();
 	}
 
-	public Product(UUID id, String name, String code, int cost, byte[] image, String options, Category category) {
+	public Product(UUID id, String name, String code, int cost, byte[] image, String options) {
 		super.setId(id);
 		this.name = name;
 		this.productCode = code;
 		this.cost = cost;
 		this.image = image;
 		this.options = options;
-		this.category = category;
+	}
+	
+	public int getDiscountCost() {
+		int cost = this.cost;
+		
+		for (DiscountProduct discountProduct : discounts) {
+			LocalDateTime now = LocalDateTime.now();
+			if(now.compareTo(discountProduct.getStartDate()) >= 0 && now.compareTo(discountProduct.getEndDate()) <= 0) {
+				if(discountProduct.getUnit() == DiscountUnit.PERCENT) {
+					cost *= (1-discountProduct.getAmount()/100);
+				} else {
+					cost -= discountProduct.getAmount();
+				}
+			}
+		}
+		
+		if(cost < 0) return 0;
+		
+		return cost;
+	}
+
+	public List<DiscountProduct> getDiscounts() {
+		return discounts;
+	}
+
+	public void setDiscounts(List<DiscountProduct> discounts) {
+		this.discounts = discounts;
 	}
 
 	public String getOptions() {
