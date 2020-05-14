@@ -17,6 +17,10 @@ $(function() {
 			data : 'cost',
 			name : 'cost'
 		}, {
+			orderable : false,
+			data : 'discountCost',
+			name : 'discountCost'
+		}, {
 			data : 'categoryName',
 			name : 'categoryName'
 		}, {

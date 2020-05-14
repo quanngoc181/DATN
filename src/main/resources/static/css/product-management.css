@@ -31,6 +31,11 @@
 
 .product-preview .content .cost {
 	margin-bottom: 0;
+	text-decoration: line-through;
+}
+
+.product-preview .content .discountCost {
+	margin-bottom: 0;
 	font-weight: bold;
 }
 

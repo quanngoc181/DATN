@@ -28,6 +28,7 @@
 									<th>Mã sản phẩm</th>
 									<th>Tên sản phẩm</th>
 									<th>Giá sản phẩm</th>
+									<th>Giá khuyến mãi</th>
 									<th>Danh mục</th>
 									<th>Tùy chọn</th>
 								</tr>
@@ -62,6 +63,10 @@
 										<h5 class="name" th:text="${product.name + ' - ' + product.productCode}"></h5>
 										<p class="cost">
 											<span th:text="${product.cost}"></span>
+											VNĐ
+										</p>
+										<p class="discountCost">
+											<span th:text="${product.discountCost}"></span>
 											VNĐ
 										</p>
 									</div>

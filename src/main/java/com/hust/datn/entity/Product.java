@@ -58,7 +58,7 @@ public class Product extends ParentEntity {
 			LocalDateTime now = LocalDateTime.now();
 			if(now.compareTo(discountProduct.getStartDate()) >= 0 && now.compareTo(discountProduct.getEndDate()) <= 0) {
 				if(discountProduct.getUnit() == DiscountUnit.PERCENT) {
-					cost *= (1-discountProduct.getAmount()/100);
+					cost -= ((float)discountProduct.getAmount())/100*cost;
 				} else {
 					cost -= discountProduct.getAmount();
 				}
