@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/product.css" />
+</head>
+<body>
+	<div class="my-header">
+		<div class="container">
+			<a href="/" class="logo"></a>
+			<div class="left menus">
+				<a href="/product" class="menu">Thực Đơn</a>
+				<a href="#" class="menu">Tin Tức</a>
+				<a href="#" class="menu">Cửa Hàng</a>
+			</div>
+			<div class="center menus"></div>
+			<div class="right menus">
+				<a href="/login" class="menu">Đăng Nhập</a>
+				<a href="/register" class="menu">Đăng Ký</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-3">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Filter</h3>
+					</div>
+					<div class="card-body">
+						<form id="search-form">
+							<div class="form-group">
+								<label for="keyword">Tìm kiếm</label>
+								<input type="text" class="form-control" name="keyword" id="keyword">
+							</div>
+	
+							<hr>
+	
+							<div class="form-group">
+								<label>Danh mục</label>
+								<div class="icheck-primary" th:each="category: ${categories}">
+									<input type="checkbox" name="categories" th:id="${category.id}" th:value="${category.id}" checked>
+									<label th:for="${category.id}" th:text="${category.name}"></label>
+								</div>
+							</div>
+	
+							<hr>
+	
+							<div class="form-group">
+								<label>Khuyến mãi</label>
+								<div class="icheck-primary">
+									<input type="radio" id="all" name="discount" value="all" checked>
+									<label for="all">Tất cả sản phẩm</label>
+								</div>
+								<div class="icheck-primary">
+									<input type="radio" id="discount" name="discount" value="discount">
+									<label for="discount">Sản phẩm khuyến mãi</label>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-6" id="product-region">
+				
+			</div>
+			<div class="col-3">Something</div>
+		</div>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/product.js"></script>
+</body>
+</html>

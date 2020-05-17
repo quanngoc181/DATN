@@ -3,6 +3,7 @@ package com.hust.datn.dto;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -54,7 +55,7 @@ public class DiscountDTO {
 		this.productIds = productIds(discount.getProducts());
 	}
 	
-	private String productIds(List<Product> products) {
+	private String productIds(Set<Product> products) {
 		if(products == null || products.isEmpty())
 			return "";
 		

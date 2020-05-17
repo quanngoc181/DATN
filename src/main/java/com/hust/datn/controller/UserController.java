@@ -2,6 +2,7 @@ package com.hust.datn.controller;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -85,7 +86,7 @@ public class UserController {
 		String encodedAvatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
 		model.addAttribute("avatar", encodedAvatar);
 		
-		List<ReceiveAddress> reList = account.getReceiveAddresses();
+		Set<ReceiveAddress> reList = account.getReceiveAddresses();
 		model.addAttribute("reList", reList);
 		
 		return "user/update-info";

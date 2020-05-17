@@ -4,6 +4,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -94,7 +95,7 @@ public class UsersManagementController {
 		String encodedAvatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
 		map.put("avatar", encodedAvatar);
 		
-		List<ReceiveAddress> reList = account.getReceiveAddresses();
+		Set<ReceiveAddress> reList = account.getReceiveAddresses();
 		map.put("reList", reList);
 		
 		return new ModelAndView("partial/view-user-detail", map);

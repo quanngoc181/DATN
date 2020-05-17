@@ -1,8 +1,10 @@
 package com.hust.datn.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,8 @@ public class ProductService {
 		return "PRD" + prefix + Integer.toString(maxCode);
 	}
 	
-	public List<Product> productsFromString(String uuids) {
-		List<Product> products = new ArrayList<>();
+	public Set<Product> productsFromString(String uuids) {
+		Set<Product> products = new HashSet<Product>();
 		
 		if(uuids.isEmpty())
 			return null;

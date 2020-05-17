@@ -2,8 +2,10 @@ package com.hust.datn.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +38,7 @@ public class Product extends ParentEntity {
 	private Category category;
 	
 	@ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
-	private List<DiscountProduct> discounts;
+	private Set<DiscountProduct> discounts;
 	
 	public Product() {
 		super();
@@ -69,12 +71,16 @@ public class Product extends ParentEntity {
 		
 		return cost;
 	}
+	
+	public boolean isDiscount() {
+		return this.getDiscountCost() != this.getCost();
+	}
 
-	public List<DiscountProduct> getDiscounts() {
+	public Set<DiscountProduct> getDiscounts() {
 		return discounts;
 	}
 
-	public void setDiscounts(List<DiscountProduct> discounts) {
+	public void setDiscounts(Set<DiscountProduct> discounts) {
 		this.discounts = discounts;
 	}
 

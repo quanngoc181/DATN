@@ -1,6 +1,13 @@
 @charset "UTF-8";
 
+.product-container {
+	display: flex;
+	align-items: center;
+	margin-bottom: 15px;
+}
+
 .product-preview {
+	flex-grow: 1;
 	display: flex;
 	align-items: center;
 	padding: 10px;
@@ -8,8 +15,8 @@
     background-color: #fff;
     box-shadow: 0 0 1px rgba(0, 128, 0, 1), 0 1px 3px rgba(0, 128, 0, 0.5);
     border-radius: 5px;
-    margin-bottom: 15px;
     position: relative;
+    margin-bottom: 15px;
 }
 
 .product-preview .image-container {
@@ -59,4 +66,40 @@
     background: green;
     border-radius: 50%;
     margin-right: 3px;
+}
+
+.product-preview .control-group {
+	position: absolute;
+	height: 100%;
+	right: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.product-preview .delete-item {
+	display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin: 2px 0;
+    background: url(/images/delete.svg) center/cover no-repeat;
+}
+
+.product-preview .edit-item {
+	display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin: 2px 0;
+    background: url(/images/edit.svg) center/cover no-repeat;
+}
+
+.product-preview .add-item {
+	display: inline-block;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin: 2px 0;
+    background: url(/images/add.svg) center/cover no-repeat;
 }

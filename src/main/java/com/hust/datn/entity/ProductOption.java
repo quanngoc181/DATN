@@ -1,6 +1,7 @@
 package com.hust.datn.entity;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -18,16 +19,15 @@ public class ProductOption extends ParentEntity {
 	private String name;
 	
 	@OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private List<OptionItem> items;
+	private Set<OptionItem> items;
 	
 	public ProductOption() {
 		super();
 	}
 
-	public ProductOption(UUID id, String name, List<OptionItem> items) {
+	public ProductOption(UUID id, String name) {
 		super.setId(id);
 		this.name = name;
-		this.items = items;
 	}
 	
 	public void addItem(OptionItem item) {
@@ -43,11 +43,11 @@ public class ProductOption extends ParentEntity {
 		}
 	}
 
-	public List<OptionItem> getItems() {
+	public Set<OptionItem> getItems() {
 		return items;
 	}
 
-	public void setItems(List<OptionItem> items) {
+	public void setItems(Set<OptionItem> items) {
 		this.items = items;
 	}
 

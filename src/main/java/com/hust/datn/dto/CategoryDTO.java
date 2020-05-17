@@ -1,7 +1,11 @@
 package com.hust.datn.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.hust.datn.entity.Category;
+import com.hust.datn.entity.Product;
 
 public class CategoryDTO {
 	public UUID categoryId;

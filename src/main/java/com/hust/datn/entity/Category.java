@@ -1,7 +1,11 @@
 package com.hust.datn.entity;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,11 +30,21 @@ public class Category extends ParentEntity {
 		super();
 	}
 
-	public Category(UUID id, String name, String code, Set<Product> products) {
+	public Category(UUID id, String name, String code) {
 		super.setId(id);
 		this.name = name;
 		this.categoryCode = code;
-		this.products = products;
+	}
+	
+	public Category filter(String keyword, String discount) {
+		List<Product> products = this.products.stream()
+				.filter(product ->
+					product.getName().toLowerCase().contains(keyword.toLowerCase()) &&
+					(discount.equals("all") ? true : product.isDiscount())
+				)
+				.collect(Collectors.toList());
+		this.products = new HashSet<>(products);
+		return this;
 	}
 	
 	public void addProduct(Product product) {

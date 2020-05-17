@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import com.hust.datn.entity.DiscountProduct;
 import com.hust.datn.entity.Product;
 import com.hust.datn.repository.CategoryRepository;
 import com.hust.datn.repository.DiscountProductRepository;
+import com.hust.datn.service.CategoryService;
 import com.hust.datn.service.OptionService;
 import com.hust.datn.service.ProductService;
 
@@ -45,6 +47,9 @@ public class DiscountManagementController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	CategoryService categoryService;
 	
 	@GetMapping("/admin/discount-management")
 	public String index() {
@@ -83,19 +88,7 @@ public class DiscountManagementController {
 		List<CategoryDTO> dtos = new ArrayList<>();
 		
 		for (Category category : categories) {
-			CategoryDTO dto = new CategoryDTO();
-			dto.categoryId = category.getId();
-			dto.categoryName = category.getName();
-			dto.categoryCode = category.getCategoryCode();
-			
-			List<ProductPreviewDTO> products = new ArrayList<>();
-			for (Product product : category.getProducts()) {
-				ProductPreviewDTO productPreviewDTO = ProductPreviewDTO.fromProduct(product);
-				productPreviewDTO.optionArray = optionService.optionsFromString(product.getOptions());
-				products.add(productPreviewDTO);
-			}
-			dto.products = products;
-			
+			CategoryDTO dto = categoryService.getCategoryDTO(category, false);
 			dtos.add(dto);
 		}
 		
@@ -111,7 +104,7 @@ public class DiscountManagementController {
 		
 		DiscountProduct savedDiscount = discountProductRepository.findById(discount.getId()).get();
 		
-		List<Product> products = productService.productsFromString(command.products);
+		Set<Product> products = productService.productsFromString(command.products);
 		savedDiscount.setProducts(products);
 		
 		discountProductRepository.save(savedDiscount);
@@ -138,18 +131,7 @@ public class DiscountManagementController {
 		List<CategoryDTO> dtos = new ArrayList<>();
 		
 		for (Category category : categories) {
-			CategoryDTO dto = new CategoryDTO();
-			dto.categoryId = category.getId();
-			dto.categoryName = category.getName();
-			dto.categoryCode = category.getCategoryCode();
-			
-			List<ProductPreviewDTO> products = new ArrayList<>();
-			for (Product product : category.getProducts()) {
-				ProductPreviewDTO productPreviewDTO = ProductPreviewDTO.fromProduct(product);
-				// productPreviewDTO.optionArray = optionService.optionsFromString(product.getOptions());
-				products.add(productPreviewDTO);
-			}
-			dto.products = products;
+			CategoryDTO dto = categoryService.getCategoryDTO(category, false);
 			
 			dtos.add(dto);
 		}
@@ -176,7 +158,7 @@ public class DiscountManagementController {
 		discount.setStartDate(command.getStartDateTime());
 		discount.setEndDate(command.getEndDateTime());
 		
-		List<Product> products = productService.productsFromString(command.products);
+		Set<Product> products = productService.productsFromString(command.products);
 		discount.setProducts(products);
 		
 		discountProductRepository.save(discount);

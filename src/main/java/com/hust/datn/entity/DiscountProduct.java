@@ -2,6 +2,7 @@ package com.hust.datn.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -31,7 +32,7 @@ public class DiscountProduct extends ParentEntity {
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
 	@JsonIgnore
-	private List<Product> products;
+	private Set<Product> products;
 	
 	public DiscountProduct() {
 		super();
@@ -45,12 +46,20 @@ public class DiscountProduct extends ParentEntity {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
+	
+	public void deleteProduct(UUID id) {
+		Product product = this.products.stream().filter(prd -> id.equals(prd.getId())).findAny().orElse(null);
 
-	public List<Product> getProducts() {
+		if (product != null) {
+			this.products.remove(product);
+		}
+	}
+
+	public Set<Product> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<Product> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
 

@@ -25,12 +25,15 @@ import com.hust.datn.dto.CategoryDTO;
 import com.hust.datn.dto.DatatableDTO;
 import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Category;
+import com.hust.datn.entity.DiscountProduct;
 import com.hust.datn.entity.Product;
 import com.hust.datn.entity.ProductOption;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.CategoryRepository;
+import com.hust.datn.repository.DiscountProductRepository;
 import com.hust.datn.repository.OptionRepository;
 import com.hust.datn.repository.ProductRepository;
+import com.hust.datn.service.CategoryService;
 import com.hust.datn.service.OptionService;
 import com.hust.datn.service.ProductService;
 import com.hust.datn.specification.ProductSpecification;
@@ -56,6 +59,12 @@ public class ProductManagementController {
 	@Autowired
 	OptionService optionService;
 	
+	@Autowired
+	DiscountProductRepository discountProductRepository;
+	
+	@Autowired
+	CategoryService categoryService;
+	
 	@GetMapping("/admin/product-management")
 	public String productManagement(Model model) {
 		List<Category> categories = categoryRepository.findAll();
@@ -63,18 +72,7 @@ public class ProductManagementController {
 		List<CategoryDTO> dtos = new ArrayList<>();
 		
 		for (Category category : categories) {
-			CategoryDTO dto = new CategoryDTO();
-			dto.categoryId = category.getId();
-			dto.categoryName = category.getName();
-			dto.categoryCode = category.getCategoryCode();
-			
-			List<ProductPreviewDTO> products = new ArrayList<>();
-			for (Product product : category.getProducts()) {
-				ProductPreviewDTO productPreviewDTO = ProductPreviewDTO.fromProduct(product);
-				productPreviewDTO.optionArray = optionService.optionsFromString(product.getOptions());
-				products.add(productPreviewDTO);
-			}
-			dto.products = products;
+			CategoryDTO dto = categoryService.getCategoryDTO(category, true);
 			
 			dtos.add(dto);
 		}
@@ -224,15 +222,17 @@ public class ProductManagementController {
 	
 	@PostMapping("/admin/product-management/delete")
 	@ResponseBody
-	public String deleteProduct(String id) {
+	public void deleteProduct(String id) {
 		UUID prdId = UUID.fromString(id);
+		Product product = productRepository.findById(prdId).get();
 		
-		Category category = productRepository.findById(prdId).get().getCategory();
+		for (DiscountProduct discount : product.getDiscounts()) {
+			discount.deleteProduct(prdId);
+			discountProductRepository.save(discount);
+		}
 		
+		Category category = product.getCategory();
 		category.deleteProduct(prdId);
-
 		categoryRepository.save(category);
-		
-		return "";
 	}
 }

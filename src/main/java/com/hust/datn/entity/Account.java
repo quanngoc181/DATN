@@ -2,7 +2,9 @@ package com.hust.datn.entity;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -46,7 +48,7 @@ public class Account extends ParentEntity {
 	private byte[] avatar;
 
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-	private List<ReceiveAddress> receiveAddresses;
+	private Set<ReceiveAddress> receiveAddresses;
 
 	public Account() {
 		super();
@@ -75,7 +77,7 @@ public class Account extends ParentEntity {
 				this.phone, this.address, true);
 		receiveAddress.setAccount(this);
 
-		this.receiveAddresses = new ArrayList<>();
+		this.receiveAddresses = new HashSet<>();
 		this.receiveAddresses.add(receiveAddress);
 	}
 
@@ -216,11 +218,11 @@ public class Account extends ParentEntity {
 		this.avatar = avatar;
 	}
 
-	public List<ReceiveAddress> getReceiveAddresses() {
+	public Set<ReceiveAddress> getReceiveAddresses() {
 		return receiveAddresses;
 	}
 
-	public void setReceiveAddresses(List<ReceiveAddress> receiveAddresses) {
+	public void setReceiveAddresses(Set<ReceiveAddress> receiveAddresses) {
 		this.receiveAddresses = receiveAddresses;
 	}
 }

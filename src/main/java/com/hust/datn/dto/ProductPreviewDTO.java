@@ -3,6 +3,7 @@ package com.hust.datn.dto;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.hust.datn.entity.DiscountProduct;
@@ -19,9 +20,9 @@ public class ProductPreviewDTO {
 	public String categoryName;
 	public String options;
 	public List<ProductOption> optionArray;
-	public List<DiscountProduct> discounts;
+	public Set<DiscountProduct> discounts;
 
-	public ProductPreviewDTO(UUID id, String name, String code, int cost, int discountCost, String image, String categoryName, String options, List<ProductOption> optionArray, List<DiscountProduct> discounts) {
+	public ProductPreviewDTO(UUID id, String name, String code, int cost, int discountCost, String image, String categoryName, String options, List<ProductOption> optionArray, Set<DiscountProduct> discounts) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -39,6 +40,13 @@ public class ProductPreviewDTO {
 		String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
 		
 		return new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), product.getDiscountCost(), avatar,
-				product.getCategory().getName(), product.getOptions() == null ? "" : product.getOptions(), new ArrayList<>(), product.getDiscounts());
+				product.getCategory().getName(), product.getOptions() == null ? "" : product.getOptions(), null, product.getDiscounts());
+	}
+	
+	public static ProductPreviewDTO fromProduct(Product product, List<ProductOption> optionArray) {
+		String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
+		
+		return new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), product.getDiscountCost(), avatar,
+				product.getCategory().getName(), product.getOptions() == null ? "" : product.getOptions(), optionArray, product.getDiscounts());
 	}
 }

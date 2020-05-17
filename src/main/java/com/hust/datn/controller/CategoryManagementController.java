@@ -1,7 +1,6 @@
 package com.hust.datn.controller;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,8 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hust.datn.dto.DatatableDTO;
 import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Category;
+import com.hust.datn.entity.DiscountProduct;
 import com.hust.datn.entity.Product;
 import com.hust.datn.repository.CategoryRepository;
+import com.hust.datn.repository.DiscountProductRepository;
 import com.hust.datn.service.CategoryService;
 import com.hust.datn.service.OptionService;
 import com.hust.datn.specification.CategorySpecification;
@@ -35,6 +36,9 @@ public class CategoryManagementController {
 	
 	@Autowired
 	OptionService optionService;
+	
+	@Autowired
+	DiscountProductRepository discountProductRepository;
 
 	@GetMapping("/admin/category-management")
 	public String categoryManagement() {
@@ -70,7 +74,7 @@ public class CategoryManagementController {
 	public String addCategory(String name) {
 		String code = categoryService.generateCategoryCode();
 
-		categoryRepository.save(new Category(null, name, code, new HashSet<>()));
+		categoryRepository.save(new Category(null, name, code));
 
 		return "redirect:/admin/category-management";
 	}
@@ -94,6 +98,13 @@ public class CategoryManagementController {
 		UUID ctgId = UUID.fromString(id);
 
 		Category category = categoryRepository.findById(ctgId).get();
+		
+		for (Product product : category.getProducts()) {
+			for (DiscountProduct discount : product.getDiscounts()) {
+				discount.deleteProduct(product.getId());
+				discountProductRepository.save(discount);
+			}
+		}
 
 		categoryRepository.delete(category);
 	}

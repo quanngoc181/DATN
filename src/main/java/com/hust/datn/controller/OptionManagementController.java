@@ -91,7 +91,7 @@ public class OptionManagementController {
 	@PostMapping("/admin/option-management/add")
 	@ResponseBody
 	public void addOption(String name) {
-		optionRepository.save(new ProductOption(null, name, new ArrayList<OptionItem>()));
+		optionRepository.save(new ProductOption(null, name));
 	}
 
 	@PostMapping("/admin/option-management/edit")
