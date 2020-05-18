@@ -10,6 +10,10 @@ body {
 	scroll-behavior: smooth;
 }
 
+.form-control:focus {
+	box-shadow: none;
+}
+
 section.content {
 	padding: 0 0.5rem;
 }
