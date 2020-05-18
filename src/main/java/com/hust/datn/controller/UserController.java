@@ -37,7 +37,11 @@ public class UserController {
 	StringUtilities stringUtilities;
 
 	@GetMapping("/user")
-	public String userIndex() {
+	public String userIndex(Authentication auth, Model model) {
+		Account account = accountRepository.findByUsername(auth.getName());
+		model.addAttribute("user", account);
+		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
+		model.addAttribute("avatar", avatar);
 		return "user/index";
 	}
 
@@ -80,7 +84,6 @@ public class UserController {
 	@GetMapping("/user/update-info")
 	public String updateInfo(Authentication auth, Model model) {
 		Account account = accountRepository.findByUsername(auth.getName());
-
 		model.addAttribute("account", account);
 		
 		String encodedAvatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));

@@ -9,14 +9,24 @@
 		<div class="container">
 			<a href="/" class="logo"></a>
 			<div class="left menus">
-				<a href="/product" class="menu">Thực Đơn</a>
+				<a href="/user/product" class="menu">Thực Đơn</a>
 				<a href="#" class="menu">Tin Tức</a>
 				<a href="#" class="menu">Cửa Hàng</a>
 			</div>
-			<div class="center menus"></div>
+			<div class="center menus">
+			</div>
 			<div class="right menus">
-				<a href="/login" class="menu">Đăng Nhập</a>
-				<a href="/register" class="menu">Đăng Ký</a>
+				<img th:src="${avatar}" class="avatar">
+				<div class="dropdown">
+					<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
+					<div class="dropdown-container">
+						<a href="/user/change-password">Đổi Mật Khẩu</a>
+						<a href="/user/update-info">Cập Nhật Thông Tin</a>
+						<form action="#" th:action="@{/logout}" method="post">
+							<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -8,6 +8,10 @@ $(function() {
 	$('input[name="categories"], input[name="discount"]').on('change', function() {
 		fetchProduct();
 	});
+	
+	$(document).on('click', '.add-item', function() {
+		notify('info', 'Vui lòng đăng nhập');
+	});
 });
 
 function fetchProduct() {
@@ -20,7 +24,7 @@ function fetchProduct() {
 	});
 	if(categories.length != 0) categories = categories.slice(0, -1);
 	data.categories = categories;
-	console.log(data);
+
 	$.ajax({
 		url : "/product/fetch-product",
 		data: data,

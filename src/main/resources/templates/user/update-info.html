@@ -5,6 +5,32 @@
 <link rel="stylesheet" href="/css/update-info.css" />
 </head>
 <body>
+	<div class="my-header">
+		<div class="container">
+			<a href="/" class="logo"></a>
+			<div class="left menus">
+				<a href="/user/product" class="menu">Thực Đơn</a>
+				<a href="#" class="menu">Tin Tức</a>
+				<a href="#" class="menu">Cửa Hàng</a>
+			</div>
+			<div class="center menus">
+			</div>
+			<div class="right menus">
+				<img th:src="${avatar}" class="avatar">
+				<div class="dropdown">
+					<a href="#" class="menu dropdown-link" th:text="${account.lastName}"></a>
+					<div class="dropdown-container">
+						<a href="/user/change-password">Đổi Mật Khẩu</a>
+						<a href="/user/update-info">Cập Nhật Thông Tin</a>
+						<form action="#" th:action="@{/logout}" method="post">
+							<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div class="container">
 		<div class="content-header">
 			<h1>Cập nhật thông tin</h1>

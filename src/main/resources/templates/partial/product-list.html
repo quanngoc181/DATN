@@ -6,7 +6,7 @@
 		<div class="card-body">
 			<div class="product-preview" th:each="product: ${category.products}">
 				<div class="control-group">
-					<span class="add-item"></span>
+					<span title="Thêm vào giỏ hàng" class="add-item"></span>
 				</div>
 				<div class="image-container">
 					<img th:src="${product.image}" alt="product" />
