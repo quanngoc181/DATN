@@ -19,6 +19,7 @@ import com.hust.datn.dto.DatatableDTO;
 import com.hust.datn.dto.OptionItemDTO;
 import com.hust.datn.entity.OptionItem;
 import com.hust.datn.entity.ProductOption;
+import com.hust.datn.enums.OptionType;
 import com.hust.datn.repository.ItemRepository;
 import com.hust.datn.repository.OptionRepository;
 import com.hust.datn.specification.ItemSpecification;
@@ -90,17 +91,18 @@ public class OptionManagementController {
 
 	@PostMapping("/admin/option-management/add")
 	@ResponseBody
-	public void addOption(String name) {
-		optionRepository.save(new ProductOption(null, name));
+	public void addOption(String name, int type) {
+		optionRepository.save(new ProductOption(null, name, OptionType.values()[type]));
 	}
 
 	@PostMapping("/admin/option-management/edit")
 	@ResponseBody
-	public void editOption(String id, String name) {
+	public void editOption(String id, String name, int type) {
 		Optional<ProductOption> optional = optionRepository.findById(UUID.fromString(id));
 		if (optional.isPresent()) {
 			ProductOption option = optional.get();
 			option.setName(name);
+			option.setType(OptionType.values()[type]);
 			optionRepository.save(option);
 		}
 	}

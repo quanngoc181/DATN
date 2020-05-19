@@ -12,11 +12,15 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
 
+import com.hust.datn.enums.OptionType;
+
 @Entity
 @Table(name = "PRODUCT_OPTION")
 public class ProductOption extends ParentEntity {
 	@Nationalized
 	private String name;
+	
+	private OptionType type;
 	
 	@OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	private Set<OptionItem> items;
@@ -25,11 +29,24 @@ public class ProductOption extends ParentEntity {
 		super();
 	}
 
-	public ProductOption(UUID id, String name) {
+	public ProductOption(UUID id, String name, OptionType type) {
 		super.setId(id);
 		this.name = name;
+		this.type = type;
 	}
 	
+	public int getIntType() {
+		return this.type.ordinal();
+	}
+	
+	public OptionType getType() {
+		return type;
+	}
+
+	public void setType(OptionType type) {
+		this.type = type;
+	}
+
 	public void addItem(OptionItem item) {
 		item.setOption(this);
 		this.items.add(item);

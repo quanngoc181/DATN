@@ -1,0 +1,51 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<form>
+		<div class="modal-header">
+			<h4 class="modal-title">Thêm vào giỏ</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body product-detail" th:attr="data-id=${product.id}">
+			<div class="product">
+				<div class="product-preview big-image">
+					<div class="image-container">
+						<img th:src="${product.image}" alt="product" />
+					</div>
+					<div class="content">
+						<h5 class="name" th:text="${product.name + ' - ' + product.productCode}"></h5>
+						<p class="cost">
+							<span th:text="${product.cost}"></span> VNĐ
+						</p>
+						<p class="discountCost">
+							<span th:text="${product.discountCost}"></span> VNĐ
+						</p>
+						<div class="counting">
+							<div class="decrease"></div>
+							<div class="amount" data-value="1">1</div>
+							<div class="increase"></div>
+							<div class="total-cost">
+								<span class="total-cost-number" th:text="${product.discountCost}"></span> VNĐ
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="detail js-custom-scrollbar">
+				<div class="form-group row" th:each="option: ${product.optionArray}">
+					<label class="col-sm-3 col-form-label" th:text="${option.name}"></label>
+					<div class="col-sm-9">
+						<div class="icheck-primary" th:each="item: ${option.items}">
+							<input th:name="${option.id}" th:type="${option.getIntType() == 0 ? 'radio' : 'checkbox'}" th:id="${item.id}" th:value="${item.id}">
+							<label th:for="${item.id}" th:text="${item.name}"></label>
+							<span th:if="${item.cost != 0 }" th:text="'+ ' + ${item.cost} + ' VNĐ'"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="submit" class="btn btn-primary" id="add-to-cart">Thêm</button>
+		</div>
+	</form>
+</th:block>

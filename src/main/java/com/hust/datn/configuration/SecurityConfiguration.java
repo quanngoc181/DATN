@@ -45,9 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorize -> authorize
-//				.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/adminlte/**", "/favicon.ico", "/",
-//						"/register", "/product").permitAll()
-				.antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/user/**").hasRole("USER"))
+				.antMatchers("/css/**", "/images/**", "/js/**", "/vendors/**", "/adminlte/**", "/favicon.ico", "/", "/register", "/product/**").permitAll()
+				.antMatchers("/admin/**").hasRole("ADMIN")
+				.antMatchers("/user/**").hasRole("USER")
+				.anyRequest().denyAll())
 				.formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/user/login-success", true))
 				.rememberMe(remember -> remember.tokenRepository(tokenRepository()));
 	}

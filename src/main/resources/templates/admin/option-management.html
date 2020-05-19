@@ -33,6 +33,7 @@
 									<thead>
 										<tr>
 											<th>Tên tùy chọn</th>
+											<th>Loại tùy chọn</th>
 											<th></th>
 											<th></th>
 											<th></th>
@@ -92,6 +93,19 @@
 								<input type="text" class="form-control" id="add-option-name">
 							</div>
 						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label">Loại tùy chọn</label>
+							<div class="col-sm-9">
+								<div class="icheck-primary">
+									<input type="radio" class="add-option-type" name="type" id="single" value="0" checked>
+									<label for="single">Chọn một</label>
+								</div>
+								<div class="icheck-primary">
+									<input type="radio" class="add-option-type" name="type" id="multiple" value="1">
+									<label for="multiple">Chọn nhiều</label>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary" id="add-option-submit">Thêm</button>
@@ -100,7 +114,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="edit-option-modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -119,6 +133,19 @@
 								<input type="text" class="form-control" id="edit-option-name">
 							</div>
 						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label">Loại tùy chọn</label>
+							<div class="col-sm-9">
+								<div class="icheck-primary">
+									<input type="radio" class="edit-option-type" name="type" id="single1" value="0">
+									<label for="single1">Chọn một</label>
+								</div>
+								<div class="icheck-primary">
+									<input type="radio" class="edit-option-type" name="type" id="multiple1" value="1">
+									<label for="multiple1">Chọn nhiều</label>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary" id="edit-option-submit">Sửa</button>
@@ -127,7 +154,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="add-item-modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -160,7 +187,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="edit-item-modal">
 		<div class="modal-dialog">
 			<div class="modal-content">

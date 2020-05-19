@@ -31,6 +31,7 @@ public class Product extends ParentEntity {
 	@Column(columnDefinition = "varbinary(MAX)")
 	private byte[] image;
 	
+	@Column(columnDefinition = "varchar(MAX)")
 	private String options;
 	
 	@ManyToOne

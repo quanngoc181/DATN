@@ -11,6 +11,9 @@ $(function() {
 			data : 'name',
 			name : 'name'
 		}, {
+			data : 'type',
+			name : 'type'
+		}, {
 			orderable : false,
 			width : "45px",
 			className : "dt-center dt-vertical-align",
@@ -77,12 +80,14 @@ $(function() {
 		e.preventDefault();
 		let value = $('#add-option-name').val().trim();
 		if(value.length == 0) return;
+		let type = $('.add-option-type:checked').val();
 		
 		$.ajax({
 			url : "/admin/option-management/add",
 			method: 'post',
 			data: {
-				name: value
+				name: value,
+				type: type
 			},
 			success : function() {
 				$('#add-option-modal').modal('hide');
@@ -122,9 +127,13 @@ $(function() {
 		let row = $(this).closest('tr');
 		let id = optionTable.row(row).data().id;
 		let name = optionTable.row(row).data().name;
-		
+		let type = optionTable.row(row).data().type;
+		let inttype = type == 'SINGLE' ? 0 : 1;
+
 		$('#edit-option-id').val(id);
 		$('#edit-option-name').val(name);
+		$('.edit-option-type').removeAttr('checked');
+		$('.edit-option-type').filter('[value="'+inttype+'"]').prop('checked', true);
 		$('#edit-option-modal').modal('show');
 	});
 	
@@ -133,13 +142,15 @@ $(function() {
 		let id = $('#edit-option-id').val();
 		let value = $('#edit-option-name').val().trim();
 		if(value.length == 0) return;
+		let type = $('.edit-option-type:checked').val();
 		
 		$.ajax({
 			url : "/admin/option-management/edit",
 			method: 'post',
 			data: {
 				id: id,
-				name: value
+				name: value,
+				type: type
 			},
 			success : function() {
 				$('#edit-option-modal').modal('hide');

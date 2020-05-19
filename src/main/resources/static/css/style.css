@@ -226,6 +226,11 @@ section.content {
 	width: 100%;
 }
 
+.my-header .cart-number {
+	vertical-align: text-bottom;
+    margin-left: 5px;
+}
+
 /* ::-webkit-scrollbar { */
 /* 	width: 10px; */
 /* 	height: 10px; */

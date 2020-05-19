@@ -57,6 +57,10 @@ function initDatePicker() {
   });
 }
 
+function initScrollbar() {
+	$('.js-custom-scrollbar').overlayScrollbars({ });
+}
+
 function confirmDelete(callback, message = 'Bạn có chắc xóa muốn xóa?') {
 	Swal.fire({
 	  title: 'Xác nhận xóa',
