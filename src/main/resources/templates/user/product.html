@@ -26,62 +26,69 @@
 						</form>
 					</div>
 				</div>
-				<a href="#" class="menu">Giỏ hàng<span class="badge badge-info right cart-number">6</span></a>
+				<a href="/user/cart" class="menu">
+					Giỏ hàng
+					<span class="badge badge-info right cart-number">6</span>
+				</a>
 			</div>
 		</div>
 	</div>
 
-	<div class="container mt-4">
-		<div class="row">
-			<div class="col-3">
-				<div class="card">
-					<div class="card-header">
-						<h3 class="card-title">Filter</h3>
-					</div>
-					<div class="card-body">
-						<form id="search-form">
-							<div class="form-group">
-								<label for="keyword">Tìm kiếm</label>
-								<input type="text" class="form-control" name="keyword" id="keyword">
-							</div>
+	<div class="container">
+		<div class="content-header">
+			<h1>Danh mục sản phẩm</h1>
+		</div>
 
-							<hr>
-
-							<div class="form-group">
-								<label>Danh mục</label>
-								<div class="icheck-primary" th:each="category: ${categories}">
-									<input type="checkbox" name="categories" th:id="${category.id}" th:value="${category.id}" checked>
-									<label th:for="${category.id}" th:text="${category.name}"></label>
+		<section class="content">
+			<div class="row">
+				<div class="col-3">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Filter</h3>
+						</div>
+						<div class="card-body">
+							<form id="search-form">
+								<div class="form-group">
+									<label for="keyword">Tìm kiếm</label>
+									<input type="text" class="form-control" name="keyword" id="keyword">
 								</div>
-							</div>
 
-							<hr>
+								<hr>
 
-							<div class="form-group">
-								<label>Khuyến mãi</label>
-								<div class="icheck-primary">
-									<input type="radio" id="all" name="discount" value="all" checked>
-									<label for="all">Tất cả sản phẩm</label>
+								<div class="form-group">
+									<label>Danh mục</label>
+									<div class="icheck-primary" th:each="category: ${categories}">
+										<input type="checkbox" name="categories" th:id="${category.id}" th:value="${category.id}" checked>
+										<label th:for="${category.id}" th:text="${category.name}"></label>
+									</div>
 								</div>
-								<div class="icheck-primary">
-									<input type="radio" id="discount" name="discount" value="discount">
-									<label for="discount">Sản phẩm khuyến mãi</label>
+
+								<hr>
+
+								<div class="form-group">
+									<label>Khuyến mãi</label>
+									<div class="icheck-primary">
+										<input type="radio" id="all" name="discount" value="all" checked>
+										<label for="all">Tất cả sản phẩm</label>
+									</div>
+									<div class="icheck-primary">
+										<input type="radio" id="discount" name="discount" value="discount">
+										<label for="discount">Sản phẩm khuyến mãi</label>
+									</div>
 								</div>
-							</div>
-						</form>
+							</form>
+						</div>
 					</div>
 				</div>
+				<div class="col-6" id="product-region"></div>
+				<div class="col-3"></div>
 			</div>
-			<div class="col-6" id="product-region"></div>
-			<div class="col-3"></div>
-		</div>
+		</section>
 	</div>
 
 	<div class="modal fade" id="add-to-cart-modal">
 		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				
-			</div>
+			<div class="modal-content"></div>
 		</div>
 	</div>
 
