@@ -26,9 +26,9 @@
 						</form>
 					</div>
 				</div>
-				<a href="#" class="menu">
+				<a href="/user/cart" class="menu">
 					Giỏ hàng
-					<span class="badge badge-info right cart-number">6</span>
+					<span class="badge badge-info right cart-number">0</span>
 				</a>
 			</div>
 		</div>
@@ -66,12 +66,21 @@
 							</div>
 						</div>
 					</div>
+					
+					<hr>
+					
+					<p class="total-cart">Tổng tiền: <span class="amount">0</span> VNĐ</p>
+					
+					<div class="text-center">
+						<button class="btn btn-primary">Đặt hàng</button>
+					</div>
 				</div>
 			</div>
 		</section>
 	</div>
 
 	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/cart-number.js"></script>
 	<script src="/js/cart.js"></script>
 </body>
 </html>

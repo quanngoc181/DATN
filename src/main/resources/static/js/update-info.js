@@ -1,4 +1,6 @@
 $(function() {
+	getCartNumber();
+	
 	$('.avatar-overlay').on('click', function() {
 		$("#avatar-input").click();
 	});

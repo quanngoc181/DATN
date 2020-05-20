@@ -9,4 +9,5 @@ import com.hust.datn.entity.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, UUID> {
 	List<Cart> findByUserId(UUID id);
+	int countByUserId(UUID id);
 }

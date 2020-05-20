@@ -55,4 +55,37 @@ public class CartController {
 		UUID cartId = UUID.fromString(id);
 		cartRepository.deleteById(cartId);
 	}
+	
+	@GetMapping("/user/cart/count")
+	@ResponseBody
+	public int countCart(Authentication auth) {
+		UUID userId = accountRepository.findByUsername(auth.getName()).getId();
+		return cartRepository.countByUserId(userId);
+	}
+	
+	@PostMapping("/user/cart/update-amount")
+	@ResponseBody
+	public int updateAmount(String id, int amount) {
+		Cart cart = cartRepository.findById(UUID.fromString(id)).get();
+		cart.setAmount(amount);
+		
+		cartRepository.save(cart);
+		
+		return cartService.getDetailCost(cart);
+	}
+	
+	@GetMapping("/user/cart/total-cost")
+	@ResponseBody
+	public int totalCost(Authentication auth) {
+		int total = 0;
+		
+		UUID userId = accountRepository.findByUsername(auth.getName()).getId();
+		List<Cart> carts = cartRepository.findByUserId(userId);
+		
+		for (Cart cart : carts) {
+			total += cartService.getDetailCost(cart);
+		}
+		
+		return total;
+	}
 }

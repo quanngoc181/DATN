@@ -27,6 +27,10 @@
 						</form>
 					</div>
 				</div>
+				<a href="/user/cart" class="menu">
+					Giỏ hàng
+					<span class="badge badge-info right cart-number">0</span>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -215,6 +219,7 @@
 	</div>
 
 	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/cart-number.js"></script>
 	<script src="/js/update-info.js"></script>
 </body>
 </html>

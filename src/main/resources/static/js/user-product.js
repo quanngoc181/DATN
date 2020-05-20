@@ -1,5 +1,6 @@
 $(function() {
 	fetchProduct();
+	getCartNumber();
 	
 	$("#keyword").on('keyup', debounce(function() {
 		fetchProduct();
@@ -69,6 +70,7 @@ $(function() {
 			success : function(data) {
 				$('#add-to-cart-modal').modal('hide');
 				notify('success', 'Thành công');
+				getCartNumber();
 			},
 			error : function(err) {
 				notify('error', err.responseJSON.message);

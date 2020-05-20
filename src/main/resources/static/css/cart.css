@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+.total-cart {
+	font-weight: bold;
+    font-size: 22px;
+    text-align: center;
+}
+
 .product-preview {
 	flex-grow: 1;
 	display: flex;
