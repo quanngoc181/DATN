@@ -2,31 +2,56 @@ package com.hust.datn.command;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.hust.datn.exception.InternalException;
+import com.hust.datn.validator.ValidDate;
+import com.hust.datn.validator.ValidPhone;
+import com.hust.datn.validator.ValidUsername;
+
 public class RegisterAccountCommand {
+	@NotBlank(message = "Họ đệm không hợp lệ")
 	public String firstName;
+	
+	@NotBlank(message = "Tên không hợp lệ")
 	public String lastName;
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	public LocalDate birthday;
+	
+	@ValidDate(message = "Ngày sinh không hợp lệ")
+	public String birthday;
+	
 	public int gender;
+	
+	@ValidPhone(message = "Số điện thoại không hợp lệ")
 	public String phone;
+	
+	@NotBlank(message = "Vui lòng điền email")
+	@Email(message = "Email không hợp lệ")
 	public String email;
+	
+	@NotBlank(message = "Địa chỉ không hợp lệ")
 	public String address;
+	
+	@ValidUsername(message = "Tài khoản ít nhất 8 kí tự (chữ, số, gạch dưới)")
 	public String username;
+	@ValidUsername(message = "Mật khẩu ít nhất 8 kí tự (chữ, số, gạch dưới)")
 	public String password;
 	public String confirmPassword;
 	
-	public void validate() throws Exception {
+	public void validate() throws InternalException {
 		if (!password.equals(confirmPassword))
-			throw new Exception("Mật khẩu nhập lại không trùng khớp");
+			throw new InternalException("Mật khẩu nhập lại không trùng khớp");
 	}
 	
 	public RegisterAccountCommand() {
 		super();
 	}
 
-	public RegisterAccountCommand(String firstName, String lastName, LocalDate birthday, int gender, String phone,
+	public RegisterAccountCommand(String firstName, String lastName, String birthday, int gender, String phone,
 			String email, String address, String username, String password, String confirmPassword) {
 		super();
 		this.firstName = firstName;
@@ -57,11 +82,11 @@ public class RegisterAccountCommand {
 		this.lastName = lastName;
 	}
 
-	public LocalDate getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(LocalDate birthday) {
+	public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 

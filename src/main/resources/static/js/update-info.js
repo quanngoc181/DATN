@@ -38,7 +38,7 @@ $(function() {
 				notify('success', 'Thành công');
 			},
 			error : function() {
-
+				notify('error', err.responseJSON.message);
 			}
 		});
 	});

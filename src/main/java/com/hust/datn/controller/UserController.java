@@ -4,23 +4,31 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.hust.datn.command.ChangePasswordCommand;
 import com.hust.datn.command.RegisterAccountCommand;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.ReceiveAddress;
+import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
+import com.hust.datn.utilities.DateUtilities;
 import com.hust.datn.utilities.StringUtilities;
+import com.hust.datn.validator.ValidUsername;
 
 @Controller
 public class UserController {
@@ -59,26 +67,19 @@ public class UserController {
 	}
 
 	@PostMapping("/user/change-password")
-	public String changePassword1(Authentication auth, String oldpass, String newpass, String confirmpass,
-			RedirectAttributes ra) {
-		String password = userDetailsManager.loadUserByUsername(auth.getName()).getPassword();
-
-		if (newpass.equals(confirmpass)) {
-			if (!oldpass.equals(newpass)) {
-				if (passwordEncoder.matches(oldpass, password)) {
-					userDetailsManager.changePassword(password, passwordEncoder.encode(newpass));
-					ra.addFlashAttribute("message", "Đổi mật khẩu thành công");
-				} else {
-					ra.addFlashAttribute("message", "Sai mật khẩu");
-				}
-			} else {
-				ra.addFlashAttribute("message", "Mật khẩu mới không được trùng mật khẩu cũ");
-			}
-		} else {
-			ra.addFlashAttribute("message", "Mật khẩu nhập lại không khớp");
+	@ResponseBody
+	public void changePassword1(Authentication auth, @Valid ChangePasswordCommand command, BindingResult result) throws InternalException {
+		if(result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
 		}
-
-		return "redirect:/user/change-password";
+		
+		String password = userDetailsManager.loadUserByUsername(auth.getName()).getPassword();
+		if (!passwordEncoder.matches(command.oldpass, password))
+			throw new InternalException("Sai mật khẩu");
+		
+		command.validate();
+		
+		userDetailsManager.changePassword(password, passwordEncoder.encode(command.newpass));
 	}
 
 	@GetMapping("/user/update-info")
@@ -102,7 +103,7 @@ public class UserController {
 		Account account = accountRepository.findByUsername(username);
 		account.setFirstName(command.firstName);
 		account.setLastName(command.lastName);
-		account.setBirthday(command.birthday);
+		account.setBirthday(DateUtilities.parseDate(command.birthday));
 		account.setGender(command.gender);
 
 		accountRepository.save(account);
@@ -139,9 +140,7 @@ public class UserController {
 		try {
 			byte[] bytes = file.getBytes();
 
-			String username = auth.getName();
-
-			Account account = accountRepository.findByUsername(username);
+			Account account = accountRepository.findByUsername(auth.getName());
 			account.setAvatar(bytes);
 
 			accountRepository.save(account);

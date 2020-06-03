@@ -15,7 +15,7 @@
 			<div class="card-body register-card-body">
 				<p class="login-box-msg">Đăng ký tài khoản</p>
 
-				<form th:action="@{/register}" method="post">
+				<form id="register-form">
 					<p th:if="${message}" th:text="${message}" class="form-text text-muted"></p>
 				
 					<div class="input-group mb-3">
@@ -92,7 +92,7 @@
 							<div class="input-group-text"><span class="fas fa-lock"></span></div>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary btn-block mb-3">Đăng ký</button>
+					<button type="submit" id="register" class="btn btn-primary btn-block mb-3">Đăng ký</button>
 				</form>
 
 				<a href="/login">Tới trang đăng nhập</a>

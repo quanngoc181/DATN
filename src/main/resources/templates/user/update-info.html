@@ -47,7 +47,7 @@
 						<div class="card-body box-profile">
 							<div class="text-center position-relative">
 								<img class="profile-user-img img-fluid img-circle" th:src="${avatar}" alt="Avatar" style="height: 100px; object-fit: cover;">
-								<div class="avatar-overlay">Upload</div>
+								<div class="avatar-overlay">Thay đổi</div>
 								<div th:if="${avatarmessage}" th:text="${avatarmessage}"></div>
 
 								<form th:action="@{/user/update-info/avatar}" method="post" id="avatar-form" enctype="multipart/form-data" style="position: fixed; top: -1000px;">
