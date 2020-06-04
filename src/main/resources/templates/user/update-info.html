@@ -93,7 +93,7 @@
 								</div>
 
 								<div class="card-body">
-									<form role="form" th:action="@{/user/update-info/basic}" method="post">
+									<form id="update-basic-form">
 										<p th:if="${basicmessage}" th:text="${basicmessage}" class="form-text text-muted"></p>
 
 										<div class="form-group">
@@ -120,7 +120,7 @@
 											</div>
 										</div>
 
-										<button type="submit" class="btn btn-primary">Cập nhật</button>
+										<button type="submit" class="btn btn-primary"  id="update-basic-submit">Cập nhật</button>
 									</form>
 								</div>
 							</div>
@@ -134,7 +134,7 @@
 								<div class="card-body">
 									<p th:if="${contactmessage}" th:text="${contactmessage}" class="form-text text-muted"></p>
 
-									<form role="form" th:action="@{/user/update-info/contact}" method="post">
+									<form id="update-contact-form" method="post">
 										<div class="form-group">
 											<label for="address">Địa chỉ</label>
 											<input th:value="${account.address}" type="text" class="form-control" id="address" name="address">
@@ -148,7 +148,7 @@
 											<input th:value="${account.email}" type="text" class="form-control" id="email" name="email">
 										</div>
 
-										<button type="submit" class="btn btn-primary">Cập nhật</button>
+										<button type="submit" class="btn btn-primary" id="update-contact-submit">Cập nhật</button>
 									</form>
 								</div>
 							</div>

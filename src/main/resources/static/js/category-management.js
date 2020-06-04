@@ -1,4 +1,6 @@
 $(function() {
+	fetchInfo();
+	
 	let categoryTable = $('#category-datatable').DataTable({
 		"serverSide" : true,
 		"ajax" : {

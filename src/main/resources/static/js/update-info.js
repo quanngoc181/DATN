@@ -8,6 +8,36 @@ $(function() {
 	$("#avatar-input").on('change', function() {
 		$("#avatar-form").submit();
 	});
+	
+	$('#update-basic-submit').on('click', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : "/user/update-info/basic",
+			method: 'post',
+			data: objectifyForm('#update-basic-form'),
+			success : function(data) {
+				notify('success', "Thành công");
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
+	
+	$('#update-contact-submit').on('click', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : "/user/update-info/contact",
+			method: 'post',
+			data: objectifyForm('#update-contact-form'),
+			success : function(data) {
+				notify('success', "Thành công");
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
 
 	$('#add-address').on('click', function() {
 		$.ajax({

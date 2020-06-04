@@ -1,4 +1,6 @@
 $(function() {
+	fetchInfo();
+	
 	let optionTable = $('#option-datatable').DataTable({
 		"serverSide" : true,
 		"ajax" : {

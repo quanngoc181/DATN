@@ -1,4 +1,6 @@
 $(function() {
+	fetchInfo();
+	
 	let productTable = $('#product-datatable').DataTable({
 		"serverSide" : true,
 		"ajax" : {

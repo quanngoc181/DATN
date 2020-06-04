@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.hust.datn.command.BasicInfoCommand;
 import com.hust.datn.command.ChangePasswordCommand;
+import com.hust.datn.command.ContactInfoCommand;
 import com.hust.datn.command.RegisterAccountCommand;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.ReceiveAddress;
@@ -97,36 +99,38 @@ public class UserController {
 	}
 
 	@PostMapping("/user/update-info/basic")
-	public String updateInfoBasic(Authentication auth, RegisterAccountCommand command, RedirectAttributes ra) {
+	@ResponseBody
+	public void updateInfoBasic(Authentication auth, @Valid BasicInfoCommand command, BindingResult result) throws InternalException {
+		if(result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
 		String username = auth.getName();
-
 		Account account = accountRepository.findByUsername(username);
+		
 		account.setFirstName(command.firstName);
 		account.setLastName(command.lastName);
 		account.setBirthday(DateUtilities.parseDate(command.birthday));
 		account.setGender(command.gender);
 
 		accountRepository.save(account);
-
-		ra.addFlashAttribute("basicmessage", "Cập nhật thông tin thành công");
-
-		return "redirect:/user/update-info";
 	}
 
 	@PostMapping("/user/update-info/contact")
-	public String updateInfoContact(Authentication auth, RegisterAccountCommand command, RedirectAttributes ra) {
+	@ResponseBody
+	public void updateInfoContact(Authentication auth, @Valid ContactInfoCommand command, BindingResult result) throws InternalException {
+		if(result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
 		String username = auth.getName();
-
 		Account account = accountRepository.findByUsername(username);
+		
 		account.setAddress(command.address);
 		account.setPhone(command.phone);
 		account.setEmail(command.email);
 
 		accountRepository.save(account);
-
-		ra.addFlashAttribute("contactmessage", "Cập nhật thông tin thành công");
-
-		return "redirect:/user/update-info";
 	}
 
 	@PostMapping("/user/update-info/avatar")

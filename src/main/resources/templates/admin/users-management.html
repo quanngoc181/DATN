@@ -12,22 +12,22 @@
 
 		<div class="content-wrapper">
 			<section class="content-header">
-				<h1>Users Management</h1>
+				<h1>Quản lý tài khoản</h1>
 			</section>
 
 			<section class="content">
 
 				<div class="card">
 					<div class="card-header">
-						<h3 class="card-title">Users</h3>
+						<h3 class="card-title">Tài khoản</h3>
 					</div>
 					<div class="card-body">
 						<table id="users-datatable" class="table table-bordered js-datatable">
 							<thead>
 								<tr>
-									<th>Username</th>
+									<th>Tên tài khoản</th>
 									<th>Admin</th>
-									<th>Enabled</th>
+									<th>Trạng thái</th>
 									<th></th>
 								</tr>
 							</thead>
@@ -46,6 +46,7 @@
 	</div>
 
 	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/admin-nav.js"></script>
 	<script src="/js/users-management.js"></script>
 </body>
 </html>

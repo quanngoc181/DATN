@@ -38,8 +38,10 @@ public class RegisterAccountCommand {
 	
 	@ValidUsername(message = "Tài khoản ít nhất 8 kí tự (chữ, số, gạch dưới)")
 	public String username;
+	
 	@ValidUsername(message = "Mật khẩu ít nhất 8 kí tự (chữ, số, gạch dưới)")
 	public String password;
+	
 	public String confirmPassword;
 	
 	public void validate() throws InternalException {

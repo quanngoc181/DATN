@@ -1,5 +1,6 @@
 $(function() {
-	// $('#users-datatable').DataTable();
+	fetchInfo();
+	
 	let table = $('#users-datatable').DataTable({
 		"serverSide" : true,
 		"ajax" : {
@@ -28,7 +29,7 @@ $(function() {
 		}, {
 			data : 'enabled',
 			name : 'enabled',
-			width: "45px",
+			width: "80px",
 			className: "dt-center dt-vertical-align",
 			render : function(data, type, row, meta) {
 				if(!row.isAdmin) {

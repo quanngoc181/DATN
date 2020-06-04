@@ -52,8 +52,6 @@ public class ReceiveAddressController {
 		account.setDefaultAddress(UUID.fromString(id));
 		
 		accountRepository.save(account);
-		
-		return;
 	}
 	
 	@PostMapping("/user/receive-address/delete")

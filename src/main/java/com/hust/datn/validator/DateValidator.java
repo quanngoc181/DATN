@@ -15,14 +15,7 @@ public class DateValidator implements ConstraintValidator<ValidDate, String> {
 
   @Override
   public boolean isValid(String date, ConstraintValidatorContext cxt) {
-	  DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-      sdf.setLenient(false);
-      try {
-          sdf.parse(date);
-      } catch (ParseException e) {
-          return false;
-      }
-      return true;
+      return date != null && date.matches("^(?:(?:31(\\/|-|\\.)(?:0?[13578]|1[02]))\\1|(?:(?:29|30)(\\/|-|\\.)(?:0?[13-9]|1[0-2])\\2))(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$|^(?:29(\\/|-|\\.)0?2\\3(?:(?:(?:1[6-9]|[2-9]\\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\\d|2[0-8])(\\/|-|\\.)(?:(?:0?[1-9])|(?:1[0-2]))\\4(?:(?:1[6-9]|[2-9]\\d)?\\d{2})$") && (date.length() == 10);
   }
 
 }

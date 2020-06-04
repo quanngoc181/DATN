@@ -1,4 +1,6 @@
 $(function() {
+	fetchInfo();
+	
 	let discountTable = $('#discount-datatable').DataTable({
 		"serverSide" : true,
 		"ajax" : {
