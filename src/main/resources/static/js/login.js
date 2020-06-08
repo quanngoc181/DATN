@@ -30,4 +30,21 @@ $(function(){
 			}
 		});
 	});
+	
+	$('#forgot-password-submit').on('click', function(e) {
+		e.preventDefault();
+		let username = $('#username').val();
+		if(username.trim().length == 0) return;
+		$.ajax({
+			url : "/forgot-password",
+			method: 'post',
+			data: { username: username },
+			success : function(data) {
+				console.log(data);
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
 });

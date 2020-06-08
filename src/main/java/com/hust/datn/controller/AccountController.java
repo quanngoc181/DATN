@@ -3,6 +3,7 @@ package com.hust.datn.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import com.hust.datn.entity.Account;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
 import com.hust.datn.service.AccountService;
+import com.hust.datn.service.EmailService;
 import com.hust.datn.utilities.DateUtilities;
 
 @Controller
@@ -36,6 +38,9 @@ public class AccountController {
 
 	@Autowired
 	AccountService accountService;
+	
+	@Autowired
+	EmailService emailService;
 
 	@GetMapping("/register")
 	public String register() {
@@ -45,7 +50,7 @@ public class AccountController {
 	@PostMapping("/register")
 	@ResponseBody
 	public void register1(@Valid RegisterAccountCommand command, BindingResult result) throws InternalException {
-		if(result.hasErrors()) {
+		if (result.hasErrors()) {
 			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
 		}
 
@@ -54,14 +59,32 @@ public class AccountController {
 		if (userDetailsManager.userExists(command.username))
 			throw new InternalException("Tài khoản này đã tồn tại");
 
-		UserDetails user = User.builder().username(command.username)
-				.password(passwordEncoder.encode(command.password)).roles("USER").build();
+		UserDetails user = User.builder().username(command.username).password(passwordEncoder.encode(command.password))
+				.roles("USER").build();
 		userDetailsManager.createUser(user);
 
 		int accNum = accountService.generateAccountNumber();
 		Account account = new Account(null, command.username, command.firstName, command.lastName, accNum,
-				DateUtilities.parseDate(command.birthday), command.gender, command.phone, command.email, command.address, 0, null);
+				DateUtilities.parseDate(command.birthday), command.gender, command.phone, command.email,
+				command.address, 0, null);
 		account.initReceiveAddress();
 		accountRepository.save(account);
+	}
+
+	@GetMapping("/forgot-password")
+	public String forgotPassword() {
+		return "forgot-password";
+	}
+
+	@PostMapping("/forgot-password")
+	@ResponseBody
+	public String forgotPassword1(String username) {
+		try {
+			emailService.sendResetPasswordEmail("quanvuongngoc98@gmail.com");
+		} catch (MailException ex) {
+			System.err.println(ex.getMessage());
+		}
+
+		return "Thanh cong";
 	}
 }
