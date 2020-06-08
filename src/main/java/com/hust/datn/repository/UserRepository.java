@@ -10,4 +10,5 @@ import com.hust.datn.entity.Users;
 public interface UserRepository extends JpaRepository<Users, String> {
 	int countByUsernameContains(String key);
 	List<Users> findByUsernameContains(String key, Pageable pageable);
+	Users findByUsername(String username);
 }

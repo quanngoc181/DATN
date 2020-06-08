@@ -40,7 +40,23 @@ $(function(){
 			method: 'post',
 			data: { username: username },
 			success : function(data) {
-				console.log(data);
+				notify('info', data);
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
+	
+	$('#reset-password-submit').on('click', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : "/reset-password",
+			method: 'post',
+			data: objectifyForm('#reset-password-form'),
+			success : function(data) {
+				$("#reset-password-form").trigger("reset");
+				notify('success', 'Thành công');
 			},
 			error : function(err) {
 				notify('error', err.responseJSON.message);
