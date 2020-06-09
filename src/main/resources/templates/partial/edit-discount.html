@@ -29,7 +29,7 @@
 								</div>
 								<div class="icheck-primary d-inline">
 									<input type="radio" id="modal-unit1" name="unit" value="1" th:checked="${discount.unit == 1}">
-									<label for="modal-unit1">VNĐ</label>
+									<label for="modal-unit1">VND</label>
 								</div>
 							</div>
 						</div>
@@ -85,12 +85,10 @@
 										<div class="content">
 											<h5 class="name" th:text="${product.name + ' - ' + product.productCode}"></h5>
 											<p class="cost">
-												<span th:text="${product.cost}"></span>
-												VNĐ
+												<span th:text="${product.cost}"></span>đ
 											</p>
 											<p class="discountCost">
-												<span th:text="${product.discountCost}"></span>
-												VNĐ
+												<span th:text="${product.discountCost}"></span>đ
 											</p>
 										</div>
 										<div class="options">

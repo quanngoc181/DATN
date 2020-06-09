@@ -125,7 +125,13 @@ public class ProductController {
 	@ResponseBody
 	public void addToCart(Authentication auth, String productId, int amount, String items) {
 		UUID userId = accountRepository.findByUsername(auth.getName()).getId();
-		Cart cart = new Cart(null, userId, UUID.fromString(productId), amount, items);
-		cartRepository.save(cart);
+		
+		Cart cart = cartRepository.findByUserIdAndProductIdAndItems(userId, UUID.fromString(productId), items);
+		if(cart == null) {
+			cartRepository.save(new Cart(null, userId, UUID.fromString(productId), amount, items));
+		} else {
+			cart.setAmount(cart.getAmount() + amount);
+			cartRepository.save(cart);
+		}
 	}
 }

@@ -57,6 +57,20 @@ $(function() {
 			data : 'cost',
 			name : 'cost'
 		}, {
+			data : 'isDefault',
+			name : 'isDefault',
+			orderable : false,
+			width: "65px",
+			className: "dt-center dt-vertical-align",
+			render : function(data, type, row, meta) {
+				if (data)
+					return `<div class="icheck-primary d-inline">
+								<input type="radio" id="isDefault" disabled checked>
+								<label for="isDefault"></label>
+							</div>`;
+				else return '';
+			}
+		}, {
 			orderable : false,
 			width : "45px",
 			className : "dt-center dt-vertical-align",
@@ -219,11 +233,13 @@ $(function() {
 		let id = itemTable.row(row).data().id;
 		let name = itemTable.row(row).data().name;
 		let cost = itemTable.row(row).data().cost;
+		let isDefault = itemTable.row(row).data().isDefault;
 		let optionName = itemTable.row(row).data().optionName;
 		
 		$('#edit-item-id').val(id);
 		$('#edit-item-name').val(name);
 		$('#edit-item-cost').val(cost);
+		$('#edit-item-isdefault').prop('checked', isDefault);
 		$('#edit-item-optionName').val(optionName);
 		$('#edit-item-modal').modal('show');
 	});

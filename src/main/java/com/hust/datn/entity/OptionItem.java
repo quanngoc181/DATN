@@ -18,6 +18,8 @@ public class OptionItem extends ParentEntity {
 	
 	private int cost;
 	
+	private boolean isDefault;
+	
 	@ManyToOne
 	@JsonIgnore
 	private ProductOption option;
@@ -26,11 +28,19 @@ public class OptionItem extends ParentEntity {
 		super();
 	}
 
-	public OptionItem(UUID id, String name, int cost, ProductOption option) {
+	public OptionItem(UUID id, String name, int cost, boolean isDefault) {
 		super.setId(id);
 		this.name = name;
 		this.cost = cost;
-		this.option = option;
+		this.isDefault = isDefault;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	public ProductOption getOption() {

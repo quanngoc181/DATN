@@ -31,7 +31,7 @@ public class CartDTO {
 		String itemString = "";
 		
 		for (OptionItem item : items) {
-			itemString += item.getOption().getName() + " " + item.getName() + ", ";
+			itemString += item.getOption().getName() + " " + item.getName() + (item.getCost() != 0 ? " (" + item.getCost() + "đ)" : "") + ", ";
 		}
 		if(!itemString.isEmpty())
 			itemString = itemString.substring(0, itemString.length() - 2);

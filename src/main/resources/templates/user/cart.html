@@ -54,14 +54,14 @@
 							<h5 class="name" th:text="${cart.product.name + ' - ' + cart.product.productCode}"></h5>
 							<p class="text-muted mb-0" th:text="${cart.getItemString()}"></p>
 							<p class="discountCost">
-								<span th:text="${cart.product.discountCost}"></span> VNĐ
+								<span th:text="${cart.product.discountCost}"></span>đ
 							</p>
 							<div class="counting">
 								<div class="decrease"></div>
 								<div class="amount" th:attr="data-value=${cart.amount}" th:text="${cart.amount}"></div>
 								<div class="increase"></div>
 								<div class="total-cost">
-									<span class="total-cost-number" th:text="${cart.totalAmount}"></span> VNĐ
+									<span class="total-cost-number" th:text="${cart.totalAmount}"></span>đ
 								</div>
 							</div>
 						</div>
@@ -69,7 +69,7 @@
 					
 					<hr>
 					
-					<p class="total-cart">Tổng tiền: <span class="amount">0</span> VNĐ</p>
+					<p class="total-cart">Tổng tiền: <span class="amount">0</span>đ</p>
 					
 					<div class="text-center">
 						<button class="btn btn-primary">Đặt hàng</button>

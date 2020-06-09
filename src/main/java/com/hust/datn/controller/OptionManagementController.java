@@ -20,6 +20,7 @@ import com.hust.datn.dto.OptionItemDTO;
 import com.hust.datn.entity.OptionItem;
 import com.hust.datn.entity.ProductOption;
 import com.hust.datn.enums.OptionType;
+import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.ItemRepository;
 import com.hust.datn.repository.OptionRepository;
 import com.hust.datn.specification.ItemSpecification;
@@ -116,19 +117,18 @@ public class OptionManagementController {
 	
 	@PostMapping("/admin/option-management/add-item")
 	@ResponseBody
-	public void addItem(String optionId, String name, int cost) {
+	public void addItem(String optionId, String name, int cost, boolean isDefault) {
 		ProductOption option = optionRepository.findById(UUID.fromString(optionId)).get();
-		option.addItem(new OptionItem(null, name, cost, null));
+		option.addItem(new OptionItem(null, name, cost, isDefault));
 		optionRepository.save(option);
 	}
 	
 	@PostMapping("/admin/option-management/edit-item")
 	@ResponseBody
-	public void editItem(String id, String name, int cost) {
-		OptionItem item = itemRepository.findById(UUID.fromString(id)).get();
-		item.setName(name);
-		item.setCost(cost);
-		itemRepository.save(item);
+	public void editItem(String id, String name, int cost, boolean isDefault) throws InternalException {
+		ProductOption option = itemRepository.findById(UUID.fromString(id)).get().getOption();
+		option.editItem(new OptionItem(UUID.fromString(id), name, cost, isDefault));
+		optionRepository.save(option);
 	}
 	
 	@PostMapping("/admin/option-management/delete-item")

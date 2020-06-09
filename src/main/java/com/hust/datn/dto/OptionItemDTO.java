@@ -10,29 +10,31 @@ public class OptionItemDTO {
 	public UUID id;
 	public String name;
 	public int cost;
+	public boolean isDefault;
 	
 	public UUID optionId;
 	public String optionName;
 	
 	public OptionItemDTO() { }
 
-	public OptionItemDTO(UUID id, String name, int cost, UUID optionId, String optionName) {
+	public OptionItemDTO(UUID id, String name, int cost, boolean isDefault, UUID optionId, String optionName) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.cost = cost;
+		this.isDefault = isDefault;
 		this.optionId = optionId;
 		this.optionName = optionName;
 	}
 	
 	public static OptionItemDTO fromItem(OptionItem item) {
-		return new OptionItemDTO(item.getId(), item.getName(), item.getCost(), item.getOption().getId(), item.getOption().getName());
+		return new OptionItemDTO(item.getId(), item.getName(), item.getCost(), item.isDefault(), item.getOption().getId(), item.getOption().getName());
 	}
 	
 	public static List<OptionItemDTO> fromItems(List<OptionItem> items) {
 		List<OptionItemDTO> dtos = new ArrayList<>();
 		for (OptionItem item : items) {
-			dtos.add(new OptionItemDTO(item.getId(), item.getName(), item.getCost(), item.getOption().getId(), item.getOption().getName()));
+			dtos.add(new OptionItemDTO(item.getId(), item.getName(), item.getCost(), item.isDefault(), item.getOption().getId(), item.getOption().getName()));
 		}
 		return dtos;
 	}

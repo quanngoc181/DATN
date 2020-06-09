@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Nationalized;
 
 import com.hust.datn.enums.OptionType;
+import com.hust.datn.exception.InternalException;
 
 @Entity
 @Table(name = "PRODUCT_OPTION")
@@ -49,7 +50,51 @@ public class ProductOption extends ParentEntity {
 
 	public void addItem(OptionItem item) {
 		item.setOption(this);
-		this.items.add(item);
+		if(this.type == OptionType.MULTIPLE) {
+			this.items.add(item);
+		} else {
+			if(this.items.size() == 0) {
+				item.setDefault(true);
+				this.items.add(item);
+			} else {
+				if(item.isDefault()) {
+					for (OptionItem optionItem : this.items) {
+						optionItem.setDefault(false);
+					}
+					this.items.add(item);
+				} else {
+					this.items.add(item);
+				}
+			}
+		}
+	}
+	
+	public void editItem(OptionItem item) throws InternalException {
+		for (OptionItem optionItem : this.items) {
+			if(optionItem.getId().equals(item.getId())) {
+				optionItem.setName(item.getName());
+				optionItem.setCost(item.getCost());
+				if(this.type == OptionType.MULTIPLE) {
+					optionItem.setDefault(item.isDefault());
+				} else {
+					if(item.isDefault()) {
+						this.setDefault(optionItem.getId());
+					} else {
+						throw new InternalException("SINGLE type cần 1 lựa chọn mặc định");
+					}
+				}
+				break;
+			}
+		}
+	}
+	
+	public void setDefault(UUID id) {
+		for (OptionItem optionItem : this.items) {
+			if(optionItem.getId().equals(id))
+				optionItem.setDefault(true);
+			else
+				optionItem.setDefault(false);
+		}
 	}
 	
 	public void deleteItem(UUID id) {

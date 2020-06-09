@@ -18,7 +18,7 @@
 			<section class="content">
 
 				<div class="row">
-					<div class="col-4">
+					<div class="col-5">
 						<div class="card">
 							<div class="card-header">
 								<h3 class="card-title">Tùy chọn</h3>
@@ -46,7 +46,7 @@
 						</div>
 					</div>
 
-					<div class="col-8">
+					<div class="col-7">
 						<div class="card">
 							<div class="card-header">
 								<h3 class="card-title">Lựa chọn</h3>
@@ -58,6 +58,7 @@
 											<th>Tên tùy chọn</th>
 											<th>Tên lựa chọn</th>
 											<th>Giá lựa chọn</th>
+											<th>Mặc định</th>
 											<th></th>
 											<th></th>
 										</tr>
@@ -179,6 +180,15 @@
 								<input type="number" class="form-control" name="cost" id="add-item-cost">
 							</div>
 						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label">Mặc định</label>
+							<div class="col-sm-9">
+								<div class="icheck-primary">
+									<input id="add-item-isdefault" name="isDefault" type="checkbox">
+									<label for="add-item-isdefault"></label>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-primary" id="add-item-submit">Thêm</button>
@@ -216,6 +226,15 @@
 							<label for="edit-item-cost" class="col-sm-3 col-form-label">Giá lựa chọn</label>
 							<div class="col-sm-9">
 								<input type="number" class="form-control" name="cost" id="edit-item-cost">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label">Mặc định</label>
+							<div class="col-sm-9">
+								<div class="icheck-primary">
+									<input id="edit-item-isdefault" name="isDefault" type="checkbox">
+									<label for="edit-item-isdefault"></label>
+								</div>
 							</div>
 						</div>
 					</div>
