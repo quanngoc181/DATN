@@ -24,7 +24,6 @@ import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.Cart;
 import com.hust.datn.entity.Category;
-import com.hust.datn.entity.OptionItem;
 import com.hust.datn.entity.Product;
 import com.hust.datn.entity.ProductOption;
 import com.hust.datn.repository.AccountRepository;

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.hust.datn.entity.OptionItem;
-import com.hust.datn.entity.Product;
 
 public class CartDTO {
 	public UUID id;

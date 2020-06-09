@@ -3,7 +3,6 @@ package com.hust.datn.command;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import com.hust.datn.validator.ValidDate;
 import com.hust.datn.validator.ValidPhone;
 
 public class ContactInfoCommand {

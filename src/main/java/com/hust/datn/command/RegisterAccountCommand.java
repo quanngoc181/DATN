@@ -1,13 +1,7 @@
 package com.hust.datn.command;
 
-import java.time.LocalDate;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.validator.ValidDate;

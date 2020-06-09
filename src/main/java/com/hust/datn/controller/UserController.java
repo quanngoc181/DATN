@@ -1,7 +1,6 @@
 package com.hust.datn.controller;
 
 import java.util.Base64;
-import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -23,14 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hust.datn.command.BasicInfoCommand;
 import com.hust.datn.command.ChangePasswordCommand;
 import com.hust.datn.command.ContactInfoCommand;
-import com.hust.datn.command.RegisterAccountCommand;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.ReceiveAddress;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
 import com.hust.datn.utilities.DateUtilities;
 import com.hust.datn.utilities.StringUtilities;
-import com.hust.datn.validator.ValidUsername;
 
 @Controller
 public class UserController {

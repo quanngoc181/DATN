@@ -24,7 +24,6 @@ import com.hust.datn.command.AddDiscountProductCommand;
 import com.hust.datn.dto.CategoryDTO;
 import com.hust.datn.dto.DatatableDTO;
 import com.hust.datn.dto.DiscountDTO;
-import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Category;
 import com.hust.datn.entity.DiscountProduct;
 import com.hust.datn.entity.Product;
