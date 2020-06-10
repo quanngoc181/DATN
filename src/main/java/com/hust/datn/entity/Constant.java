@@ -4,19 +4,22 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Nationalized;
+
 @Entity
 @Table(name = "CONSTANT")
 public class Constant {
 	@Id
 	private String keyword;
 	
-	private int value;
+	@Nationalized
+	private String value;
 	
 	public Constant() {
 		super();
 	}
 
-	public Constant(String keyword, int value) {
+	public Constant(String keyword, String value) {
 		super();
 		this.keyword = keyword;
 		this.value = value;
@@ -30,11 +33,11 @@ public class Constant {
 		this.keyword = keyword;
 	}
 
-	public int getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 }

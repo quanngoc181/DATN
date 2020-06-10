@@ -34,6 +34,9 @@ public class OrderService {
 	@Autowired
 	CartService cartService;
 	
+	@Autowired
+	ConstantService constantService;
+	
 	public OrderService() { }
 	
 	public OrderDTO createOrderDTO(UUID userId) {
@@ -55,7 +58,7 @@ public class OrderService {
 		List<Cart> carts = cartRepository.findByUserId(userId);
 		
 		List<OrderProductDTO> productDTOs = new ArrayList<>();
-		int total = 0;
+		int productCost = 0;
 		for (Cart cart : carts) {
 			OrderProductDTO productDto = new OrderProductDTO();
 			
@@ -71,12 +74,15 @@ public class OrderService {
 				CartDTO cartDTO = cartService.getCartDTO(cart);
 				productDto.setItems(cartDTO.getItemStringLite());
 				
-				total += cartService.getDetailCost(cart);
+				productCost += cartService.getDetailCost(cart);
 			}
 			productDTOs.add(productDto);
 		}
 		dto.products = productDTOs;
-		dto.cost = total;
+		dto.productCost = productCost;
+		
+		int shippingFee = constantService.getAll().shippingFee;
+		dto.shippingFee = shippingFee;
 		
 		return dto;
 	}

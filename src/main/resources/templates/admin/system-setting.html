@@ -17,7 +17,80 @@
 
 			<section class="content">
 
-				<div>Hello</div>
+				<div class="row">
+					<div class="col-6">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Cài đặt chi phí</h3>
+							</div>
+							<div class="card-body">
+								<form id="cost-setting-form">
+									<div class="form-group">
+										<label for="shipping-fee">Phí vận chuyển</label>
+										<input type="number" class="form-control" name="shippingFee" id="shipping-fee" th:value="${setting.shippingFee}">
+									</div>
+									<button type="submit" id="cost-setting-submit" class="btn btn-primary">Lưu</button>
+								</form>
+							</div>
+						</div>
+
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Cài đặt khác</h3>
+							</div>
+							<div class="card-body">
+								<form id="other-setting-form">
+									<div class="form-group">
+										<label for="receive-address-limit">Giới hạn địa chỉ nhận hàng</label>
+										<input type="number" class="form-control" name="receiveAddressLimit" id="receive-address-limit" th:value="${setting.receiveAddressLimit}">
+									</div>
+									<button type="submit" id="other-setting-submit" class="btn btn-primary">Lưu</button>
+								</form>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-6">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Cài đặt công ty</h3>
+							</div>
+							<div class="card-body">
+								<form id="company-setting-form">
+									<div class="form-group">
+										<label for="company-name">Tên công ty</label>
+										<input type="text" class="form-control" name="companyName" id="company-name" th:value="${setting.companyName}">
+									</div>
+									<div class="form-group">
+										<label for="company-address">Địa chỉ công ty</label>
+										<input type="text" class="form-control" name="companyAddress" id="company-address" th:value="${setting.companyAddress}">
+									</div>
+									<div class="form-group">
+										<label for="company-phone">Số điện thoại công ty</label>
+										<input type="text" class="form-control" name="companyPhone" id="company-phone" th:value="${setting.companyPhone}">
+									</div>
+									<div class="form-group">
+										<label for="company-email">Email công ty</label>
+										<input type="text" class="form-control" name="companyEmail" id="company-email" th:value="${setting.companyEmail}">
+									</div>
+									<div class="form-group">
+										<label for="company-business-number">Số đăng ký kinh doanh</label>
+										<input type="text" class="form-control" name="companyBusinessNumber" id="company-business-number" th:value="${setting.companyBusinessNumber}">
+									</div>
+									<div class="form-group">
+										<label for="company-business-date">Ngày đăng ký</label>
+										<input type="text" class="form-control" name="companyBusinessDate" id="company-business-date" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask th:value="${setting.companyBusinessDate}">
+									</div>
+									<div class="form-group">
+										<label for="company-business-organization">Nơi cấp</label>
+										<input type="text" class="form-control" name="companyBusinessOrganization" id="company-business-organization" th:value="${setting.companyBusinessOrganization}">
+									</div>
+									<button type="submit" id="company-setting-submit" class="btn btn-primary">Lưu</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
 
 			</section>
 		</div>

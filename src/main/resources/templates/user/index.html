@@ -93,13 +93,13 @@
 		<div class="container">
 			<img src="/images/logo.svg" class="footer-logo">
 			<div class="footer-content">
-				<div class="company-name">Công ty cổ phần Q•Beverage</div>
-				<p class="footer-info"><i class="fas fa-map-marker-alt"></i> Đình So, Tân Hòa, Quốc Oai, Hà Nội</p>
-				<p class="footer-info"><i class="fas fa-phone-alt"></i> 0355111616</p>
-				<p class="footer-info"><i class="fas fa-envelope"></i> quanvuongngoc98@gmail.com</p>
-				<p class="footer-info"><i class="fas fa-certificate"></i> Số ĐKKD: 123456789</p>
-				<p class="footer-info"><i class="fas fa-certificate"></i> Ngày cấp: 18/01/1998</p>
-				<p class="footer-info"><i class="fas fa-certificate"></i> Nơi cấp: Sở kế hoạch và đầu tư thành phố Hà Nội</p>
+				<div class="company-name" th:text="${setting.companyName}"></div>
+				<p class="footer-info"><i class="fas fa-map-marker-alt"></i>&nbsp;<span th:text="${setting.companyAddress}"></span></p>
+				<p class="footer-info"><i class="fas fa-phone-alt"></i>&nbsp;<span th:text="${setting.companyPhone}"></span></p>
+				<p class="footer-info"><i class="fas fa-envelope"></i>&nbsp;<span th:text="${setting.companyEmail}"></span></p>
+				<p class="footer-info"><i class="fas fa-certificate"></i>&nbsp;Số ĐKKD:&nbsp;<span th:text="${setting.companyBusinessNumber}"></span></p>
+				<p class="footer-info"><i class="fas fa-certificate"></i>&nbsp;Ngày cấp:&nbsp;<span th:text="${setting.companyBusinessDate}"></span></p>
+				<p class="footer-info"><i class="fas fa-certificate"></i>&nbsp;Nơi cấp:&nbsp;<span th:text="${setting.companyBusinessOrganization}"></span></p>
 				<div class="footer-icon">
 					<a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-square"></i></a>
 					<a href="https://youtube.com" target="_blank"><i class="fab fa-youtube-square"></i></a>

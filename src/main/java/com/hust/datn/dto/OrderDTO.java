@@ -17,20 +17,31 @@ public class OrderDTO {
 	
 	public String phone;
 	
-	public int cost;
+	public int productCost;
 	
 	public List<OrderProductDTO> products;
+	
+	public int shippingFee;
 	
 	public OrderDTO() {
 	}
 
-	public OrderDTO(String name, String addressName, String address, String phone, int cost) {
+	public OrderDTO(String name, String addressName, String address, String phone, int cost, int shippingFee) {
 		super();
 		this.name = name;
 		this.addressName = addressName;
 		this.address = address;
 		this.phone = phone;
-		this.cost = cost;
+		this.productCost = cost;
+		this.shippingFee = shippingFee;
+	}
+
+	public int getShippingFee() {
+		return shippingFee;
+	}
+
+	public void setShippingFee(int shippingFee) {
+		this.shippingFee = shippingFee;
 	}
 
 	public String getName() {
@@ -66,10 +77,10 @@ public class OrderDTO {
 	}
 
 	public int getCost() {
-		return cost;
+		return productCost;
 	}
 
 	public void setCost(int cost) {
-		this.cost = cost;
+		this.productCost = cost;
 	}
 }

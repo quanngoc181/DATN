@@ -15,11 +15,15 @@ import com.hust.datn.entity.Account;
 import com.hust.datn.entity.ReceiveAddress;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
+import com.hust.datn.service.ConstantService;
 
 @Controller
 public class ReceiveAddressController {
 	@Autowired
 	AccountRepository accountRepository;
+	
+	@Autowired
+	ConstantService constantService;
 	
 	@PostMapping("/user/receive-address/add")
 	public String addReceiveAddress(Authentication auth, @ModelAttribute ReceiveAddress receiveAddress) {
@@ -37,9 +41,11 @@ public class ReceiveAddressController {
 	public ModelAndView addReceiveAddress(Authentication auth) throws InternalException {
 		Account account = accountRepository.findByUsername(auth.getName());
 		
+		int receiveLimit = constantService.getAll().receiveAddressLimit;
+		
 		int count = account.countReceiveAddress();
-		if(count >= 4)
-			throw new InternalException("Tối đa 4 địa chỉ");
+		if(count >= receiveLimit)
+			throw new InternalException("Số lượng địa chỉ đã đạt tối đa");
 		
 		return new ModelAndView("partial/add-receive-address");
 	}

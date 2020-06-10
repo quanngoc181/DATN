@@ -22,10 +22,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.hust.datn.command.BasicInfoCommand;
 import com.hust.datn.command.ChangePasswordCommand;
 import com.hust.datn.command.ContactInfoCommand;
+import com.hust.datn.dto.SettingDTO;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.ReceiveAddress;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
+import com.hust.datn.service.ConstantService;
 import com.hust.datn.utilities.DateUtilities;
 import com.hust.datn.utilities.StringUtilities;
 
@@ -41,6 +43,9 @@ public class UserController {
 	AccountRepository accountRepository;
 	
 	@Autowired
+	ConstantService constantService;
+	
+	@Autowired
 	StringUtilities stringUtilities;
 
 	@GetMapping("/user")
@@ -49,6 +54,8 @@ public class UserController {
 		model.addAttribute("user", account);
 		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
 		model.addAttribute("avatar", avatar);
+		SettingDTO setting = constantService.getAll();
+		model.addAttribute("setting", setting);
 		return "user/index";
 	}
 
