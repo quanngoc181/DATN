@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
 <th:block th:include="fragment/head"></th:block>
 <link rel="stylesheet" href="/css/index.css" />
@@ -12,7 +11,8 @@
 			<div class="left menus">
 				<a href="/product" class="menu">Thực Đơn</a>
 				<a href="#" class="menu">Tin Tức</a>
-				<a href="#" class="menu">Cửa Hàng</a>
+				<a href="#google-map" class="menu">Bản đồ</a>
+				<a href="#about-us" class="menu">Liên hệ</a>
 			</div>
 			<div class="center menus">
 				<!-- <form class="form-inline" action="/search">
@@ -30,7 +30,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<ol class="carousel-indicators">
 			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -68,6 +68,34 @@
 			<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			<span class="sr-only">Next</span>
 		</a>
+	</div>
+
+	<div id="google-map" class="google-map">
+		<iframe frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDT1rTUZj4HmwNEMHrCp6KJp4Ky-J4Qfzc&q=B52+Coffee+Dinh+So" allowfullscreen></iframe>
+	</div>
+	
+	<div id="about-us" class="about-us">
+		<div class="overlay"></div>
+		<div class="container">
+			<img src="/images/logo.svg" class="footer-logo">
+			<div class="footer-content">
+				<div class="company-name">Công ty cổ phần Q•Beverage</div>
+				<p class="footer-info"><i class="fas fa-map-marker-alt"></i> Đình So, Tân Hòa, Quốc Oai, Hà Nội</p>
+				<p class="footer-info"><i class="fas fa-phone-alt"></i> 0355111616</p>
+				<p class="footer-info"><i class="fas fa-envelope"></i> quanvuongngoc98@gmail.com</p>
+				<p class="footer-info"><i class="fas fa-certificate"></i> Số ĐKKD: 123456789</p>
+				<p class="footer-info"><i class="fas fa-certificate"></i> Ngày cấp: 18/01/1998</p>
+				<p class="footer-info"><i class="fas fa-certificate"></i> Nơi cấp: Sở kế hoạch và đầu tư thành phố Hà Nội</p>
+				<div class="footer-icon">
+					<a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-square"></i></a>
+					<a href="https://youtube.com" target="_blank"><i class="fab fa-youtube-square"></i></a>
+					<a href="https://instagram.com" target="_blank"><i class="fab fa-instagram-square"></i></a>
+					<a href="https://twitter.com" target="_blank"><i class="fab fa-twitter-square"></i></a>
+					<a href="https://google.com" target="_blank"><i class="fab fa-google-plus-square"></i></a>
+				</div>
+				<p class="footer-info">Copyrights © 2019 by Q•Beverage. All rights reserved.</p>
+			</div>
+		</div>
 	</div>
 
 	<th:block th:include="fragment/script"></th:block>

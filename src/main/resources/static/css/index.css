@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-#carouselExampleIndicators {
-	margin-top: -60px;
-}
-
 #carouselExampleIndicators .carousel-inner {
 	height: 100vh;
 }

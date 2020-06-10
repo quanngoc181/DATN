@@ -37,4 +37,16 @@ public class CartDTO {
 		
 		return itemString;
 	}
+	
+	public String getItemStringLite() {
+		String itemString = "";
+		
+		for (OptionItem item : items) {
+			itemString += item.getOption().getName() + " " + item.getName() + ", ";
+		}
+		if(!itemString.isEmpty())
+			itemString = itemString.substring(0, itemString.length() - 2);
+		
+		return itemString;
+	}
 }
