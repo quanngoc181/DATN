@@ -8,28 +8,36 @@
 	<div class="my-header">
 		<div class="container">
 			<a href="/" class="logo"></a>
-			<div class="left menus">
-				<a href="/user/product" class="menu">Thực Đơn</a>
-				<a href="#" class="menu">Tin Tức</a>
-				<a href="#" class="menu">Cửa Hàng</a>
-			</div>
-			<div class="center menus"></div>
-			<div class="right menus">
-				<img th:src="${avatar}" class="avatar">
-				<div class="dropdown">
-					<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
-					<div class="dropdown-container">
-						<a href="/user/change-password">Đổi Mật Khẩu</a>
-						<a href="/user/update-info">Cập Nhật Thông Tin</a>
-						<form action="#" th:action="@{/logout}" method="post">
-							<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
-						</form>
-					</div>
+			<div class="header-container">
+				<div class="left menus">
+					<a href="/user/product" class="menu">Thực Đơn</a>
+					<a href="#" class="menu">Tin Tức</a>
+					<a href="/#google-map" class="menu">Bản đồ</a>
+					<a href="/#about-us" class="menu">Liên hệ</a>
 				</div>
-				<a href="/user/cart" class="menu">
-					Giỏ hàng
-					<span class="badge badge-info right cart-number">0</span>
-				</a>
+				<div class="center menus"></div>
+				<div class="right menus">
+					<div class="d-flex align-items-center">
+						<img th:src="${avatar}" class="avatar">
+						<div class="dropdown">
+							<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
+							<div class="dropdown-container">
+								<a href="/user/change-password">Đổi Mật Khẩu</a>
+								<a href="/user/update-info">Cập Nhật Thông Tin</a>
+								<form action="#" th:action="@{/logout}" method="post">
+									<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
+								</form>
+							</div>
+						</div>
+					</div>
+					<a href="/user/cart" class="menu">
+						Giỏ hàng
+						<span class="badge badge-info right cart-number">0</span>
+					</a>
+				</div>
+			</div>
+			<div class="toggle-header">
+				<i class="fas fa-bars"></i>
 			</div>
 		</div>
 	</div>
@@ -41,7 +49,7 @@
 
 		<section class="content">
 			<div class="row">
-				<div class="col-6 offset-3">
+				<div class="col-12 col-sm-6 offset-0 offset-sm-3">
 					<div class="card">
 						<div class="card-body">
 							<div id="receive-address-container">
@@ -73,7 +81,7 @@
 												<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
 											</div>
 										</div>
-										<div class="form-group row">
+										<div class="row">
 											<label class="col-sm-4 col-form-label">Số điện thoại</label>
 											<div class="col-sm-8">
 												<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
@@ -94,16 +102,16 @@
 										</div>
 										<div class="content">
 											<h5 class="name">
-												<b class="product-label">Sản phẩm: </b>
+												<b class="product-label mobile-none">Sản phẩm: </b>
 												<span th:text="${product.name + ' - ' + product.code}"></span>
 											</h5>
 											<p class="text-muted mb-0">
-												<b class="product-label">Tùy chọn: </b>
+												<b class="product-label mobile-none">Tùy chọn: </b>
 												<span th:text="${product.items}"></span>
 											</p>
 											<p class="discountCost">
 												<span>
-													<b class="product-label">Đơn giá: </b>
+													<b class="product-label mobile-none">Đơn giá: </b>
 													<span th:text="${product.cost}"></span>
 												</span>
 												đ

@@ -64,7 +64,7 @@ function getTotalCost() {
 		url : "/user/cart/total-cost",
 		data: { },
 		success : function(data) {
-			$('.total-cart .amount').text(data);
+			$('.total-cart .amount').text(data + ' đ');
 		},
 		error : function(err) {
 			notify('error', err.responseJSON.message);

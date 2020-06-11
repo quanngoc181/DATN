@@ -8,29 +8,36 @@
 	<div class="my-header">
 		<div class="container">
 			<a href="/" class="logo"></a>
-			<div class="left menus">
-				<a href="/user/product" class="menu">Thực Đơn</a>
-				<a href="#" class="menu">Tin Tức</a>
-				<a href="#" class="menu">Cửa Hàng</a>
-			</div>
-			<div class="center menus">
-			</div>
-			<div class="right menus">
-				<img th:src="${avatar}" class="avatar">
-				<div class="dropdown">
-					<a href="#" class="menu dropdown-link" th:text="${account.lastName}"></a>
-					<div class="dropdown-container">
-						<a href="/user/change-password">Đổi Mật Khẩu</a>
-						<a href="/user/update-info">Cập Nhật Thông Tin</a>
-						<form action="#" th:action="@{/logout}" method="post">
-							<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
-						</form>
-					</div>
+			<div class="header-container">
+				<div class="left menus">
+					<a href="/user/product" class="menu">Thực Đơn</a>
+					<a href="#" class="menu">Tin Tức</a>
+					<a href="/#google-map" class="menu">Bản đồ</a>
+					<a href="/#about-us" class="menu">Liên hệ</a>
 				</div>
-				<a href="/user/cart" class="menu">
-					Giỏ hàng
-					<span class="badge badge-info right cart-number">0</span>
-				</a>
+				<div class="center menus"></div>
+				<div class="right menus">
+					<div class="d-flex align-items-center">
+						<img th:src="${avatar}" class="avatar">
+						<div class="dropdown">
+							<a href="#" class="menu dropdown-link" th:text="${account.lastName}"></a>
+							<div class="dropdown-container">
+								<a href="/user/change-password">Đổi Mật Khẩu</a>
+								<a href="/user/update-info">Cập Nhật Thông Tin</a>
+								<form action="#" th:action="@{/logout}" method="post">
+									<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
+								</form>
+							</div>
+						</div>
+					</div>
+					<a href="/user/cart" class="menu">
+						Giỏ hàng
+						<span class="badge badge-info right cart-number">0</span>
+					</a>
+				</div>
+			</div>
+			<div class="toggle-header">
+				<i class="fas fa-bars"></i>
 			</div>
 		</div>
 	</div>
@@ -42,8 +49,8 @@
 
 		<section class="content">
 			<div class="row">
-				<div class="col-3">
-					<div class="card card-primary card-outline">
+				<div class="col-12 col-sm-3">
+					<div class="card card-primary">
 						<div class="card-body box-profile">
 							<div class="text-center position-relative">
 								<img class="profile-user-img img-fluid img-circle" th:src="${avatar}" alt="Avatar" style="height: 100px; object-fit: cover;">
@@ -84,9 +91,9 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-9">
+				<div class="col-12 col-sm-9">
 					<div class="row">
-						<div class="col-6">
+						<div class="col-12 col-sm-6">
 							<div class="card">
 								<div class="card-header">
 									<h3 class="card-title">Thông tin cơ bản</h3>
@@ -98,7 +105,7 @@
 
 										<div class="form-group">
 											<label for="firstName">Họ đệm</label>
-											<input th:value="${account.firstName}" type="text" class="form-control" id="firstName" name="firstName">
+											<input th:value="${account.firstName}" type="text" class="form-control" id="firstName" name="firstName" autofocus>
 										</div>
 										<div class="form-group">
 											<label for="lastName">Tên</label>
@@ -125,8 +132,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-6">
-							<div class="card" style="height: calc(100% - 16px);">
+						<div class="col-12 col-sm-6">
+							<div class="card">
 								<div class="card-header">
 									<h3 class="card-title">Thông tin liên hệ</h3>
 								</div>
@@ -166,7 +173,7 @@
 
 								<div class="card-body">
 									<div class="row">
-										<div class="col-6 receive-address-item" th:each="address: ${reList}">
+										<div class="col-12 col-sm-6 receive-address-item" th:each="address: ${reList}">
 											<div class="card" th:classappend="${address.isDefault()} ? 'card-primary' : ''" th:attr="data-id=${address.id}">
 												<div class="card-header">
 													<h3 class="card-title" th:text="${address.addressName}"></h3>

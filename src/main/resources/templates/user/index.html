@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
 <th:block th:include="fragment/head"></th:block>
 <link rel="stylesheet" href="/css/index.css" />
@@ -9,42 +8,40 @@
 	<div class="my-header">
 		<div class="container">
 			<a href="/" class="logo"></a>
-			<div class="left menus">
-				<a href="/user/product" class="menu">Thực Đơn</a>
-				<a href="#" class="menu">Tin Tức</a>
-				<a href="#google-map" class="menu">Bản đồ</a>
-				<a href="#about-us" class="menu">Liên hệ</a>
-			</div>
-			<div class="center menus">
-				<!-- <form class="form-inline" action="/search">
-					<div class="input-group input-group-sm">
-						<input class="form-control form-control-navbar" type="search" name="s" placeholder="Tìm kiếm">
-						<div class="input-group-append">
-							<button class="btn btn-navbar" type="submit"><i class="fas fa-search"></i></button>
+			<div class="header-container">
+				<div class="left menus">
+					<a href="/user/product" class="menu">Thực Đơn</a>
+					<a href="#" class="menu">Tin Tức</a>
+					<a href="#google-map" class="menu">Bản đồ</a>
+					<a href="#about-us" class="menu">Liên hệ</a>
+				</div>
+				<div class="center menus"></div>
+				<div class="right menus">
+					<div class="d-flex align-items-center">
+						<img th:src="${avatar}" class="avatar">
+						<div class="dropdown">
+							<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
+							<div class="dropdown-container">
+								<a href="/user/change-password">Đổi Mật Khẩu</a>
+								<a href="/user/update-info">Cập Nhật Thông Tin</a>
+								<form action="#" th:action="@{/logout}" method="post">
+									<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
+								</form>
+							</div>
 						</div>
 					</div>
-				</form> -->
-			</div>
-			<div class="right menus">
-				<img th:src="${avatar}" class="avatar">
-				<div class="dropdown">
-					<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
-					<div class="dropdown-container">
-						<a href="/user/change-password">Đổi Mật Khẩu</a>
-						<a href="/user/update-info">Cập Nhật Thông Tin</a>
-						<form action="#" th:action="@{/logout}" method="post">
-							<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
-						</form>
-					</div>
+					<a href="/user/cart" class="menu">
+						Giỏ hàng
+						<span class="badge badge-info right cart-number">0</span>
+					</a>
 				</div>
-				<a href="/user/cart" class="menu">
-					Giỏ hàng
-					<span class="badge badge-info right cart-number">0</span>
-				</a>
+			</div>
+			<div class="toggle-header">
+				<i class="fas fa-bars"></i>
 			</div>
 		</div>
 	</div>
-	
+
 	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 		<ol class="carousel-indicators">
 			<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -83,29 +80,63 @@
 			<span class="sr-only">Next</span>
 		</a>
 	</div>
-	
+
 	<div id="google-map" class="google-map">
 		<iframe frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDT1rTUZj4HmwNEMHrCp6KJp4Ky-J4Qfzc&q=B52+Coffee+Dinh+So" allowfullscreen></iframe>
 	</div>
-	
+
 	<div id="about-us" class="about-us">
 		<div class="overlay"></div>
 		<div class="container">
 			<img src="/images/logo.svg" class="footer-logo">
 			<div class="footer-content">
 				<div class="company-name" th:text="${setting.companyName}"></div>
-				<p class="footer-info"><i class="fas fa-map-marker-alt"></i>&nbsp;<span th:text="${setting.companyAddress}"></span></p>
-				<p class="footer-info"><i class="fas fa-phone-alt"></i>&nbsp;<span th:text="${setting.companyPhone}"></span></p>
-				<p class="footer-info"><i class="fas fa-envelope"></i>&nbsp;<span th:text="${setting.companyEmail}"></span></p>
-				<p class="footer-info"><i class="fas fa-certificate"></i>&nbsp;Số ĐKKD:&nbsp;<span th:text="${setting.companyBusinessNumber}"></span></p>
-				<p class="footer-info"><i class="fas fa-certificate"></i>&nbsp;Ngày cấp:&nbsp;<span th:text="${setting.companyBusinessDate}"></span></p>
-				<p class="footer-info"><i class="fas fa-certificate"></i>&nbsp;Nơi cấp:&nbsp;<span th:text="${setting.companyBusinessOrganization}"></span></p>
+				<p class="footer-info">
+					<i class="fas fa-map-marker-alt"></i>
+					&nbsp;
+					<span th:text="${setting.companyAddress}"></span>
+				</p>
+				<p class="footer-info">
+					<i class="fas fa-phone-alt"></i>
+					&nbsp;
+					<span th:text="${setting.companyPhone}"></span>
+				</p>
+				<p class="footer-info">
+					<i class="fas fa-envelope"></i>
+					&nbsp;
+					<span th:text="${setting.companyEmail}"></span>
+				</p>
+				<p class="footer-info">
+					<i class="fas fa-certificate"></i>
+					&nbsp;Số ĐKKD:&nbsp;
+					<span th:text="${setting.companyBusinessNumber}"></span>
+				</p>
+				<p class="footer-info">
+					<i class="fas fa-certificate"></i>
+					&nbsp;Ngày cấp:&nbsp;
+					<span th:text="${setting.companyBusinessDate}"></span>
+				</p>
+				<p class="footer-info">
+					<i class="fas fa-certificate"></i>
+					&nbsp;Nơi cấp:&nbsp;
+					<span th:text="${setting.companyBusinessOrganization}"></span>
+				</p>
 				<div class="footer-icon">
-					<a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-square"></i></a>
-					<a href="https://youtube.com" target="_blank"><i class="fab fa-youtube-square"></i></a>
-					<a href="https://instagram.com" target="_blank"><i class="fab fa-instagram-square"></i></a>
-					<a href="https://twitter.com" target="_blank"><i class="fab fa-twitter-square"></i></a>
-					<a href="https://google.com" target="_blank"><i class="fab fa-google-plus-square"></i></a>
+					<a href="https://facebook.com" target="_blank">
+						<i class="fab fa-facebook-square"></i>
+					</a>
+					<a href="https://youtube.com" target="_blank">
+						<i class="fab fa-youtube-square"></i>
+					</a>
+					<a href="https://instagram.com" target="_blank">
+						<i class="fab fa-instagram-square"></i>
+					</a>
+					<a href="https://twitter.com" target="_blank">
+						<i class="fab fa-twitter-square"></i>
+					</a>
+					<a href="https://google.com" target="_blank">
+						<i class="fab fa-google-plus-square"></i>
+					</a>
 				</div>
 				<p class="footer-info">Copyrights © 2019 by Q•Beverage. All rights reserved.</p>
 			</div>

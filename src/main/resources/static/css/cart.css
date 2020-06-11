@@ -11,9 +11,8 @@
 	display: flex;
 	align-items: center;
 	padding: 10px;
-	border: 1px solid rgb(0, 128, 0);
+	border: 1px solid;
     background-color: #fff;
-    box-shadow: 0 0 1px rgba(0, 128, 0, 1), 0 1px 3px rgba(0, 128, 0, 0.5);
     border-radius: 5px;
     position: relative;
     margin-bottom: 15px;
@@ -26,7 +25,7 @@
 }
 
 .product-preview.big-image .image-container {
-	min-width: 150px;
+	width: 150px;
 	height: 150px;
 	margin-right: 10px;
 }
@@ -122,7 +121,7 @@
 
 .product-preview .counting .amount {
 	font-weight: bold;
-    padding: 0 10px;
+    padding: 0 5px;
     font-size: 20px;
     line-height: 1;
 }
@@ -144,9 +143,16 @@
 }
 
 .product-preview .counting .total-cost {
-	margin-left: 20px;
-    padding: 0 20px;
+	margin-left: 10px;
+    padding: 0 10px;
     background: violet;
     border-radius: 12px;
     color: #fff;
+}
+
+@media ( max-width : 576px) {
+	.product-preview.big-image .image-container {
+		width: 100px;
+		height: 100px;
+	}
 }

@@ -2,6 +2,11 @@ $(function() {
 	fetchProduct();
 	getCartNumber();
 	
+	var width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+	if(width > 576) {
+		$('.toggle-filter').trigger('click');
+	}
+	
 	$("#keyword").on('keyup', debounce(function() {
 		fetchProduct();
 	}, 500));

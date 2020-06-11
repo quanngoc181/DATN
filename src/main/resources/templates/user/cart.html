@@ -8,28 +8,36 @@
 	<div class="my-header">
 		<div class="container">
 			<a href="/" class="logo"></a>
-			<div class="left menus">
-				<a href="/user/product" class="menu">Thực Đơn</a>
-				<a href="#" class="menu">Tin Tức</a>
-				<a href="#" class="menu">Cửa Hàng</a>
-			</div>
-			<div class="center menus"></div>
-			<div class="right menus">
-				<img th:src="${avatar}" class="avatar">
-				<div class="dropdown">
-					<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
-					<div class="dropdown-container">
-						<a href="/user/change-password">Đổi Mật Khẩu</a>
-						<a href="/user/update-info">Cập Nhật Thông Tin</a>
-						<form action="#" th:action="@{/logout}" method="post">
-							<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
-						</form>
-					</div>
+			<div class="header-container">
+				<div class="left menus">
+					<a href="/user/product" class="menu">Thực Đơn</a>
+					<a href="#" class="menu">Tin Tức</a>
+					<a href="/#google-map" class="menu">Bản đồ</a>
+					<a href="/#about-us" class="menu">Liên hệ</a>
 				</div>
-				<a href="/user/cart" class="menu">
-					Giỏ hàng
-					<span class="badge badge-info right cart-number">0</span>
-				</a>
+				<div class="center menus"></div>
+				<div class="right menus">
+					<div class="d-flex align-items-center">
+						<img th:src="${avatar}" class="avatar">
+						<div class="dropdown">
+							<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
+							<div class="dropdown-container">
+								<a href="/user/change-password">Đổi Mật Khẩu</a>
+								<a href="/user/update-info">Cập Nhật Thông Tin</a>
+								<form action="#" th:action="@{/logout}" method="post">
+									<a href="#" onclick="this.parentNode.submit()">Đăng Xuất</a>
+								</form>
+							</div>
+						</div>
+					</div>
+					<a href="/user/cart" class="menu">
+						Giỏ hàng
+						<span class="badge badge-info right cart-number">0</span>
+					</a>
+				</div>
+			</div>
+			<div class="toggle-header">
+				<i class="fas fa-bars"></i>
 			</div>
 		</div>
 	</div>
@@ -41,38 +49,47 @@
 
 		<section class="content">
 			<div class="row">
-				<div class="col-6 offset-3">
-					<p th:if="${carts.empty}" class="text-center">Không có sản phẩm nào trong giỏ hàng</p>
-					<div class="product-preview big-image" th:if="${!carts.empty}" th:each="cart: ${carts}" th:attr="data-id=${cart.id}">
-						<div class="control-group">
-							<span class="delete-item"></span>
-						</div>
-						<div class="image-container">
-							<img th:src="${cart.product.image}" alt="product" />
-						</div>
-						<div class="content">
-							<h5 class="name" th:text="${cart.product.name + ' - ' + cart.product.productCode}"></h5>
-							<p class="text-muted mb-0" th:text="${cart.getItemString()}"></p>
-							<p class="discountCost">
-								<span th:text="${cart.product.discountCost}"></span>đ
-							</p>
-							<div class="counting">
-								<div class="decrease"></div>
-								<div class="amount" th:attr="data-value=${cart.amount}" th:text="${cart.amount}"></div>
-								<div class="increase"></div>
-								<div class="total-cost">
-									<span class="total-cost-number" th:text="${cart.totalAmount}"></span>đ
+				<div class="col-12 col-sm-6 offset-0 offset-sm-3">
+					<div class="card">
+						<div class="card-body">
+							<p th:if="${carts.empty}" class="text-center">Không có sản phẩm nào trong giỏ hàng</p>
+							<div class="product-preview big-image" th:if="${!carts.empty}" th:each="cart: ${carts}" th:attr="data-id=${cart.id}">
+								<div class="control-group">
+									<span class="delete-item"></span>
+								</div>
+								<div class="image-container">
+									<img th:src="${cart.product.image}" alt="product" />
+								</div>
+								<div class="content">
+									<h5 class="name" th:text="${cart.product.name + ' - ' + cart.product.productCode}"></h5>
+									<p class="text-muted mb-0" th:text="${cart.getItemString()}"></p>
+									<p class="discountCost">
+										<span th:text="${cart.product.discountCost}"></span>
+										đ
+									</p>
+									<div class="counting">
+										<div class="decrease"></div>
+										<div class="amount" th:attr="data-value=${cart.amount}" th:text="${cart.amount}"></div>
+										<div class="increase"></div>
+										<div class="total-cost">
+											<span class="total-cost-number" th:text="${cart.totalAmount}"></span>
+											đ
+										</div>
+									</div>
 								</div>
 							</div>
+
+							<hr>
+
+							<p class="total-cart">
+								Tổng tiền:
+								<span class="amount" style="font-size: 30px;">0 đ</span>
+							</p>
+
+							<div class="text-center">
+								<a href="/user/order-preview" class="btn btn-primary">Xem trước đơn hàng</a>
+							</div>
 						</div>
-					</div>
-					
-					<hr>
-					
-					<p class="total-cart">Tổng tiền: <span class="amount">0</span>đ</p>
-					
-					<div class="text-center">
-						<a href="/user/order-preview" class="btn btn-primary">Xem trước đơn hàng</a>
 					</div>
 				</div>
 			</div>

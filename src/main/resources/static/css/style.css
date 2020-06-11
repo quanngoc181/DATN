@@ -31,6 +31,18 @@ body {
 	margin-top: -5px;
 	margin-bottom: 0;
 }
+.card-header {
+	border-radius: 0 !important;
+}
+
+.list-group-item:first-child {
+	border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.list-group-item:last-child {
+	border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
 
 section.content {
 	padding: 0 0.5rem;
@@ -358,7 +370,7 @@ section.content {
 		min-width: 200px;
 		top: 60px;
 		right: -200px;
-		flex-direction: column;
+		flex-direction: column-reverse;
 		background-color: rgb(0, 173, 181, 0.6);
 		backdrop-filter: blur(5px);
 		transition: all 0.4s ease 0s;
@@ -371,6 +383,10 @@ section.content {
 	}
 	.my-header .toggle-header {
 		display: block;
+	}
+	.my-header .menus .dropdown .dropdown-container {
+		right: 0;
+		z-index: 1;
 	}
 }
 
