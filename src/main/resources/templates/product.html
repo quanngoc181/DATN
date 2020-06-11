@@ -8,15 +8,21 @@
 	<div class="my-header">
 		<div class="container">
 			<a href="/" class="logo"></a>
-			<div class="left menus">
-				<a href="/product" class="menu">Thực Đơn</a>
-				<a href="#" class="menu">Tin Tức</a>
-				<a href="#" class="menu">Cửa Hàng</a>
+			<div class="header-container">
+				<div class="left menus">
+					<a href="/product" class="menu">Thực Đơn</a>
+					<a href="#" class="menu">Tin Tức</a>
+					<a href="/#google-map" class="menu">Bản đồ</a>
+					<a href="/#about-us" class="menu">Liên hệ</a>
+				</div>
+				<div class="center menus"></div>
+				<div class="right menus">
+					<a href="/login" class="menu">Đăng Nhập</a>
+					<a href="/register" class="menu">Đăng Ký</a>
+				</div>
 			</div>
-			<div class="center menus"></div>
-			<div class="right menus">
-				<a href="/login" class="menu">Đăng Nhập</a>
-				<a href="/register" class="menu">Đăng Ký</a>
+			<div class="toggle-header">
+				<i class="fas fa-bars"></i>
 			</div>
 		</div>
 	</div>
@@ -28,16 +34,21 @@
 
 		<section class="content">
 			<div class="row">
-				<div class="col-3">
-					<div class="card">
+				<div class="col-12 col-sm-3">
+					<div class="card collapsed-card">
 						<div class="card-header">
-							<h3 class="card-title">Filter</h3>
+							<h3 class="card-title">Bộ lọc</h3>
+							<div class="card-tools">
+								<button type="button" class="btn btn-tool toggle-filter" data-card-widget="collapse">
+									<i class="fas fa-plus"></i>
+								</button>
+							</div>
 						</div>
 						<div class="card-body">
 							<form id="search-form">
 								<div class="form-group">
 									<label for="keyword">Tìm kiếm</label>
-									<input type="text" class="form-control" name="keyword" id="keyword">
+									<input type="text" class="form-control" name="keyword" id="keyword" autofocus>
 								</div>
 
 								<hr>
@@ -52,7 +63,7 @@
 
 								<hr>
 
-								<div class="form-group">
+								<div>
 									<label>Khuyến mãi</label>
 									<div class="icheck-primary">
 										<input type="radio" id="all" name="discount" value="all" checked>
@@ -67,7 +78,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-6" id="product-region"></div>
+				<div class="col-12 col-sm-6" id="product-region"></div>
 				<div class="col-3"></div>
 			</div>
 		</section>

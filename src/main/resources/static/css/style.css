@@ -24,6 +24,13 @@ body {
 	box-shadow: none;
 	border: 2px solid;
 }
+.card-header>.card-tools {
+	height: 21px;
+}
+.card-tools .btn-tool {
+	margin-top: -5px;
+	margin-bottom: 0;
+}
 
 section.content {
 	padding: 0 0.5rem;
