@@ -17,6 +17,12 @@ $(function() {
 	$(document).ajaxSend(function(e, xhr, options) {
 		xhr.setRequestHeader(header, token);
 	});
+	
+	$('.toggle-header').on('click', function() {
+		$('.my-header .header-container').toggleClass('visible');
+		$(this).find('i').toggleClass('fa-bars');
+		$(this).find('i').toggleClass('fa-times');
+	});
 
 	$('[data-mask]').inputmask();
 	

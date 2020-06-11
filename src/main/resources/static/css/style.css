@@ -12,11 +12,17 @@ body {
 
 .clear-top {
 	top: 60px;
-    position: relative;
+	position: relative;
 }
 
 .form-control:focus {
 	box-shadow: none;
+}
+
+.card {
+	border-radius: 0;
+	box-shadow: none;
+	border: 2px solid;
 }
 
 section.content {
@@ -50,7 +56,7 @@ section.content {
 	text-align: center;
 }
 
-.dt-vertical-align > * {
+.dt-vertical-align>* {
 	vertical-align: bottom;
 }
 
@@ -97,19 +103,24 @@ section.content {
 .my-header {
 	height: 60px;
 	width: 100%;
-    position: fixed;
-    z-index: 2;
-    background-color: rgb(0,173,181,0.6);
-    backdrop-filter: blur(5px);
+	position: fixed;
+	z-index: 2;
+	background-color: rgb(0, 173, 181, 0.6);
+	backdrop-filter: blur(5px);
 }
 
 .my-header .container {
 	display: flex;
 }
 
+.my-header .header-container {
+	flex-grow: 1;
+	display: flex;
+}
+
 .my-header .logo {
 	height: 60px;
-	width: 60px;
+	min-width: 60px;
 	background: url('../images/logo.svg') center/contain no-repeat;
 	margin-right: 20px;
 }
@@ -129,15 +140,15 @@ section.content {
 	width: 250px;
 }
 
-.my-header .menus input:focus,
-.my-header .menus input:focus+.input-group-append {
+.my-header .menus input:focus, .my-header .menus input:focus+.input-group-append
+	{
 	box-shadow: none;
 	background-color: #eee;
 }
 
 .my-header .menus .input-group-append {
 	background-color: #fff;
-    border-radius: 0 0.2rem 0.2rem 0;
+	border-radius: 0 0.2rem 0.2rem 0;
 }
 
 .my-header .menus .menu {
@@ -154,13 +165,13 @@ section.content {
 
 .my-header .menus .menu:after {
 	content: '';
-    width: 0;
-    height: 4px;
-    position: absolute;
-    background-color: #222831;
-    left: -10px;
-    bottom: 0;
-    transition: width 0.3s ease;
+	width: 0;
+	height: 4px;
+	position: absolute;
+	background-color: #222831;
+	left: -10px;
+	bottom: 0;
+	transition: width 0.3s ease;
 }
 
 .my-header .menus .menu:hover:after {
@@ -168,11 +179,11 @@ section.content {
 }
 
 .my-header .menus .avatar {
-    object-fit: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    border: 2px solid #393e46;
+	object-fit: cover;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	border: 2px solid #393e46;
 }
 
 .my-header .menus .dropdown {
@@ -181,15 +192,15 @@ section.content {
 
 .my-header .menus .dropdown .dropdown-container {
 	position: absolute;
-    top: 120px;
-    width: max-content;
-    min-width: 150px;
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    pointer-events: none;
-    opacity: 0;
-    transition: all 0.3s ease;
+	top: 120px;
+	width: max-content;
+	min-width: 150px;
+	display: flex;
+	flex-direction: column;
+	background: #fff;
+	pointer-events: none;
+	opacity: 0;
+	transition: all 0.3s ease;
 }
 
 .my-header .menus .dropdown .dropdown-container:hover {
@@ -215,13 +226,13 @@ section.content {
 
 .my-header .menus .dropdown .dropdown-container a:after {
 	content: '';
-    width: 0;
-    height: 4px;
-    position: absolute;
-    background-color: #222831;
-    left: 0;
-    bottom: 0;
-    transition: width 0.3s ease;
+	width: 0;
+	height: 4px;
+	position: absolute;
+	background-color: #222831;
+	left: 0;
+	bottom: 0;
+	transition: width 0.3s ease;
 }
 
 .my-header .menus .dropdown .dropdown-container a:hover {
@@ -234,7 +245,24 @@ section.content {
 
 .my-header .cart-number {
 	vertical-align: text-bottom;
-    margin-left: 5px;
+	margin-left: 5px;
+}
+
+.my-header .toggle-header {
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	height: 30px;
+	width: 30px;
+    text-align: center;
+	line-height: 30px;
+	font-size: 30px;
+	display: none;
+}
+
+#carouselExampleIndicators img {
+	height: 100vh;
+	object-fit: cover;
 }
 
 .google-map {
@@ -255,34 +283,33 @@ section.content {
 
 .about-us .overlay {
 	position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    background: rgba(51, 51, 51, 0.86);
+	width: 100%;
+	height: 100%;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	background: rgba(51, 51, 51, 0.86);
 }
 
 .about-us .container {
 	height: 100%;
-    display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
 }
 
 .about-us .footer-logo {
 	width: 300px;
-    height: 300px;
+	height: 300px;
 }
 
 .about-us .company-name {
 	font-size: 24px;
-    color: green;
-    font-weight: bold;
-    margin-bottom: 30px;
+	font-weight: bold;
+	margin-bottom: 30px;
 }
 
 .about-us .footer-info i {
@@ -295,8 +322,49 @@ section.content {
 
 .about-us .footer-icon i {
 	font-size: 24px;
-    color: green;
-    margin-right: 10px;
+	color: green;
+	margin-right: 10px;
+}
+
+@media ( max-width : 576px) {
+	#carouselExampleIndicators img, .google-map, .about-us {
+		height: 33.333vh;
+	}
+	.about-us {
+		font-size: 12px;
+	}
+	.about-us .company-name {
+		margin-bottom: 10px;
+	}
+	.about-us .footer-logo {
+		display: none;
+	}
+	.about-us .footer-info {
+		margin-bottom: 0;
+	}
+	.about-us .footer-icon {
+		margin-bottom: 10px;
+		margin-top: 5px;
+	}
+	.my-header .header-container {
+		position: absolute;
+		min-width: 200px;
+		top: 60px;
+		right: -200px;
+		flex-direction: column;
+		background-color: rgb(0, 173, 181, 0.6);
+		backdrop-filter: blur(5px);
+		transition: all 0.4s ease 0s;
+	}
+	.my-header .header-container.visible {
+		right: 0;
+	}
+	.my-header .menus {
+		flex-direction: column;
+	}
+	.my-header .toggle-header {
+		display: block;
+	}
 }
 
 /* ::-webkit-scrollbar { */

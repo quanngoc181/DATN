@@ -40,6 +40,7 @@ $(function(){
 			method: 'post',
 			data: { username: username },
 			success : function(data) {
+				$("#forgot-password-form").trigger("reset");
 				notify('info', data);
 			},
 			error : function(err) {
