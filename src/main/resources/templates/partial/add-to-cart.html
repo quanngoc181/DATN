@@ -14,18 +14,21 @@
 					</div>
 					<div class="content">
 						<h5 class="name" th:text="${product.name + ' - ' + product.productCode}"></h5>
-						<p class="cost">
-							<span th:text="${product.cost}"></span>đ
+						<p class="cost" th:if="${product.cost != product.discountCost}">
+							<span th:text="${product.cost}"></span>
+							đ
 						</p>
 						<p class="discountCost">
-							<span th:text="${product.discountCost}"></span>đ
+							<span th:text="${product.discountCost}"></span>
+							đ
 						</p>
 						<div class="counting">
 							<div class="decrease"></div>
 							<div class="amount" data-value="1">1</div>
 							<div class="increase"></div>
 							<div class="total-cost">
-								<span class="total-cost-number" th:text="${product.discountCost}"></span>đ
+								<span class="total-cost-number" th:text="${product.discountCost}"></span>
+								đ
 							</div>
 						</div>
 					</div>
@@ -38,7 +41,7 @@
 						<div class="icheck-primary" th:each="item: ${option.items}">
 							<input th:name="${option.id}" th:type="${option.getIntType() == 0 ? 'radio' : 'checkbox'}" th:checked="${item.isDefault()}" th:id="${item.id}" th:value="${item.id}">
 							<label th:for="${item.id}" th:text="${item.name}"></label>
-							<span th:if="${item.cost != 0 }" th:text="'+ ' + ${item.cost} + 'đ'"></span>
+							<span th:if="${item.cost != 0 }" th:text="'+ ' + ${item.cost} + ' đ'"></span>
 						</div>
 					</div>
 				</div>
