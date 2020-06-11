@@ -44,33 +44,40 @@
 				<div class="col-6 offset-3">
 					<div class="card">
 						<div class="card-body">
-							<div class="card">
-								<div class="card-header">
-									<h3 class="card-title">Thông tin người nhận</h3>
-								</div>
-								<div class="card-body">
-									<div class="form-group row">
-										<label class="col-sm-4 col-form-label">Tên địa chỉ</label>
-										<div class="col-sm-8">
-											<input type="text" readonly class="form-control-plaintext" th:value="${order.addressName}">
+							<div id="receive-address-container">
+								<div class="card" th:attr="data-id=${order.addressId}">
+									<div class="card-header">
+										<h3 class="card-title">Thông tin người nhận</h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool change-address" title="Đổi địa chỉ">
+												<i class="fas fa-exchange-alt"></i>
+											</button>
 										</div>
 									</div>
-									<div class="form-group row">
-										<label class="col-sm-4 col-form-label">Địa chỉ</label>
-										<div class="col-sm-8">
-											<input type="text" readonly class="form-control-plaintext" th:value="${order.address}">
+									<div class="card-body">
+										<div class="form-group row">
+											<label class="col-sm-4 col-form-label">Tên địa chỉ</label>
+											<div class="col-sm-8">
+												<input type="text" readonly class="form-control-plaintext" th:value="${order.addressName}">
+											</div>
 										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-sm-4 col-form-label">Tên người nhận</label>
-										<div class="col-sm-8">
-											<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
+										<div class="form-group row">
+											<label class="col-sm-4 col-form-label">Địa chỉ</label>
+											<div class="col-sm-8">
+												<input type="text" readonly class="form-control-plaintext" th:value="${order.address}">
+											</div>
 										</div>
-									</div>
-									<div class="form-group row">
-										<label class="col-sm-4 col-form-label">Số điện thoại</label>
-										<div class="col-sm-8">
-											<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
+										<div class="form-group row">
+											<label class="col-sm-4 col-form-label">Tên người nhận</label>
+											<div class="col-sm-8">
+												<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-sm-4 col-form-label">Số điện thoại</label>
+											<div class="col-sm-8">
+												<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
+											</div>
 										</div>
 									</div>
 								</div>
@@ -86,23 +93,35 @@
 											<img th:src="${product.image}" alt="product" />
 										</div>
 										<div class="content">
-											<h5 class="name"><b class="product-label">Sản phẩm: </b><span th:text="${product.name + ' - ' + product.code}"></span></h5>
-											<p class="text-muted mb-0"><b class="product-label">Tùy chọn: </b><span th:text="${product.items}"></span></p>
+											<h5 class="name">
+												<b class="product-label">Sản phẩm: </b>
+												<span th:text="${product.name + ' - ' + product.code}"></span>
+											</h5>
+											<p class="text-muted mb-0">
+												<b class="product-label">Tùy chọn: </b>
+												<span th:text="${product.items}"></span>
+											</p>
 											<p class="discountCost">
-												<span><b class="product-label">Đơn giá: </b><span th:text="${product.cost}"></span></span>
+												<span>
+													<b class="product-label">Đơn giá: </b>
+													<span th:text="${product.cost}"></span>
+												</span>
 												đ
 											</p>
-											<p class="mb-0"><b class="product-label">Số lượng: </b><b th:text="${product.amount}"></b></p>
+											<p class="mb-0">
+												<b class="product-label">Số lượng: </b>
+												<b th:text="${product.amount}"></b>
+											</p>
 										</div>
 									</div>
-									
+
 									<div>
 										<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
 										<b class="total-product-cost" th:text="${order.cost} + ' đ'"></b>
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="card">
 								<div class="card-body">
 									<div>
@@ -111,7 +130,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="card">
 								<div class="card-body">
 									<div class="row">
@@ -122,7 +141,7 @@
 									</div>
 								</div>
 							</div>
-							
+
 							<div class="text-center">
 								<a href="#" class="btn btn-primary">Đặt hàng</a>
 							</div>
@@ -131,6 +150,12 @@
 				</div>
 			</div>
 		</section>
+	</div>
+
+	<div class="modal fade" id="address-modal">
+		<div class="modal-dialog">
+			<div class="modal-content"></div>
+		</div>
 	</div>
 
 	<th:block th:include="fragment/script"></th:block>

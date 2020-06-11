@@ -46,6 +46,7 @@ public class OrderService {
 		
 		for (ReceiveAddress receiveAddress : account.getReceiveAddresses()) {
 			if(receiveAddress.isDefault()) {
+				dto.setAddressId(receiveAddress.getId());
 				dto.setAddressName(receiveAddress.getAddressName());
 				dto.setName(receiveAddress.getName());
 				dto.setAddress(receiveAddress.getAddress());

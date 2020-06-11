@@ -63,3 +63,11 @@
 .total-product-cost {
 	font-size: 30px;
 }
+
+#address-modal .list-group  {
+	cursor: pointer;
+}
+
+#address-modal .list-group:hover {
+    outline: 2px solid;
+}

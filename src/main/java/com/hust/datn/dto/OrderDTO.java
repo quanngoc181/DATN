@@ -1,6 +1,7 @@
 package com.hust.datn.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.Column;
 
@@ -9,9 +10,11 @@ import org.hibernate.annotations.Nationalized;
 import com.hust.datn.enums.OrderStatus;
 
 public class OrderDTO {
-	public String name;
+	public UUID addressId;
 	
 	public String addressName;
+	
+	public String name;
 	
 	public String address;
 	
@@ -34,6 +37,22 @@ public class OrderDTO {
 		this.phone = phone;
 		this.productCost = cost;
 		this.shippingFee = shippingFee;
+	}
+
+	public UUID getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(UUID addressId) {
+		this.addressId = addressId;
+	}
+
+	public int getProductCost() {
+		return productCost;
+	}
+
+	public void setProductCost(int productCost) {
+		this.productCost = productCost;
 	}
 
 	public int getShippingFee() {

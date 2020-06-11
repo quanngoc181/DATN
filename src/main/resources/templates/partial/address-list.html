@@ -1,0 +1,32 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<form>
+		<div class="modal-header">
+			<h4 class="modal-title">Danh sách địa chỉ</h4>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			<ul class="list-group receive-address mb-3" th:each="address: ${addresses}" th:attr="data-id=${address.id}">
+				<li class="list-group-item" style="font-size: 20px;">
+					<b th:text="${address.addressName}"></b>
+				</li>
+				<li class="list-group-item">
+					<b>Tên</b>
+					<a class="float-right" th:text="${address.name}"></a>
+				</li>
+				<li class="list-group-item">
+					<b>SĐT</b>
+					<a class="float-right" th:text="${address.phone}"></a>
+				</li>
+				<li class="list-group-item">
+					<b>Địa chỉ</b>
+					<a class="float-right" th:text="${address.address}"></a>
+				</li>
+			</ul>
+		</div>
+		<!-- <div class="modal-footer">
+			<button type="submit" class="btn btn-primary">Thêm</button>
+		</div> -->
+	</form>
+</th:block>
