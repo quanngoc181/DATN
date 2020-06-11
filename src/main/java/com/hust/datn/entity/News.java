@@ -2,6 +2,7 @@ package com.hust.datn.entity;
 
 import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -16,7 +17,7 @@ public class News extends ParentEntity {
 	@Nationalized
 	private String description;
 	
-	@Nationalized
+	@Column(columnDefinition = "nvarchar(MAX)")
 	private String content;
 	
 	public News() {

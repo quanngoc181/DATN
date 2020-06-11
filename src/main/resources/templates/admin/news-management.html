@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/news-management.css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+	<div class="wrapper">
+		<th:block th:include="fragment/admin-nav"></th:block>
+
+		<th:block th:include="fragment/admin-aside"></th:block>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Quản lý tin tức</h1>
+			</section>
+
+			<section class="content">
+
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">Tin tức</h3>
+						<div class="card-tools">
+							<button type="button" id="add-news" class="btn btn-tool" title="Thêm bài viết" style="margin-right: 2px;">
+								<i class="fas fa-plus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="card-body">
+						<table id="news-datatable" class="table table-bordered js-datatable">
+							<thead>
+								<tr>
+									<th>Ngày tạo</th>
+									<th>Ngày sửa</th>
+									<th>Tiêu đề</th>
+									<th>Mô tả ngắn</th>
+									<th></th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+				<div id="news-detail"></div>
+
+			</section>
+		</div>
+
+		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/admin-nav.js"></script>
+	<script src="/js/news-management.js"></script>
+</body>
+</html>
