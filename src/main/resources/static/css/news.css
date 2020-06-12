@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+.news-item {
+    border-bottom: 1px solid;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.news-item .title {
+	font-size: 20px;
+}
+
+.news-item .description {
+	font-size: 14px;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.news-title {
+	margin-bottom: 0;
+}
+
+.news-date {
+	color: #666;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.news-description {
+	margin-top: 15px;
+    font-size: 18px;
+}

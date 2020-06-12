@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
 <th:block th:include="fragment/head"></th:block>
-<link rel="stylesheet" href="/css/cart.css" />
+<link rel="stylesheet" href="/css/news.css" />
 </head>
 <body>
 	<div class="my-header">
@@ -44,50 +44,31 @@
 
 	<div class="container clear-top">
 		<div class="content-header">
-			<h1>Giỏ hàng của bạn</h1>
+			<h1>Trang tin tức</h1>
 		</div>
 
 		<section class="content">
 			<div class="row">
-				<div class="col-12 col-sm-6 offset-0 offset-sm-3">
-					<div class="card">
+				<div class="col-12 col-sm-9">
+					<div class="card" th:if="${news != null}">
 						<div class="card-body">
-							<p th:if="${carts.empty}" class="text-center">Không có sản phẩm nào trong giỏ hàng</p>
-							<div class="product-preview big-image" th:if="${!carts.empty}" th:each="cart: ${carts}" th:attr="data-id=${cart.id}">
-								<div class="control-group">
-									<span class="delete-item"></span>
-								</div>
-								<div class="image-container">
-									<img th:src="${cart.product.image}" alt="product" />
-								</div>
-								<div class="content">
-									<h5 class="name" th:text="${cart.product.name + ' - ' + cart.product.productCode}"></h5>
-									<p class="text-muted mb-0" th:text="${cart.getItemString()}"></p>
-									<p class="discountCost">
-										<span th:text="${cart.product.discountCost}"></span>
-										đ
-									</p>
-									<div class="counting">
-										<div class="decrease"></div>
-										<div class="amount" th:attr="data-value=${cart.amount}" th:text="${cart.amount}"></div>
-										<div class="increase"></div>
-										<div class="total-cost">
-											<span class="total-cost-number" th:text="${cart.totalAmount}"></span>
-											đ
-										</div>
-									</div>
-								</div>
-							</div>
-
+							<h1 class="news-title" th:text="${news.title}"></h1>
+							<div class="news-date" th:text="'Sửa đổi lần cuối vào ' + ${news.updateAt == null ? #temporals.format(news.createAt, 'HH:mm dd/MM/yyyy') : #temporals.format(news.updateAt, 'HH:mm dd/MM/yyyy')}"></div>
+							<p class="news-description" th:text="${news.description}"></p>
 							<hr>
-
-							<p class="total-cart">
-								Tổng tiền:
-								<span class="amount" style="font-size: 30px;">0 đ</span>
-							</p>
-
-							<div class="text-center">
-								<a href="/user/order-preview" class="btn btn-primary">Xem trước đơn hàng</a>
+							<p class="news-content" th:remove="tag" th:utext="${news.content}"></p>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 col-sm-3">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Danh mục bài viết</h3>
+						</div>
+						<div class="card-body">
+							<div class="news-item" th:each="news: ${newsList}">
+								<a th:href="${'/user/news?id=' + news.id}" class="title" th:text="${news.title}"></a>
+								<p class="description" th:text="${news.description}"></p>
 							</div>
 						</div>
 					</div>
@@ -98,6 +79,6 @@
 
 	<th:block th:include="fragment/script"></th:block>
 	<script src="/js/cart-number.js"></script>
-	<script src="/js/cart.js"></script>
+	<script src="/js/news.js"></script>
 </body>
 </html>
