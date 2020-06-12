@@ -1,5 +1,6 @@
 package com.hust.datn.entity;
 
+import java.util.Base64;
 import java.util.Set;
 import java.util.UUID;
 

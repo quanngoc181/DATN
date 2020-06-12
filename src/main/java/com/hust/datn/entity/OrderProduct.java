@@ -1,5 +1,7 @@
 package com.hust.datn.entity;
 
+import java.util.Base64;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -39,6 +41,10 @@ public class OrderProduct extends ParentEntity {
 		this.amount = amount;
 		this.cost = cost;
 		this.image = image;
+	}
+	
+	public String getImageString() {
+		return this.image == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(this.image));
 	}
 
 	public Order getOrder() {

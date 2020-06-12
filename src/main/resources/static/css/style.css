@@ -24,6 +24,9 @@ body {
 	box-shadow: none;
 	border: 2px solid;
 }
+.card.light-border {
+	border: 1px solid;
+}
 .card-header>.card-tools {
 	height: 21px;
 }
@@ -343,6 +346,11 @@ section.content {
 	font-size: 24px;
 	color: green;
 	margin-right: 10px;
+}
+
+.product-preview.borderless {
+	border: none;
+	padding: 0;
 }
 
 @media ( max-width : 576px) {
