@@ -2,8 +2,10 @@ package com.hust.datn.service;
 
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +16,17 @@ import com.hust.datn.dto.OrderDTO;
 import com.hust.datn.dto.OrderProductDTO;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.Cart;
+import com.hust.datn.entity.Order;
+import com.hust.datn.entity.OrderProduct;
 import com.hust.datn.entity.Product;
 import com.hust.datn.entity.ReceiveAddress;
+import com.hust.datn.enums.OrderStatus;
+import com.hust.datn.enums.OrderType;
+import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
 import com.hust.datn.repository.CartRepository;
 import com.hust.datn.repository.ProductRepository;
+import com.hust.datn.repository.ReceiveAddressRepository;
 
 @Service
 public class OrderService {
@@ -30,6 +38,9 @@ public class OrderService {
 	
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	ReceiveAddressRepository receiveAddressRepository;
 	
 	@Autowired
 	CartService cartService;
@@ -86,5 +97,69 @@ public class OrderService {
 		dto.shippingFee = shippingFee;
 		
 		return dto;
+	}
+	
+	public Order createOrder(UUID userId, UUID addressId, String note) throws InternalException {
+		Order order = new Order();
+		
+		if(userId == null || addressId == null)
+			throw new InternalException("Tham số lỗi");
+		
+		Optional<Account> account = accountRepository.findById(userId);
+		if(!account.isPresent())
+			throw new InternalException("Không tìm thấy tài khoản");
+		
+		order.setOrderAccountId(account.get().getId());
+		order.setOrderAccount(account.get().getUsername());
+		order.setOrderName(account.get().getFirstName() + " " + account.get().getLastName());
+		order.setOrderPhone(account.get().getPhone());
+		
+		Optional<ReceiveAddress> receiveAddress = receiveAddressRepository.findById(addressId);
+		if(!receiveAddress.isPresent())
+			throw new InternalException("Không tìm thấy địa chỉ");
+		
+		order.setAddressName(receiveAddress.get().getAddressName());
+		order.setName(receiveAddress.get().getName());
+		order.setAddress(receiveAddress.get().getAddress());
+		order.setPhone(receiveAddress.get().getPhone());
+		
+		List<Cart> carts = cartRepository.findByUserId(userId);
+		
+		Set<OrderProduct> products = new HashSet<>();
+		int productCost = 0;
+		for (Cart cart : carts) {
+			Optional<Product> product = productRepository.findById(cart.getProductId());
+			if(product.isPresent()) {
+				OrderProduct orderProduct = new OrderProduct();
+				
+				orderProduct.setAmount(cart.getAmount());
+				
+				orderProduct.setCode(product.get().getProductCode());
+				orderProduct.setName(product.get().getName());
+				orderProduct.setImage(product.get().getImage());
+				orderProduct.setCost(product.get().getDiscountCost());
+				
+				CartDTO cartDTO = cartService.getCartDTO(cart);
+				orderProduct.setItems(cartDTO.getItemStringLite());
+				
+				orderProduct.setOrder(order);
+				
+				productCost += cartService.getDetailCost(cart);
+				
+				products.add(orderProduct);
+			}
+		}
+		order.setOrderProducts(products);
+		order.setProductCost(productCost);
+		
+		int shippingFee = constantService.getAll().shippingFee;
+		order.setShippingFee(shippingFee);
+		
+		order.setType(OrderType.ONLINE);
+		order.setStatus(OrderStatus.UNPAID);
+		order.setNote(note);
+		order.setCost(productCost + shippingFee);
+		
+		return order;
 	}
 }

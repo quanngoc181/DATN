@@ -39,6 +39,14 @@ public class OrderDTO {
 		this.shippingFee = shippingFee;
 	}
 
+	public List<OrderProductDTO> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<OrderProductDTO> products) {
+		this.products = products;
+	}
+
 	public UUID getAddressId() {
 		return addressId;
 	}

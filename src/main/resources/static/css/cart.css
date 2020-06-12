@@ -25,7 +25,7 @@
 }
 
 .product-preview.big-image .image-container {
-	width: 150px;
+	min-width: 150px;
 	height: 150px;
 	margin-right: 10px;
 }
@@ -152,6 +152,7 @@
 
 @media ( max-width : 576px) {
 	.product-preview.big-image .image-container {
+		min-width: 100px;
 		width: 100px;
 		height: 100px;
 	}

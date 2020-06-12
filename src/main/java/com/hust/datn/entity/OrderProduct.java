@@ -41,6 +41,14 @@ public class OrderProduct extends ParentEntity {
 		this.image = image;
 	}
 
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
 	public String getCode() {
 		return code;
 	}

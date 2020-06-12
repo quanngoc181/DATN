@@ -31,4 +31,26 @@ $(function() {
 			}
 		});
 	});
+	
+	$('#create-order').on('click', function(e) {
+		e.preventDefault();
+		
+		let addressId = $('#order-address').data('id');
+		let note = $('#order-note').val();
+		
+		$.ajax({
+			url : "/user/create-order",
+			method: 'post',
+			data: {
+				addressId: addressId,
+				note: note
+			},
+			success : function(data) {
+				notify('success', 'Thành công');
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
 });

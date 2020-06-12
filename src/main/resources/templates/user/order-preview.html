@@ -53,7 +53,7 @@
 					<div class="card">
 						<div class="card-body">
 							<div id="receive-address-container">
-								<div class="card" th:attr="data-id=${order.addressId}">
+								<div class="card" id="order-address" th:attr="data-id=${order.addressId}">
 									<div class="card-header">
 										<h3 class="card-title">Thông tin người nhận</h3>
 										<div class="card-tools">
@@ -125,7 +125,7 @@
 
 									<div>
 										<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
-										<b class="total-product-cost" th:text="${order.cost} + ' đ'"></b>
+										<b class="total-product-cost" th:text="${order.productCost} + ' đ'"></b>
 									</div>
 								</div>
 							</div>
@@ -144,14 +144,21 @@
 									<div class="row">
 										<label class="col-sm-3 col-form-label">Lời nhắn</label>
 										<div class="col-sm-9">
-											<textarea class="form-control" rows="3" style="margin-top: 0px; margin-bottom: 0px;"></textarea>
+											<textarea id="order-note" class="form-control" rows="3" style="margin-top: 0px; margin-bottom: 0px;"></textarea>
 										</div>
 									</div>
 								</div>
 							</div>
 
+							<hr>
+
 							<div class="text-center">
-								<a href="#" class="btn btn-primary">Đặt hàng</a>
+								<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+								<b class="total-product-cost" th:text="${order.shippingFee + order.productCost} + ' đ'"></b>
+							</div>
+
+							<div class="text-center">
+								<a href="#" id="create-order" class="btn btn-primary">Đặt hàng</a>
 							</div>
 						</div>
 					</div>
