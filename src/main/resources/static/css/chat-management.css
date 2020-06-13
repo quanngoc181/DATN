@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.chat-item {
+	position: relative;
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding: 10px;
+}
+
+.chat-item.active {
+	outline: 2px solid;
+}
+
+.chat-item.unseen:after {
+	content: '';
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: green;
+	right: 10px;
+}
+
+.chat-item img {
+	min-width: 50px;
+	height: 50px;
+	object-fit: cover;
+	margin-right: 10px;
+}
+
+.direct-chat-msg {
+    width: 60%;
+}
+.direct-chat-msg.right {
+    margin-left: auto;
+}

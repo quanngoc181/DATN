@@ -31,6 +31,10 @@
 							</div>
 						</div>
 					</div>
+					<a href="#" class="menu open-chat">
+						Tin nhắn
+						<span class="badge badge-info right message-number">0</span>
+					</a>
 					<a href="/user/cart" class="menu">
 						Giỏ hàng
 						<span class="badge badge-info right cart-number">0</span>
@@ -105,9 +109,32 @@
 			<div class="modal-content"></div>
 		</div>
 	</div>
+	
+	<div class="chat-container">
+		<div class="card card-prirary cardutline direct-chat direct-chat-primary mb-0 d-none">
+			<div class="card-header">
+				<h3 class="card-title">Chat với Admin</h3>
+				<div class="card-tools">
+					<button type="button" class="btn btn-tool close-chat">
+						<i class="fas fa-times"></i>
+					</button>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="direct-chat-messages" id="direct-chat-messages"></div>
+			</div>
+			<div class="card-footer">
+				<form action="#">
+					<input type="text" name="message" class="form-control input-message" placeholder="Nhập tin nhắn...">
+					<button type="submit" class="btn btn-primary d-none send-message"></button>
+				</form>
+			</div>
+		</div>
+	</div>
 
 	<th:block th:include="fragment/script"></th:block>
 	<script src="/js/cart-number.js"></script>
+	<script src="/js/user-chat.js"></script>
 	<script src="/js/user-product.js"></script>
 </body>
 </html>

@@ -1,0 +1,11 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<div th:each="message: ${messages}" class="direct-chat-msg" th:classappend="${message.original} ? right">
+		<div class="direct-chat-infos clearfix">
+			<span class="direct-chat-name" th:classappend="${message.original} ? float-right : float-left" th:text="${message.sender}"></span>
+			<span class="direct-chat-timestamp" th:classappend="${message.original} ? float-left : float-right" th:text="${message.date}"></span>
+		</div>
+		<img class="direct-chat-img" th:src="${message.avatar}" alt="Avatar">
+		<div class="direct-chat-text" th:text="${message.message}"></div>
+	</div>
+	<div class="d-none unseen-tmp" th:attr="data-value=${unSeen}"></div>
+</th:block>

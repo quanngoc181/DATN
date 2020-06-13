@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/chat-management.css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+	<div class="wrapper">
+		<th:block th:include="fragment/admin-nav"></th:block>
+
+		<th:block th:include="fragment/admin-aside"></th:block>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Tất cả trò chuyện</h1>
+			</section>
+
+			<section class="content">
+
+				<div class="row">
+					<div class="col-3">
+						<div class="card">
+							<div class="card-body" id="contact-list">
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-9 conversation-container">
+						
+					</div>
+				</div>
+
+			</section>
+		</div>
+
+		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/admin-nav.js"></script>
+	<script src="/js/chat-management.js"></script>
+</body>
+</html>

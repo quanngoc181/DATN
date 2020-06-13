@@ -1,0 +1,7 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<div class="chat-item" th:each="contact: ${contacts}" th:classappend="${(!contact.seen ? 'unseen' : '') + (selecting!=null&&selecting==contact.username ? ' active' : '')}" th:attr="data-user=${contact.username}">
+		<img th:src="${contact.avatar}">
+		<div th:text="${contact.name}"></div>
+	</div>
+	<div class="d-none unseen-tmp" th:attr="data-value=${unSeen}"></div>
+</th:block>

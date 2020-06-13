@@ -23,6 +23,18 @@ $(function() {
 		$(this).find('i').toggleClass('fa-bars');
 		$(this).find('i').toggleClass('fa-times');
 	});
+	
+	$('.chat-container .close-chat').on('click', function() {
+		$(this).closest('.card').addClass('d-none');
+	});
+	
+	$('.open-chat').on('click', function(e) {
+		e.preventDefault();
+		$('.chat-container>.card').removeClass('d-none');
+		let el = document.getElementById("direct-chat-messages");
+		el.scrollTop = el.scrollHeight;
+		$('.chat-container .input-message').focus();
+	});
 
 	$('[data-mask]').inputmask();
 	

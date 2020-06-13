@@ -265,7 +265,7 @@ section.content {
 	width: 100%;
 }
 
-.my-header .cart-number {
+.my-header .badge-info {
 	vertical-align: text-bottom;
 	margin-left: 5px;
 }
@@ -351,6 +351,14 @@ section.content {
 .product-preview.borderless {
 	border: none;
 	padding: 0;
+}
+
+.chat-container {
+	position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 350px;
+    z-index: 2;
 }
 
 @media ( max-width : 576px) {

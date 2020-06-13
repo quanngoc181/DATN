@@ -1,0 +1,26 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<div class="card card-prirary cardutline direct-chat direct-chat-primary mb-0">
+		<div class="card-header">
+			<h3 class="card-title"></h3>
+		</div>
+		<div class="card-body">
+			<div class="direct-chat-messages" id="direct-chat-messages" style="height: 600px;">
+				<div th:each="message: ${messages}" class="direct-chat-msg" th:classappend="${message.original} ? right">
+					<div class="direct-chat-infos clearfix">
+						<span class="direct-chat-name" th:classappend="${message.original} ? float-right : float-left" th:text="${message.sender}"></span>
+						<span class="direct-chat-timestamp" th:classappend="${message.original} ? float-left : float-right" th:text="${message.date}"></span>
+					</div>
+					<img class="direct-chat-img" th:src="${message.avatar}" alt="Avatar">
+					<div class="direct-chat-text" th:text="${message.message}"></div>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer">
+			<form action="#" id="form-message">
+				<input type="text" name="message" class="form-control input-message" placeholder="Nhập tin nhắn...">
+				<input type="hidden" name="username" th:value="${username}">
+				<button type="submit" class="btn btn-primary d-none send-message"></button>
+			</form>
+		</div>
+	</div>
+</th:block>
