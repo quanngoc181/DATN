@@ -48,6 +48,7 @@ public class CartService {
 		
 		dto.id = cart.getId();
 		dto.userId = cart.getUserId();
+		dto.itemsString = cart.getItems();
 		dto.product = ProductPreviewDTO.fromProduct(productRepository.findById(cart.getProductId()).get());
 		dto.amount = cart.getAmount();
 		dto.totalAmount = cartService.getDetailCost(cart);

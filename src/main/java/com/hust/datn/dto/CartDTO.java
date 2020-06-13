@@ -8,6 +8,7 @@ import com.hust.datn.entity.OptionItem;
 public class CartDTO {
 	public UUID id;
 	public UUID userId;
+	public String itemsString;
 	public ProductPreviewDTO product;
 	public List<OptionItem> items;
 	public int amount;

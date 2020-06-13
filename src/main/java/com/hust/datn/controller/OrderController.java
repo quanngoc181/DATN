@@ -88,8 +88,6 @@ public class OrderController {
 		Order order = orderService.createOrder(account.getId(), UUID.fromString(addressId), note);
 		orderRepository.save(order);
 
-		System.out.println(order.getId());
-
 		List<Cart> carts = cartRepository.findByUserId(account.getId());
 		for (Cart cart : carts) {
 			cartRepository.delete(cart);
@@ -101,8 +99,7 @@ public class OrderController {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("user", account);
 
-		String avatar = account.getAvatar() == null ? "/images/default-avatar.png"
-				: new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
+		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
 		model.addAttribute("avatar", avatar);
 
 		List<Order> orders = orderRepository.findByOrderAccountIdOrderByCreateAtDesc(account.getId());

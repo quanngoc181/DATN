@@ -1,0 +1,25 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<div class="product-preview big-image" th:attr="data-product=${cart.product.id},data-items=${cart.itemsString}">
+		<div class="control-group">
+			<span class="delete-item"></span>
+		</div>
+		<div class="image-container">
+			<img th:src="${cart.product.image}" alt="product" />
+		</div>
+		<div class="content">
+			<h5 class="name" th:text="${cart.product.name + ' - ' + cart.product.productCode}"></h5>
+			<p class="text-muted mb-0" th:text="${cart.getItemString()}"></p>
+			<p class="discountCost">
+				<span th:text="${cart.product.discountCost} + ' đ'"></span>
+			</p>
+			<div class="counting">
+				<div class="decrease"></div>
+				<div class="amount" th:attr="data-value=${cart.amount}" th:text="${cart.amount}"></div>
+				<div class="increase"></div>
+				<div class="total-cost">
+					<span class="total-cost-number" th:text="${cart.totalAmount} + ' đ'"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>

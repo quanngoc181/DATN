@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+<link rel="stylesheet" href="/css/order-management.css" />
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed">
+	<div class="wrapper">
+		<th:block th:include="fragment/admin-nav"></th:block>
+
+		<th:block th:include="fragment/admin-aside"></th:block>
+
+		<div class="content-wrapper">
+			<section class="content-header">
+				<h1>Quản lý đơn hàng</h1>
+			</section>
+
+			<section class="content">
+
+				<div class="input-group mb-3">
+					<input type="text" class="form-control" id="search-order" placeholder="Nhập mã đơn hàng hoặc tài khoản mua">
+					<div class="input-group-append">
+						<span class="input-group-text">
+							<i class="fas fa-search"></i>
+						</span>
+					</div>
+				</div>
+
+				<div class="card card-primary card-tabs">
+					<div class="card-header p-0 pt-1" style="overflow: hidden;">
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item">
+								<a class="nav-link active" id="unpaid-order-tab" data-toggle="pill" href="#unpaid-order" role="tab">Chưa thanh toán</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="paid-order-tab" data-toggle="pill" href="#paid-order" role="tab">Đã thanh toán</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="processing-order-tab" data-toggle="pill" href="#processing-order" role="tab">Đang chờ</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="delivering-order-tab" data-toggle="pill" href="#delivering-order" role="tab">Đang giao</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="completed-order-tab" data-toggle="pill" href="#completed-order" role="tab">Đã hoàn thành</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="pickup-order-tab" data-toggle="pill" href="#pickup-order" role="tab">Đơn tại quầy</a>
+							</li>
+						</ul>
+						<button type="button" class="btn btn-tool" title="Tạo đơn hàng" id="add-order">
+							<i class="fas fa-plus"></i>
+						</button>
+					</div>
+					<div class="card-body">
+						<div class="tab-content">
+							<div class="tab-pane fade show active" id="unpaid-order" role="tabpanel">
+								<div class="card order-item" th:each="order: ${unpaidOrder}" th:attr="data-id=${order.id}">
+									<div class="card-header">
+										<h3 class="card-title" th:text="${order.id + ' (' + #temporals.format(order.createAt, 'HH:mm dd/MM/yyyy') + ')'}"></h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-card-widget="collapse" style="color: #212529;">
+												<i class="fas fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="product-preview borderless" th:each="product: ${order.orderProducts}">
+															<div class="image-container mobile-none">
+																<img th:src="${product.getImageString()}" alt="product" />
+															</div>
+															<div class="content pr-0">
+																<h5 class="name">
+																	<b class="product-label mobile-none">Sản phẩm: </b>
+																	<span th:text="${product.name + ' - ' + product.code}"></span>
+																</h5>
+																<p class="text-muted mb-0">
+																	<b class="product-label mobile-none">Tùy chọn: </b>
+																	<span th:text="${product.items}"></span>
+																</p>
+																<p class="discountCost">
+																	<span>
+																		<b class="product-label mobile-none">Đơn giá: </b>
+																		<span th:text="${product.cost} + ' đ'"></span>
+																	</span>
+																</p>
+																<p class="mb-0">
+																	<b class="product-label">Số lượng: </b>
+																	<b th:text="${product.amount}"></b>
+																</p>
+															</div>
+														</div>
+
+														<div>
+															<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.productCost} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div>
+															<b class="total-product-label">Phí vận chuyển:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.shippingFee} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tài khoản mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext order-account" th:value="${order.orderAccount}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderName}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderPhone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.addressName}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.address}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người nhận</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Lời nhắn</label>
+															<div class="col-sm-9">
+																<p class="mb-0" style="margin-top: 6px;" th:text="${order.note}"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="d-flex align-items-center justify-content-between">
+											<div>
+												<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+												<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+											</div>
+											<div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '1'" th:name="${order.id}" value="0" checked>
+													<label th:for="${order.id} + '1'">Unpaid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '2'" th:name="${order.id}" value="1">
+													<label th:for="${order.id} + '2'">Paid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '3'" th:name="${order.id}" value="2">
+													<label th:for="${order.id} + '3'">Processing</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '4'" th:name="${order.id}" value="3">
+													<label th:for="${order.id} + '4'">Delivering</label>
+												</div>
+												<div class="icheck-primary d-inline">
+													<input type="radio" class="change-status" th:id="${order.id} + '5'" th:name="${order.id}" value="4">
+													<label th:for="${order.id} + '5'">Completed</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="paid-order" role="tabpanel">
+								<div class="card order-item" th:each="order: ${paidOrder}" th:attr="data-id=${order.id}">
+									<div class="card-header">
+										<h3 class="card-title" th:text="${order.id + ' (' + #temporals.format(order.createAt, 'HH:mm dd/MM/yyyy') + ')'}"></h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-card-widget="collapse" style="color: #212529;">
+												<i class="fas fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="product-preview borderless" th:each="product: ${order.orderProducts}">
+															<div class="image-container mobile-none">
+																<img th:src="${product.getImageString()}" alt="product" />
+															</div>
+															<div class="content pr-0">
+																<h5 class="name">
+																	<b class="product-label mobile-none">Sản phẩm: </b>
+																	<span th:text="${product.name + ' - ' + product.code}"></span>
+																</h5>
+																<p class="text-muted mb-0">
+																	<b class="product-label mobile-none">Tùy chọn: </b>
+																	<span th:text="${product.items}"></span>
+																</p>
+																<p class="discountCost">
+																	<span>
+																		<b class="product-label mobile-none">Đơn giá: </b>
+																		<span th:text="${product.cost} + ' đ'"></span>
+																	</span>
+																</p>
+																<p class="mb-0">
+																	<b class="product-label">Số lượng: </b>
+																	<b th:text="${product.amount}"></b>
+																</p>
+															</div>
+														</div>
+
+														<div>
+															<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.productCost} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div>
+															<b class="total-product-label">Phí vận chuyển:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.shippingFee} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tài khoản mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext order-account" th:value="${order.orderAccount}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderName}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderPhone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.addressName}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.address}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người nhận</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Lời nhắn</label>
+															<div class="col-sm-9">
+																<p class="mb-0" style="margin-top: 6px;" th:text="${order.note}"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="d-flex align-items-center justify-content-between">
+											<div>
+												<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+												<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+											</div>
+											<div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '1'" th:name="${order.id}" value="0">
+													<label th:for="${order.id} + '1'">Unpaid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '2'" th:name="${order.id}" value="1" checked>
+													<label th:for="${order.id} + '2'">Paid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '3'" th:name="${order.id}" value="2">
+													<label th:for="${order.id} + '3'">Processing</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '4'" th:name="${order.id}" value="3">
+													<label th:for="${order.id} + '4'">Delivering</label>
+												</div>
+												<div class="icheck-primary d-inline">
+													<input type="radio" class="change-status" th:id="${order.id} + '5'" th:name="${order.id}" value="4">
+													<label th:for="${order.id} + '5'">Completed</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="processing-order" role="tabpanel">
+								<div class="card order-item" th:each="order: ${processingOrder}" th:attr="data-id=${order.id}">
+									<div class="card-header">
+										<h3 class="card-title" th:text="${order.id + ' (' + #temporals.format(order.createAt, 'HH:mm dd/MM/yyyy') + ')'}"></h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-card-widget="collapse" style="color: #212529;">
+												<i class="fas fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="product-preview borderless" th:each="product: ${order.orderProducts}">
+															<div class="image-container mobile-none">
+																<img th:src="${product.getImageString()}" alt="product" />
+															</div>
+															<div class="content pr-0">
+																<h5 class="name">
+																	<b class="product-label mobile-none">Sản phẩm: </b>
+																	<span th:text="${product.name + ' - ' + product.code}"></span>
+																</h5>
+																<p class="text-muted mb-0">
+																	<b class="product-label mobile-none">Tùy chọn: </b>
+																	<span th:text="${product.items}"></span>
+																</p>
+																<p class="discountCost">
+																	<span>
+																		<b class="product-label mobile-none">Đơn giá: </b>
+																		<span th:text="${product.cost} + ' đ'"></span>
+																	</span>
+																</p>
+																<p class="mb-0">
+																	<b class="product-label">Số lượng: </b>
+																	<b th:text="${product.amount}"></b>
+																</p>
+															</div>
+														</div>
+
+														<div>
+															<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.productCost} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div>
+															<b class="total-product-label">Phí vận chuyển:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.shippingFee} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tài khoản mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext order-account" th:value="${order.orderAccount}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderName}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderPhone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.addressName}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.address}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người nhận</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Lời nhắn</label>
+															<div class="col-sm-9">
+																<p class="mb-0" style="margin-top: 6px;" th:text="${order.note}"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="d-flex align-items-center justify-content-between">
+											<div>
+												<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+												<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+											</div>
+											<div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '1'" th:name="${order.id}" value="0">
+													<label th:for="${order.id} + '1'">Unpaid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '2'" th:name="${order.id}" value="1">
+													<label th:for="${order.id} + '2'">Paid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '3'" th:name="${order.id}" value="2" checked>
+													<label th:for="${order.id} + '3'">Processing</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '4'" th:name="${order.id}" value="3">
+													<label th:for="${order.id} + '4'">Delivering</label>
+												</div>
+												<div class="icheck-primary d-inline">
+													<input type="radio" class="change-status" th:id="${order.id} + '5'" th:name="${order.id}" value="4">
+													<label th:for="${order.id} + '5'">Completed</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="delivering-order" role="tabpanel">
+								<div class="card order-item" th:each="order: ${deliveringOrder}" th:attr="data-id=${order.id}">
+									<div class="card-header">
+										<h3 class="card-title" th:text="${order.id + ' (' + #temporals.format(order.createAt, 'HH:mm dd/MM/yyyy') + ')'}"></h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-card-widget="collapse" style="color: #212529;">
+												<i class="fas fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="product-preview borderless" th:each="product: ${order.orderProducts}">
+															<div class="image-container mobile-none">
+																<img th:src="${product.getImageString()}" alt="product" />
+															</div>
+															<div class="content pr-0">
+																<h5 class="name">
+																	<b class="product-label mobile-none">Sản phẩm: </b>
+																	<span th:text="${product.name + ' - ' + product.code}"></span>
+																</h5>
+																<p class="text-muted mb-0">
+																	<b class="product-label mobile-none">Tùy chọn: </b>
+																	<span th:text="${product.items}"></span>
+																</p>
+																<p class="discountCost">
+																	<span>
+																		<b class="product-label mobile-none">Đơn giá: </b>
+																		<span th:text="${product.cost} + ' đ'"></span>
+																	</span>
+																</p>
+																<p class="mb-0">
+																	<b class="product-label">Số lượng: </b>
+																	<b th:text="${product.amount}"></b>
+																</p>
+															</div>
+														</div>
+
+														<div>
+															<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.productCost} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div>
+															<b class="total-product-label">Phí vận chuyển:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.shippingFee} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tài khoản mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext order-account" th:value="${order.orderAccount}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderName}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderPhone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.addressName}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.address}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người nhận</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Lời nhắn</label>
+															<div class="col-sm-9">
+																<p class="mb-0" style="margin-top: 6px;" th:text="${order.note}"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="d-flex align-items-center justify-content-between">
+											<div>
+												<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+												<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+											</div>
+											<div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '1'" th:name="${order.id}" value="0">
+													<label th:for="${order.id} + '1'">Unpaid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '2'" th:name="${order.id}" value="1">
+													<label th:for="${order.id} + '2'">Paid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '3'" th:name="${order.id}" value="2">
+													<label th:for="${order.id} + '3'">Processing</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '4'" th:name="${order.id}" value="3" checked>
+													<label th:for="${order.id} + '4'">Delivering</label>
+												</div>
+												<div class="icheck-primary d-inline">
+													<input type="radio" class="change-status" th:id="${order.id} + '5'" th:name="${order.id}" value="4">
+													<label th:for="${order.id} + '5'">Completed</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="completed-order" role="tabpanel">
+								<div class="card order-item" th:each="order: ${completedOrder}" th:attr="data-id=${order.id}">
+									<div class="card-header">
+										<h3 class="card-title" th:text="${order.id + ' (' + #temporals.format(order.createAt, 'HH:mm dd/MM/yyyy') + ')'}"></h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-card-widget="collapse" style="color: #212529;">
+												<i class="fas fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="product-preview borderless" th:each="product: ${order.orderProducts}">
+															<div class="image-container mobile-none">
+																<img th:src="${product.getImageString()}" alt="product" />
+															</div>
+															<div class="content pr-0">
+																<h5 class="name">
+																	<b class="product-label mobile-none">Sản phẩm: </b>
+																	<span th:text="${product.name + ' - ' + product.code}"></span>
+																</h5>
+																<p class="text-muted mb-0">
+																	<b class="product-label mobile-none">Tùy chọn: </b>
+																	<span th:text="${product.items}"></span>
+																</p>
+																<p class="discountCost">
+																	<span>
+																		<b class="product-label mobile-none">Đơn giá: </b>
+																		<span th:text="${product.cost} + ' đ'"></span>
+																	</span>
+																</p>
+																<p class="mb-0">
+																	<b class="product-label">Số lượng: </b>
+																	<b th:text="${product.amount}"></b>
+																</p>
+															</div>
+														</div>
+
+														<div>
+															<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.productCost} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div>
+															<b class="total-product-label">Phí vận chuyển:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.shippingFee} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tài khoản mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext order-account" th:value="${order.orderAccount}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderName}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderPhone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.addressName}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Địa chỉ</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.address}">
+															</div>
+														</div>
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người nhận</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.name}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.phone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Lời nhắn</label>
+															<div class="col-sm-9">
+																<p class="mb-0" style="margin-top: 6px;" th:text="${order.note}"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<div class="d-flex align-items-center justify-content-between">
+											<div>
+												<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+												<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+											</div>
+											<div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '1'" th:name="${order.id}" value="0">
+													<label th:for="${order.id} + '1'">Unpaid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '2'" th:name="${order.id}" value="1">
+													<label th:for="${order.id} + '2'">Paid</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '3'" th:name="${order.id}" value="2">
+													<label th:for="${order.id} + '3'">Processing</label>
+												</div>
+												<div class="icheck-primary d-inline mr-2">
+													<input type="radio" class="change-status" th:id="${order.id} + '4'" th:name="${order.id}" value="3">
+													<label th:for="${order.id} + '4'">Delivering</label>
+												</div>
+												<div class="icheck-primary d-inline">
+													<input type="radio" class="change-status" th:id="${order.id} + '5'" th:name="${order.id}" value="4" checked>
+													<label th:for="${order.id} + '5'">Completed</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="pickup-order" role="tabpanel">
+								<div class="card order-item" th:each="order: ${pickupOrder}" th:attr="data-id=${order.id}">
+									<div class="card-header">
+										<h3 class="card-title" th:text="${order.id + ' (' + #temporals.format(order.createAt, 'HH:mm dd/MM/yyyy') + ')'}"></h3>
+										<div class="card-tools">
+											<button type="button" class="btn btn-tool" data-card-widget="collapse" style="color: #212529;">
+												<i class="fas fa-minus"></i>
+											</button>
+										</div>
+									</div>
+									<div class="card-body">
+										<div class="row">
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="product-preview borderless" th:each="product: ${order.orderProducts}">
+															<div class="image-container mobile-none">
+																<img th:src="${product.getImageString()}" alt="product" />
+															</div>
+															<div class="content pr-0">
+																<h5 class="name">
+																	<b class="product-label mobile-none">Sản phẩm: </b>
+																	<span th:text="${product.name + ' - ' + product.code}"></span>
+																</h5>
+																<p class="text-muted mb-0">
+																	<b class="product-label mobile-none">Tùy chọn: </b>
+																	<span th:text="${product.items}"></span>
+																</p>
+																<p class="discountCost">
+																	<span>
+																		<b class="product-label mobile-none">Đơn giá: </b>
+																		<span th:text="${product.cost} + ' đ'"></span>
+																	</span>
+																</p>
+																<p class="mb-0">
+																	<b class="product-label">Số lượng: </b>
+																	<b th:text="${product.amount}"></b>
+																</p>
+															</div>
+														</div>
+
+														<div>
+															<b class="total-product-label">Tổng tiền sản phẩm:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.productCost} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div>
+															<b class="total-product-label">Phí vận chuyển:&nbsp;&nbsp;&nbsp;</b>
+															<b class="total-product-cost" th:text="${order.shippingFee} + ' đ'"></b>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-12 col-sm-6">
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="form-group row">
+															<label class="col-sm-3 col-form-label">Tên người mua</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderName}">
+															</div>
+														</div>
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Số điện thoại</label>
+															<div class="col-sm-9">
+																<input type="text" readonly class="form-control-plaintext" th:value="${order.orderPhone}">
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="card light-border">
+													<div class="card-body">
+														<div class="row">
+															<label class="col-sm-3 col-form-label">Lời nhắn</label>
+															<div class="col-sm-9">
+																<p class="mb-0" style="margin-top: 6px;" th:text="${order.note}"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="card-footer">
+										<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+										<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div id="add-order-container"></div>
+
+			</section>
+		</div>
+
+		<th:block th:include="fragment/admin-footer"></th:block>
+	</div>
+	
+	<div class="modal fade" id="add-to-cart-modal">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content"></div>
+		</div>
+	</div>
+
+	<th:block th:include="fragment/script"></th:block>
+	<script src="/js/admin-nav.js"></script>
+	<script src="/js/order-management.js"></script>
+</body>
+</html>

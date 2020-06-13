@@ -81,6 +81,21 @@ function confirmDelete(callback, message = 'Bạn có chắc xóa muốn xóa?')
 	});
 }
 
+function confirmAction(callback, error, message = 'Tiếp tục hành động này?') {
+	Swal.fire({
+	  title: 'Xác nhận',
+	  text: message,
+	  type: 'info',
+	  showCancelButton: true,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: 'Tiếp tục'
+	}).then((result) => {
+	  if(result.value) callback();
+	  else error();
+	});
+}
+
 function objectifyForm(selector) {
 	let formArray = $(selector).serializeArray();
 	

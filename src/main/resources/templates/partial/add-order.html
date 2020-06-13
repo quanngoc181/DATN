@@ -1,0 +1,79 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<form id="add-order-form">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title">Tạo đơn hàng</div>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col-6">
+						<div class="form-group row">
+							<label for="order-name" class="col-sm-3 col-form-label">Tên người mua</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" name="orderName" id="order-name">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="order-phone" class="col-sm-3 col-form-label">Số điện thoại</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" name="orderPhone" id="order-phone">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-9 offset-sm-3 order-product-container"></div>
+						</div>
+						<div class="form-group row">
+							<label for="order-note" class="col-sm-3 col-form-label">Ghi chú</label>
+							<div class="col-sm-9">
+								<textarea class="form-control" name="note" id="order-note"></textarea>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-9 offset-sm-3">
+								<button type="submit" class="btn btn-primary" id="add-order-submit">Tạo đơn</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-6">
+						<div class="card" th:each="category: ${categories}" th:attr="data-id=${category.categoryId}">
+							<div class="card-header">
+								<div class="card-title" th:text="${category.categoryName + ' - ' + category.categoryCode}"></div>
+								<div class="card-tools">
+									<button type="button" class="btn btn-tool" data-card-widget="collapse" style="margin-right: 2px;">
+										<i class="fas fa-minus"></i>
+									</button>
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="product-container" th:each="product: ${category.products}">
+									<div class="product-preview" th:attr="data-id=${product.id}">
+										<div class="control-group">
+											<span class="add-item"></span>
+										</div>
+										<div class="image-container">
+											<img th:src="${product.image}" alt="product" />
+										</div>
+										<div class="content">
+											<h5 class="name" th:text="${product.name + ' - ' + product.productCode}"></h5>
+											<p class="cost" th:if="${product.cost != product.discountCost}">
+												<span th:text="${product.cost} + ' đ'"></span>
+											</p>
+											<p class="discountCost">
+												<span th:text="${product.discountCost} + ' đ'"></span>
+											</p>
+										</div>
+										<div class="options">
+											<ul>
+												<li th:each="option: ${product.optionArray}" th:text="${option.name}"></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</th:block>
