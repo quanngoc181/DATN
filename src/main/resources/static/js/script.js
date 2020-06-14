@@ -108,6 +108,20 @@ function confirmAction(callback, error, message = 'Tiếp tục hành động n�
 	});
 }
 
+function alertSuccess(callback, message = 'Thành công') {
+	Swal.fire({
+	  title: message,
+	  type: 'success',
+	  showCancelButton: false,
+	  confirmButtonColor: '#3085d6',
+	  cancelButtonColor: '#d33',
+	  confirmButtonText: 'OK'
+	}).then((result) => {
+	  if(result.value) callback();
+	  else error();
+	});
+}
+
 function objectifyForm(selector) {
 	let formArray = $(selector).serializeArray();
 	

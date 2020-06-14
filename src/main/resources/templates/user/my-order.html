@@ -178,9 +178,12 @@
 									</div>
 								</div>
 								<div class="card-footer">
-									<div class="text-center">
-										<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
-										<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+									<div class="d-flex justify-content-between align-items-center">
+										<div>
+											<b class="total-product-label">Tổng tiền:&nbsp;&nbsp;&nbsp;</b>
+											<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
+										</div>
+										<a th:href="'/user/payment?orderId=' + ${order.id}" class="btn btn-primary">Thanh toán</a>
 									</div>
 								</div>
 							</div>
@@ -288,7 +291,7 @@
 								</div>
 								<div class="card-footer">
 									<div class="text-center">
-										<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+										<b class="total-product-label">Tổng tiền:&nbsp;&nbsp;&nbsp;</b>
 										<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
 									</div>
 								</div>
@@ -397,7 +400,7 @@
 								</div>
 								<div class="card-footer">
 									<div class="text-center">
-										<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+										<b class="total-product-label">Tổng tiền:&nbsp;&nbsp;&nbsp;</b>
 										<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
 									</div>
 								</div>
@@ -506,7 +509,7 @@
 								</div>
 								<div class="card-footer">
 									<div class="text-center">
-										<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+										<b class="total-product-label">Tổng tiền:&nbsp;&nbsp;&nbsp;</b>
 										<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
 									</div>
 								</div>
@@ -615,7 +618,7 @@
 								</div>
 								<div class="card-footer">
 									<div class="text-center">
-										<b class="total-product-label">Số tiền phải thanh toán:&nbsp;&nbsp;&nbsp;</b>
+										<b class="total-product-label">Tổng tiền:&nbsp;&nbsp;&nbsp;</b>
 										<b class="total-product-cost text-nowrap" th:text="${order.cost} + ' đ'"></b>
 									</div>
 								</div>
@@ -627,7 +630,7 @@
 
 		</section>
 	</div>
-	
+
 	<div class="chat-container">
 		<div class="card card-prirary cardutline direct-chat direct-chat-primary mb-0 d-none">
 			<div class="card-header">

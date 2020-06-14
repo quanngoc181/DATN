@@ -80,7 +80,7 @@ public class OrderController {
 
 	@PostMapping("/user/create-order")
 	@ResponseBody
-	public void createOrder(Authentication auth, String addressId, String note) throws InternalException {
+	public String createOrder(Authentication auth, String addressId, String note) throws InternalException {
 		Account account = accountRepository.findByUsername(auth.getName());
 
 		Order order = orderService.createOrder(account.getId(), UUID.fromString(addressId), note);
@@ -90,6 +90,8 @@ public class OrderController {
 		for (Cart cart : carts) {
 			cartRepository.delete(cart);
 		}
+		
+		return order.getId().toString();
 	}
 
 	@GetMapping("/user/my-order")

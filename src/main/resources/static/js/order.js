@@ -46,7 +46,7 @@ $(function() {
 				note: note
 			},
 			success : function(data) {
-				notify('success', 'Thành công');
+				location.href = "/user/payment?orderId=" + data;
 			},
 			error : function(err) {
 				notify('error', err.responseJSON.message);
