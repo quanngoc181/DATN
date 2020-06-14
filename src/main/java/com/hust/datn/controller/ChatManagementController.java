@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,9 @@ public class ChatManagementController {
 
 	@Autowired
 	ChatService chatService;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 
 	@GetMapping("/admin/chat-management")
 	public String index() {
@@ -124,6 +128,8 @@ public class ChatManagementController {
 		Map<String, Object> model = new HashMap<>();
 		model.put("messages", dtos);
 		model.put("username", username);
+		
+		messagingTemplate.convertAndSendToUser(username, "/queue/chat-updates", "");
 
 		return new ModelAndView("partial/admin-conversation", model);
 	}

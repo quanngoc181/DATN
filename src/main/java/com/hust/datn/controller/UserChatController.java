@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,9 @@ public class UserChatController {
 
 	@Autowired
 	ChatService chatService;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 
 	@PostMapping("/user/chat/add")
 	@ResponseBody
@@ -48,6 +52,8 @@ public class UserChatController {
 		Map<String, Object> model = new HashMap<>();
 		model.put("messages", dtos);
 		model.put("unSeen", unSeen);
+		
+		messagingTemplate.convertAndSendToUser("admin", "/queue/chat-updates", "");
 
 		return new ModelAndView("/partial/user-conversation", model);
 	}

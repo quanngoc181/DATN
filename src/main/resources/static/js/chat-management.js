@@ -1,6 +1,5 @@
 $(function() {
 	fetchInfo();
-	updateContactList();
 	
 	$(document).on('click', '.chat-item', function() {
 		let user = $(this).data('user');
@@ -70,19 +69,3 @@ $(function() {
 		});
 	});
 });
-
-function updateContactList() {
-	$.ajax({
-		url : "/admin/chat-management/update",
-		data: { },
-		success : function(data) {
-			$('#contact-list').html(data);
-			let unSeen = $('#contact-list').find('.unseen-tmp').data('value');
-			$('.message-number').text(unSeen);
-			$('.conversation-container').html('');
-		},
-		error : function(err) {
-			notify('error', err.responseJSON.message);
-		}
-	});
-}
