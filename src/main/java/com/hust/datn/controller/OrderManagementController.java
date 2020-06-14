@@ -1,6 +1,5 @@
 package com.hust.datn.controller;
 
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,10 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,13 +23,11 @@ import com.hust.datn.command.AddOrderCommand;
 import com.hust.datn.command.OrderProductCommand;
 import com.hust.datn.dto.CartDTO;
 import com.hust.datn.dto.CategoryDTO;
-import com.hust.datn.entity.Account;
 import com.hust.datn.entity.Cart;
 import com.hust.datn.entity.Category;
 import com.hust.datn.entity.Order;
 import com.hust.datn.entity.OrderProduct;
 import com.hust.datn.entity.Product;
-import com.hust.datn.entity.ReceiveAddress;
 import com.hust.datn.enums.OrderStatus;
 import com.hust.datn.enums.OrderType;
 import com.hust.datn.exception.InternalException;

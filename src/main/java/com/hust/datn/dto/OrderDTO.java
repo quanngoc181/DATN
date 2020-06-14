@@ -3,12 +3,6 @@ package com.hust.datn.dto;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Column;
-
-import org.hibernate.annotations.Nationalized;
-
-import com.hust.datn.enums.OrderStatus;
-
 public class OrderDTO {
 	public UUID addressId;
 	

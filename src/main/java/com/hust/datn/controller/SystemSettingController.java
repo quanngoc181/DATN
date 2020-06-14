@@ -1,7 +1,5 @@
 package com.hust.datn.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hust.datn.command.CompanySettingCommand;
 import com.hust.datn.dto.SettingDTO;
-import com.hust.datn.entity.Constant;
 import com.hust.datn.repository.ConstantRepository;
 import com.hust.datn.service.ConstantService;
 

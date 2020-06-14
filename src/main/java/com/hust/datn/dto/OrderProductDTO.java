@@ -1,9 +1,5 @@
 package com.hust.datn.dto;
 
-import javax.persistence.Column;
-
-import org.hibernate.annotations.Nationalized;
-
 public class OrderProductDTO {
 	public String code;
 	

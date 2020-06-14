@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hust.datn.dto.DatatableDTO;
-import com.hust.datn.entity.Category;
 import com.hust.datn.entity.News;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.NewsRepository;
-import com.hust.datn.specification.CategorySpecification;
 import com.hust.datn.specification.NewsSpecification;
 
 @Controller
