@@ -17,12 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hust.datn.dto.OrderDTO;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.Cart;
+import com.hust.datn.entity.Notification;
 import com.hust.datn.entity.Order;
 import com.hust.datn.entity.ReceiveAddress;
 import com.hust.datn.enums.OrderStatus;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
 import com.hust.datn.repository.CartRepository;
+import com.hust.datn.repository.NotificationRepository;
 import com.hust.datn.repository.OrderRepository;
 import com.hust.datn.repository.ReceiveAddressRepository;
 import com.hust.datn.service.OrderService;
@@ -40,6 +42,9 @@ public class OrderController {
 
 	@Autowired
 	ReceiveAddressRepository receiveAddressRepository;
+	
+	@Autowired
+	NotificationRepository notificationRepository;
 
 	@Autowired
 	OrderService orderService;
@@ -90,6 +95,9 @@ public class OrderController {
 		for (Cart cart : carts) {
 			cartRepository.delete(cart);
 		}
+		
+		notificationRepository.save(new Notification(account.getUsername(), "Tạo thành công đơn hàng " + order.getId().toString(), "/user/my-order", false));
+		notificationRepository.save(new Notification("SYSTEM", "Có đơn hàng vừa mới được tạo " + order.getId().toString(), "/admin/order-management", false));
 		
 		return order.getId().toString();
 	}

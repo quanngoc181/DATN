@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+<th:block th:include="fragment/head"></th:block>
+</head>
+<body>
+	<section class="content">
+		<div class="error-page">
+			<h2 class="headline text-danger">403</h2>
+
+			<div class="error-content" style="padding-top: 20px;">
+				<h3>
+					<i class="fas fa-exclamation-triangle text-danger"></i>
+					Oops! Forbidden.
+				</h3>
+
+				<p>
+					You don't have permission to access this server. Meanwhile, you may
+					<a href="/">return to dashboard</a>
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<th:block th:include="fragment/script"></th:block>
+</body>
+</html>

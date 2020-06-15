@@ -41,6 +41,7 @@ $(function() {
 	bsCustomFileInput.init();
 	
 	initSwitch();
+	initScrollbar();
 });
 
 function notify(type, title) {

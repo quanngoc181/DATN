@@ -4,15 +4,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hust.datn.entity.Notification;
 import com.hust.datn.entity.Order;
 import com.hust.datn.enums.OrderStatus;
 import com.hust.datn.exception.InternalException;
+import com.hust.datn.repository.NotificationRepository;
 import com.hust.datn.repository.OrderRepository;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -23,6 +26,9 @@ import com.stripe.param.PaymentIntentCreateParams;
 public class PaymentController {
 	@Autowired
 	OrderRepository orderRepository;
+	
+	@Autowired
+	NotificationRepository notificationRepository;
 	
 	@GetMapping("/user/payment")
 	public String index(String orderId, Model model) throws StripeException {
@@ -53,5 +59,8 @@ public class PaymentController {
 		od.setStatus(OrderStatus.PAID);
 		
 		orderRepository.save(od);
+		
+		notificationRepository.save(new Notification(od.getOrderAccount(), "Thanh toán thành công đơn hàng " + od.getId().toString(), "/user/my-order", false));
+		notificationRepository.save(new Notification("SYSTEM", "Có đơn hàng vừa mới được thanh toán " + od.getId().toString(), "/admin/order-management", false));
 	}
 }

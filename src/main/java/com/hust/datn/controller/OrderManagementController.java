@@ -25,6 +25,7 @@ import com.hust.datn.dto.CartDTO;
 import com.hust.datn.dto.CategoryDTO;
 import com.hust.datn.entity.Cart;
 import com.hust.datn.entity.Category;
+import com.hust.datn.entity.Notification;
 import com.hust.datn.entity.Order;
 import com.hust.datn.entity.OrderProduct;
 import com.hust.datn.entity.Product;
@@ -32,6 +33,7 @@ import com.hust.datn.enums.OrderStatus;
 import com.hust.datn.enums.OrderType;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.CategoryRepository;
+import com.hust.datn.repository.NotificationRepository;
 import com.hust.datn.repository.OrderRepository;
 import com.hust.datn.repository.ProductRepository;
 import com.hust.datn.service.CartService;
@@ -47,6 +49,9 @@ public class OrderManagementController {
 	
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	NotificationRepository notificationRepository;
 
 	@Autowired
 	CategoryService categoryService;
@@ -97,6 +102,8 @@ public class OrderManagementController {
 		order.setStatus(OrderStatus.values()[status]);
 
 		orderRepository.save(order);
+		
+		notificationRepository.save(new Notification(order.getOrderAccount(), "Đơn hàng của bạn " + order.getId().toString() + " đã được đánh dấu là " + OrderStatus.values()[status], "/user/my-order", false));
 	}
 
 	@GetMapping("/admin/order-management/add")

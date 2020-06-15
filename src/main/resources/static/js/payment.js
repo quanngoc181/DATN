@@ -27,6 +27,7 @@ $(function() {
 							orderId: order
 						},
 						success : function(data) {
+							$('.payment-card').html('');
 							alertSuccess(function() {
 								location.href = "/user/my-order";
 							});
