@@ -227,6 +227,7 @@ section.content {
 	background: #fff;
 	pointer-events: none;
 	opacity: 0;
+	border: 2px solid;
 	transition: all 0.3s ease;
 }
 
@@ -298,10 +299,20 @@ section.content {
 	max-width: 350px;
 	width: 350px;
 	overflow: auto;
+	box-shadow: none;
+    border: 2px solid;
 }
 
 .notification-item {
 	white-space: normal;
+}
+
+.notification-item.unseen {
+	background: rgba(0, 128, 0, 0.1);
+}
+
+.notification-item.unseen:hover {
+	background: rgba(0, 128, 0, 0.2);
 }
 
 #carouselExampleIndicators img {

@@ -1,0 +1,10 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+	<th:block th:each="notification: ${notifications}">
+		<a class="dropdown-item notification-item" th:classappend="${notification.seen?'':'unseen'}" th:href="${notification.url}" th:attr="data-id=${notification.id}">
+			<span th:text="${notification.content}"></span>
+			<span class="d-block text-muted text-sm" th:text="${#temporals.format(notification.createAt, 'HH:mm dd/MM/yyyy')}"></span>
+		</a>
+		<div class="dropdown-divider"></div>
+	</th:block>
+	<div id="unSeen-tmp" class="d-none" th:attr="data-value=${unSeen}"></div>
+</th:block>

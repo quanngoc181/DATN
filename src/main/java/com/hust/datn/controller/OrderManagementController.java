@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,6 +59,9 @@ public class OrderManagementController {
 
 	@Autowired
 	CartService cartService;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 
 	@GetMapping("/admin/order-management")
 	public String index(Model model) {
@@ -104,6 +108,8 @@ public class OrderManagementController {
 		orderRepository.save(order);
 		
 		notificationRepository.save(new Notification(order.getOrderAccount(), "Đơn hàng của bạn " + order.getId().toString() + " đã được đánh dấu là " + OrderStatus.values()[status], "/user/my-order", false));
+		
+		messagingTemplate.convertAndSendToUser(order.getOrderAccount(), "/queue/notification-updates", "");
 	}
 
 	@GetMapping("/admin/order-management/add")

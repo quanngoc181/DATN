@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +29,9 @@ public class PaymentController {
 	
 	@Autowired
 	NotificationRepository notificationRepository;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 	
 	@GetMapping("/user/payment")
 	public String index(String orderId, Model model) throws StripeException {
@@ -62,5 +65,8 @@ public class PaymentController {
 		
 		notificationRepository.save(new Notification(od.getOrderAccount(), "Thanh toán thành công đơn hàng " + od.getId().toString(), "/user/my-order", false));
 		notificationRepository.save(new Notification("SYSTEM", "Có đơn hàng vừa mới được thanh toán " + od.getId().toString(), "/admin/order-management", false));
+		
+		messagingTemplate.convertAndSendToUser(od.getOrderAccount(), "/queue/notification-updates", "");
+		messagingTemplate.convertAndSendToUser("admin", "/queue/notification-updates", "");
 	}
 }

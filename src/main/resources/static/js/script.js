@@ -41,7 +41,6 @@ $(function() {
 	bsCustomFileInput.init();
 	
 	initSwitch();
-	initScrollbar();
 });
 
 function notify(type, title) {
@@ -78,6 +77,10 @@ function initDatePicker() {
 
 function initScrollbar() {
 	$('.js-custom-scrollbar').overlayScrollbars({ });
+}
+
+function initScrollbarSelector(selector) {
+	$(selector).overlayScrollbars({ });
 }
 
 function confirmDelete(callback, message = 'Bạn có chắc xóa muốn xóa?') {

@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,6 +49,9 @@ public class OrderController {
 
 	@Autowired
 	OrderService orderService;
+	
+	@Autowired
+	SimpMessagingTemplate messagingTemplate;
 
 	@GetMapping("/user/order-preview")
 	public String orderPreview(Authentication auth, Model model) {
@@ -98,6 +102,9 @@ public class OrderController {
 		
 		notificationRepository.save(new Notification(account.getUsername(), "Tạo thành công đơn hàng " + order.getId().toString(), "/user/my-order", false));
 		notificationRepository.save(new Notification("SYSTEM", "Có đơn hàng vừa mới được tạo " + order.getId().toString(), "/admin/order-management", false));
+		
+		messagingTemplate.convertAndSendToUser(account.getUsername(), "/queue/notification-updates", "");
+		messagingTemplate.convertAndSendToUser("admin", "/queue/notification-updates", "");
 		
 		return order.getId().toString();
 	}

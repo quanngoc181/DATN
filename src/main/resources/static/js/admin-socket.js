@@ -3,8 +3,9 @@ var stompClient = null;
 $(function() {
 	updateContactList();
 	
-	var socket = new SockJS('/chat-endpoint');
+	var socket = new SockJS('/app-endpoint');
     stompClient = Stomp.over(socket);
+    stompClient.debug = null;
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/user/queue/chat-updates', function (data) {
         	notify('info', 'Có tin nhắn mới');
