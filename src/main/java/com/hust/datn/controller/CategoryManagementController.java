@@ -1,7 +1,9 @@
 package com.hust.datn.controller;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ import com.hust.datn.dto.ProductPreviewDTO;
 import com.hust.datn.entity.Category;
 import com.hust.datn.entity.DiscountProduct;
 import com.hust.datn.entity.Product;
+import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.CategoryRepository;
 import com.hust.datn.repository.DiscountProductRepository;
 import com.hust.datn.service.CategoryService;
@@ -71,25 +74,32 @@ public class CategoryManagementController {
 	}
 
 	@PostMapping("/admin/category-management/add")
-	public String addCategory(String name) {
+	@ResponseBody
+	public void addCategory(String name) throws InternalException {
+		if(name == null || name.trim().isEmpty())
+			throw new InternalException("Tên danh mục không hợp lệ");
+		
 		String code = categoryService.generateCategoryCode();
 
 		categoryRepository.save(new Category(null, name, code));
-
-		return "redirect:/admin/category-management";
 	}
 
 	@PostMapping("/admin/category-management/edit")
-	public String editCategory(String id, String name) {
+	@ResponseBody
+	public void editCategory(String id, String name) throws InternalException {
+		if(name == null || name.trim().isEmpty())
+			throw new InternalException("Tên danh mục không hợp lệ");
+		
 		UUID ctgId = UUID.fromString(id);
 
-		Category category = categoryRepository.findById(ctgId).get();
+		Optional<Category> optional = categoryRepository.findById(ctgId);
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy danh mục");
+		Category category = optional.get();
 		
 		category.setName(name);
 
 		categoryRepository.save(category);
-
-		return "redirect:/admin/category-management";
 	}
 
 	@PostMapping("/admin/category-management/delete")

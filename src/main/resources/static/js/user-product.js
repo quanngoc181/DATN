@@ -101,7 +101,7 @@ function calculateTotalCost() {
 			items: items
 		},
 		success : function(data) {
-			$('.counting .total-cost-number').text(data);
+			$('.counting .total-cost-number').text(data + ' đ');
 		},
 		error : function(err) {
 			notify('error', err.responseJSON.message);

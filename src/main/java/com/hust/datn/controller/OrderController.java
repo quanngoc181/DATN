@@ -61,9 +61,6 @@ public class OrderController {
 		OrderDTO orderDTO = orderService.createOrderDTO(account.getId());
 		model.addAttribute("order", orderDTO);
 
-		if (orderDTO.getProducts().size() == 0)
-			return "redirect:/user/product";
-
 		return "user/order-preview";
 	}
 

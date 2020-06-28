@@ -1,5 +1,5 @@
 <th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-	<form th:action="@{/user/receive-address/edit}" method="post">
+	<form th:action="@{/user/receive-address/edit}" method="post" id="edit-address-form">
 		<input th:value="${address.id}" type="hidden" name="id" />
 		<div class="modal-header">
 			<h4 class="modal-title">Sửa địa chỉ</h4>
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="submit" class="btn btn-primary">Lưu</button>
+			<button type="submit" id="edit-address-submit" class="btn btn-primary">Lưu</button>
 		</div>
 	</form>
 </th:block>

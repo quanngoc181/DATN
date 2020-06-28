@@ -54,7 +54,7 @@
 	<div class="modal fade" id="add-category-modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form th:action="@{/admin/category-management/add}" method="post">
+				<form th:action="@{/admin/category-management/add}" method="post" id="add-category-form">
 					<div class="modal-header">
 						<h4 class="modal-title">Thêm danh mục</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -70,7 +70,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary">Thêm</button>
+						<button type="submit" id="add-category-submit" class="btn btn-primary">Thêm</button>
 					</div>
 				</form>
 			</div>
@@ -80,7 +80,7 @@
 	<div class="modal fade" id="edit-category-modal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form th:action="@{/admin/category-management/edit}" method="post">
+				<form th:action="@{/admin/category-management/edit}" method="post" id="edit-category-form">
 					<input type="hidden" name="id" id="edit-modal-id" />
 					<div class="modal-header">
 						<h4 class="modal-title">Sửa danh mục</h4>
@@ -97,7 +97,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-primary">Lưu</button>
+						<button type="submit" id="edit-category-submit" class="btn btn-primary">Lưu</button>
 					</div>
 				</form>
 			</div>

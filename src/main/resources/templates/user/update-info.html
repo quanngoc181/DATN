@@ -67,7 +67,7 @@
 					<div class="card card-primary">
 						<div class="card-body box-profile">
 							<div class="text-center position-relative">
-								<img class="profile-user-img img-fluid img-circle" th:src="${avatar}" alt="Avatar" style="height: 100px; object-fit: cover;">
+								<img class="profile-user-img img-fluid img-circle" th:src="${account.getAvatarString()}" alt="Avatar" style="height: 100px; object-fit: cover;">
 								<div class="avatar-overlay">Thay đổi</div>
 								<div th:if="${avatarmessage}" th:text="${avatarmessage}"></div>
 
@@ -186,7 +186,7 @@
 								</div>
 
 								<div class="card-body">
-									<div class="row">
+									<div class="row" id="address-container">
 										<div class="col-12 col-sm-6 receive-address-item" th:each="address: ${reList}">
 											<div class="card" th:classappend="${address.isDefault()} ? 'card-primary' : ''" th:attr="data-id=${address.id}">
 												<div class="card-header">

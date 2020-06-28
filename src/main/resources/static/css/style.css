@@ -42,6 +42,11 @@ body {
 	border-radius: 0 !important;
 }
 
+.list-group-item {
+	border-bottom: none;
+	margin-bottom: 0;
+}
+
 .list-group-item:first-child {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -50,6 +55,10 @@ body {
 .list-group-item:last-child {
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
+}
+
+.list-group-item:last-child {
+	border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
 section.content {

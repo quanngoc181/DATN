@@ -30,7 +30,7 @@ public class Category extends ParentEntity {
 	}
 
 	public Category(UUID id, String name, String code) {
-		super.setId(id);
+		this.setId(id);
 		this.name = name;
 		this.categoryCode = code;
 	}

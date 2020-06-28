@@ -43,12 +43,44 @@ $(function() {
 		$('#add-category-modal').modal('show');
 	});
 	
+	$('#add-category-submit').on('click', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : "/admin/category-management/add",
+			method: 'post',
+			data: objectifyForm('#add-category-form'),
+			success : function(data) {
+				categoryTable.ajax.reload();
+				$('#add-category-modal').modal('hide');
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
+	});
+	
 	$(document).on('click', '.edit-row', function() {
 		let row = $(this).closest('tr');
 		let data = categoryTable.row(row).data();
 		$('#edit-modal-id').val(data.id);
 		$('#edit-modal-name').val(data.name);
 		$('#edit-category-modal').modal('show');
+	});
+	
+	$('#edit-category-submit').on('click', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url : "/admin/category-management/edit",
+			method: 'post',
+			data: objectifyForm('#edit-category-form'),
+			success : function(data) {
+				categoryTable.ajax.reload();
+				$('#edit-category-modal').modal('hide');
+			},
+			error : function(err) {
+				notify('error', err.responseJSON.message);
+			}
+		});
 	});
 
 	$(document).on('click', '.delete-row', function() {

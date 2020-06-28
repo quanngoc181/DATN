@@ -12,7 +12,8 @@
 				<b>Q•Beverage</b>
 			</a>
 		</div>
-		<div class="card">
+		<p th:if="${error != null}" th:text="${error}" class="text-center"></p>
+		<div class="card" th:if="${error == null}">
 			<div class="card-body login-card-body">
 				<p class="login-box-msg">Thanh toán đơn hàng</p>
 

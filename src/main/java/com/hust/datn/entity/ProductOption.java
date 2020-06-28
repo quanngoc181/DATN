@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
@@ -23,6 +24,7 @@ public class ProductOption extends ParentEntity {
 	private OptionType type;
 	
 	@OneToMany(mappedBy = "option", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OrderBy(value = "createAt ASC")
 	private Set<OptionItem> items;
 	
 	public ProductOption() {

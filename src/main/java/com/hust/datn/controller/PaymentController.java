@@ -1,5 +1,7 @@
 package com.hust.datn.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,10 +36,15 @@ public class PaymentController {
 	SimpMessagingTemplate messagingTemplate;
 	
 	@GetMapping("/user/payment")
-	public String index(String orderId, Model model) throws StripeException {
+	public String index(String orderId, Model model) throws StripeException, Exception {
 		Optional<Order> order = orderRepository.findById(UUID.fromString(orderId));
 		if(!order.isPresent())
-			return "redirect:/user/order-preview";
+			throw new Exception("Không tìm thấy đơn hàng");
+		
+		LocalDateTime createAt = order.get().getCreateAt();
+		LocalDateTime now = LocalDateTime.now();
+		if(createAt.getYear() != now.getYear() || createAt.getMonthValue() != now.getMonthValue() || createAt.getDayOfMonth() != now.getDayOfMonth())
+			model.addAttribute("error", "Đơn hàng chỉ được phép thanh toán trong ngày!!!");
 		
 		Stripe.apiKey = "sk_test_51GtnsjJG8N5EtzpV8upDLc6PZ9xhr8bQkQh6s8KcABXqyo5nq8wKxYgzjpgAwIrJc68aWdnrumMd7nR6bY4jO8u8000vBgM4Ok";
 

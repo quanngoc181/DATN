@@ -20,7 +20,7 @@ public class OptionService {
 	
 	public List<ProductOption> optionsFromString(String string) {
 		List<ProductOption> optionArray = new ArrayList<>();
-		String[] options = string == null ? new String[0] : string.split(";");
+		String[] options = (string == null || string.isEmpty()) ? new String[0] : string.split(";");
 		
 		for (String id : options) {
 			Optional<ProductOption> optional = optionRepository.findById(UUID.fromString(id));

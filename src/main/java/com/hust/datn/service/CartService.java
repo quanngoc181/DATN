@@ -23,12 +23,11 @@ public class CartService {
 	ItemRepository itemRepository;
 	
 	@Autowired
-	CartService cartService;
-	
-	@Autowired
 	ItemService itemService;
 	
-	public CartService() { }
+	public CartService() {
+		super();
+	}
 	
 	public int getDetailCost(Cart cart) {
 		Optional<Product> optional = productRepository.findById(cart.getProductId());
@@ -58,7 +57,7 @@ public class CartService {
 		dto.itemsString = cart.getItems();
 		dto.product = ProductPreviewDTO.fromProduct(productRepository.findById(cart.getProductId()).get());
 		dto.amount = cart.getAmount();
-		dto.totalAmount = cartService.getDetailCost(cart);
+		dto.totalAmount = this.getDetailCost(cart);
 		dto.items = itemService.itemsFromString(cart.getItems());
 		
 		return dto;

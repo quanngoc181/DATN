@@ -74,9 +74,10 @@ public class OrderService {
 		for (Cart cart : carts) {
 			OrderProductDTO productDto = new OrderProductDTO();
 			
-			productDto.setAmount(cart.getAmount());
 			Optional<Product> product = productRepository.findById(cart.getProductId());
 			if(product.isPresent()) {
+				productDto.setAmount(cart.getAmount());
+				
 				productDto.setCode(product.get().getProductCode());
 				productDto.setName(product.get().getName());
 				productDto.setImage(product.get().getImageString());
@@ -86,8 +87,9 @@ public class OrderService {
 				productDto.setItems(cartDTO.getItemStringLite());
 				
 				productCost += cartService.getDetailCost(cart);
+				
+				productDTOs.add(productDto);
 			}
-			productDTOs.add(productDto);
 		}
 		dto.products = productDTOs;
 		dto.productCost = productCost;

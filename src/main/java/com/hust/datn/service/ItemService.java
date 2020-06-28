@@ -16,11 +16,13 @@ public class ItemService {
 	@Autowired
 	ItemRepository itemRepository;
 	
-	public ItemService() { }
+	public ItemService() {
+		super();
+	}
 	
 	public List<OptionItem> itemsFromString(String string) {
 		List<OptionItem> itemArray = new ArrayList<>();
-		String[] options = string.isEmpty() ? new String[0] : string.split(";");
+		String[] options = (string == null || string.isEmpty()) ? new String[0] : string.split(";");
 		
 		for (String id : options) {
 			Optional<OptionItem> optional = itemRepository.findById(UUID.fromString(id));

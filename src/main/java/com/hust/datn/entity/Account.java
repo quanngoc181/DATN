@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Nationalized;
@@ -45,6 +46,7 @@ public class Account extends ParentEntity {
 	private byte[] avatar;
 
 	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OrderBy(value = "createAt ASC")
 	private Set<ReceiveAddress> receiveAddresses;
 
 	public Account() {
@@ -78,8 +80,7 @@ public class Account extends ParentEntity {
 
 	public void addReceiveAddress(ReceiveAddress receiveAddress) {
 		receiveAddress.setAccount(this);
-		if (this.receiveAddresses.size() < 4)
-			this.receiveAddresses.add(receiveAddress);
+		this.receiveAddresses.add(receiveAddress);
 	}
 
 	public void editReceiveAddress(ReceiveAddress receiveAddress) {

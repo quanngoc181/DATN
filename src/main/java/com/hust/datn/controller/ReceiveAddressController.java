@@ -1,20 +1,26 @@
 package com.hust.datn.controller;
 
+import java.util.Optional;
 import java.util.UUID;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hust.datn.command.AddAddressCommand;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.ReceiveAddress;
 import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
+import com.hust.datn.repository.ReceiveAddressRepository;
 import com.hust.datn.service.ConstantService;
 
 @Controller
@@ -23,17 +29,26 @@ public class ReceiveAddressController {
 	AccountRepository accountRepository;
 	
 	@Autowired
+	ReceiveAddressRepository receiveAddressRepository;
+	
+	@Autowired
 	ConstantService constantService;
 	
 	@PostMapping("/user/receive-address/add")
-	public String addReceiveAddress(Authentication auth, @ModelAttribute ReceiveAddress receiveAddress) {
+	@ResponseBody
+	public ModelAndView addReceiveAddress(Authentication auth, @Valid AddAddressCommand command, BindingResult result) throws InternalException {
+		if (result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
 		Account account = accountRepository.findByUsername(auth.getName());
 		
-		account.addReceiveAddress(receiveAddress);
+		ReceiveAddress address = new ReceiveAddress(null, command.addressName, command.name, command.phone, command.address, false);
+		address.setAccount(account);
 		
-		accountRepository.save(account);
+		receiveAddressRepository.save(address);
 		
-		return "redirect:/user/update-info";
+		return new ModelAndView("partial/receive-address1", "address", address);
 	}
 	
 	@GetMapping("/user/receive-address/add")
@@ -85,13 +100,24 @@ public class ReceiveAddressController {
 	}
 	
 	@PostMapping("/user/receive-address/edit")
-	public String editReceiveAddress(Authentication auth, @ModelAttribute ReceiveAddress receiveAddress) {
-		Account account = accountRepository.findByUsername(auth.getName());
+	@ResponseBody
+	public ModelAndView editReceiveAddress(Authentication auth, @Valid AddAddressCommand command, BindingResult result) throws InternalException {
+		if (result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
 		
-		account.editReceiveAddress(receiveAddress);
+		Optional<ReceiveAddress> optional = receiveAddressRepository.findById(UUID.fromString(command.id));
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy địa chỉ");
 		
-		accountRepository.save(account);
+		ReceiveAddress address = optional.get();
+		address.setAddressName(command.getAddressName());
+		address.setName(command.getName());
+		address.setAddress(command.getAddress());
+		address.setPhone(command.getPhone());
 		
-		return "redirect:/user/update-info";
+		receiveAddressRepository.save(address);
+		
+		return new ModelAndView("partial/receive-address1", "address", address);
 	}
 }
