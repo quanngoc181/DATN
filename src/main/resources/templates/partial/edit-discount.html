@@ -7,17 +7,17 @@
 			<form id="edit-discount-form">
 				<div class="row">
 					<div class="col-6">
-						<input type="hidden" name="id" th:value=${discount.id}>
+						<input type="hidden" name="id" th:value="${discount.id}">
 						<div class="form-group row">
 							<label for="modal-description" class="col-sm-3 col-form-label">Mô tả</label>
 							<div class="col-sm-9">
-								<input type="text" th:value=${discount.description} class="form-control" name="description" id="modal-description">
+								<input type="text" th:value="${discount.description}" class="form-control" name="description" id="modal-description">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label for="modal-amount" class="col-sm-3 col-form-label">Số tiền</label>
 							<div class="col-sm-9">
-								<input type="number" th:value=${discount.amount} class="form-control" name="amount" id="modal-amount">
+								<input type="number" th:value="${discount.amount}" class="form-control" name="amount" id="modal-amount">
 							</div>
 						</div>
 						<div class="form-group row">

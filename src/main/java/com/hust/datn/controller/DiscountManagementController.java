@@ -9,11 +9,13 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +29,7 @@ import com.hust.datn.dto.DiscountDTO;
 import com.hust.datn.entity.Category;
 import com.hust.datn.entity.DiscountProduct;
 import com.hust.datn.entity.Product;
+import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.CategoryRepository;
 import com.hust.datn.repository.DiscountProductRepository;
 import com.hust.datn.service.CategoryService;
@@ -85,7 +88,6 @@ public class DiscountManagementController {
 		List<Category> categories = categoryRepository.findAll();
 		
 		List<CategoryDTO> dtos = new ArrayList<>();
-		
 		for (Category category : categories) {
 			CategoryDTO dto = categoryService.getCategoryDTO(category, false);
 			dtos.add(dto);
@@ -96,8 +98,14 @@ public class DiscountManagementController {
 	
 	@PostMapping("/admin/discount-management/add")
 	@ResponseBody
-	public String addDiscount1(@ModelAttribute AddDiscountProductCommand command) {
-		DiscountProduct discount = new DiscountProduct(null, command.description, command.amount, command.getUnit(), command.getStartDateTime(), command.getEndDateTime());
+	public void addDiscount1(@Valid AddDiscountProductCommand command, BindingResult result) throws InternalException {
+		if (result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
+		command.validate();
+		
+		DiscountProduct discount = new DiscountProduct(null, command.description, command.getAmount(), command.getUnit(), command.getStartDateTime(), command.getEndDateTime());
 		
 		discountProductRepository.save(discount);
 		
@@ -107,8 +115,6 @@ public class DiscountManagementController {
 		savedDiscount.setProducts(products);
 		
 		discountProductRepository.save(savedDiscount);
-		
-		return "";
 	}
 	
 	@PostMapping("/admin/discount-management/delete")
@@ -122,37 +128,45 @@ public class DiscountManagementController {
 	
 	@GetMapping("/admin/discount-management/edit")
 	@ResponseBody
-	public ModelAndView editDiscount(String id) {
+	public ModelAndView editDiscount(String id) throws InternalException {
 		Map<String, Object> model = new HashMap<>();
 		
 		List<Category> categories = categoryRepository.findAll();
 		
 		List<CategoryDTO> dtos = new ArrayList<>();
-		
 		for (Category category : categories) {
 			CategoryDTO dto = categoryService.getCategoryDTO(category, false);
-			
 			dtos.add(dto);
 		}
+		model.put("categories", dtos);
 		
 		Optional<DiscountProduct> optional = discountProductRepository.findById(UUID.fromString(id));
-		if(optional.isPresent()) {
-			DiscountProduct discount = optional.get();
-			model.put("discount", new DiscountDTO(discount));
-		}
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy khuyến mãi");
 		
-		model.put("categories", dtos);
+		DiscountProduct discount = optional.get();
+		model.put("discount", new DiscountDTO(discount));
 		
 		return new ModelAndView("partial/edit-discount", model);
 	}
 	
 	@PostMapping("/admin/discount-management/edit")
 	@ResponseBody
-	public String editDiscount1(@ModelAttribute AddDiscountProductCommand command) {
-		DiscountProduct discount = discountProductRepository.findById(UUID.fromString(command.id)).get();
+	public void editDiscount1(@Valid AddDiscountProductCommand command, BindingResult result) throws InternalException {
+		if (result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
+		command.validate();
+		
+		Optional<DiscountProduct> optional = discountProductRepository.findById(UUID.fromString(command.id));
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy khuyến mãi");
+		
+		DiscountProduct discount = optional.get();
 		
 		discount.setDescription(command.description);
-		discount.setAmount(command.amount);
+		discount.setAmount(command.getAmount());
 		discount.setUnit(command.getUnit());
 		discount.setStartDate(command.getStartDateTime());
 		discount.setEndDate(command.getEndDateTime());
@@ -161,7 +175,5 @@ public class DiscountManagementController {
 		discount.setProducts(products);
 		
 		discountProductRepository.save(discount);
-		
-		return "";
 	}
 }

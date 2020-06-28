@@ -80,7 +80,7 @@ public class ProductOption extends ParentEntity {
 				} else {
 					if(item.isDefault()) {
 						this.setDefault(optionItem.getId());
-					} else {
+					} else if (!item.isDefault() && optionItem.isDefault()) {
 						throw new InternalException("SINGLE type cần 1 lựa chọn mặc định");
 					}
 				}
@@ -98,10 +98,12 @@ public class ProductOption extends ParentEntity {
 		}
 	}
 	
-	public void deleteItem(UUID id) {
+	public void deleteItem(UUID id) throws InternalException {
 		OptionItem item = this.items.stream().filter(it -> id.equals(it.getId())).findAny().orElse(null);
 
 		if (item != null) {
+			if(item.isDefault() && this.type.equals(OptionType.SINGLE))
+				throw new InternalException("Không thể xóa lựa chọn mặc định");
 			this.items.remove(item);
 		}
 	}

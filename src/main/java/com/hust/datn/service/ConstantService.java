@@ -15,6 +15,7 @@ public class ConstantService {
 	ConstantRepository constantRepository;
 	
 	public ConstantService() {
+		super();
 	}
 	
 	public void saveOrUpdate(String key, String value) {

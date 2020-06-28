@@ -37,8 +37,8 @@ public class ProductService {
 	public Set<Product> productsFromString(String uuids) {
 		Set<Product> products = new HashSet<Product>();
 		
-		if(uuids.isEmpty())
-			return null;
+		if(uuids == null || uuids.isEmpty())
+			return products;
 		
 		for (String uuid : uuids.split(";")) {
 			Optional<Product> optional = productRepository.findById(UUID.fromString(uuid));

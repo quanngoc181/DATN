@@ -1,21 +1,36 @@
 package com.hust.datn.command;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import com.hust.datn.validator.ValidDate;
+import com.hust.datn.validator.ValidPhone;
+
 public class CompanySettingCommand {
+	@NotBlank(message = "Tên công ty không hợp lệ")
 	public String companyName;
 	
+	@NotBlank(message = "Địa chỉ không hợp lệ")
 	public String companyAddress;
 	
+	@ValidPhone(message = "Số điện thoại không hợp lệ")
 	public String companyPhone;
 	
+	@NotBlank(message = "Vui lòng điền email")
+	@Email(message = "Email không hợp lệ")
 	public String companyEmail;
 	
+	@NotBlank(message = "Số đăng ký kinh doanh không hợp lệ")
 	public String companyBusinessNumber;
 	
+	@ValidDate(message = "Ngày đăng ký không hợp lệ")
 	public String companyBusinessDate;
 	
+	@NotBlank(message = "Nơi cấp không hợp lệ")
 	public String companyBusinessOrganization;
 	
 	public CompanySettingCommand() {
+		super();
 	}
 
 	public CompanySettingCommand(String companyName, String companyAddress, String companyPhone, String companyEmail,

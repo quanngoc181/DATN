@@ -8,6 +8,7 @@ public class OrderProductCommand {
 	public String items;
 	
 	public OrderProductCommand() {
+		super();
 	}
 
 	public OrderProductCommand(int amount, String productId, String items) {

@@ -25,7 +25,7 @@ public class News extends ParentEntity {
 	}
 
 	public News(UUID id, String title, String description, String content) {
-		super.setId(id);
+		this.setId(id);
 		this.title = title;
 		this.description = description;
 		this.content = content;

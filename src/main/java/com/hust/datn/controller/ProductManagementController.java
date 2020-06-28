@@ -8,12 +8,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,26 +117,31 @@ public class ProductManagementController {
 	
 	@PostMapping("/admin/product-management/change-category")
 	@ResponseBody
-	public String changeCategory(String productId, String categoryId) {
+	public void changeCategory(String productId, String categoryId) {
 		UUID ctgId = UUID.fromString(categoryId);
 		UUID prdId = UUID.fromString(productId);
 		
-		Product product = productRepository.findById(prdId).get();
-		Category category = categoryRepository.findById(ctgId).get();
+		Optional<Product> optionalP = productRepository.findById(prdId);
+		Optional<Category> optionalC = categoryRepository.findById(ctgId);
 		
-		product.setCategory(category);
-		
-		productRepository.save(product);
-		
-		return "";
+		if(optionalP.isPresent() && optionalC.isPresent()) {
+			Product product = optionalP.get();
+			Category category = optionalC.get();
+			product.setCategory(category);
+			productRepository.save(product);
+		}
 	}
 	
 	@GetMapping("/admin/product-management/add")
 	@ResponseBody
-	public ModelAndView addProduct(String id) {
+	public ModelAndView addProduct(String id) throws InternalException {
 		UUID ctgId = UUID.fromString(id);
 		
-		Category category = categoryRepository.findById(ctgId).get();
+		Optional<Category> optional = categoryRepository.findById(ctgId);
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy danh mục");
+		
+		Category category = optional.get();
 		List<ProductOption> options = optionRepository.findAll();
 		
 		Map<String, Object> model = new HashMap<>();
@@ -146,10 +153,14 @@ public class ProductManagementController {
 	
 	@PostMapping("/admin/product-management/add")
 	@ResponseBody
-	public String addProduct1(@ModelAttribute AddProductCommand command) throws InternalException {
-		Optional<String> optional = stringUtilities.getExtension(command.file.getOriginalFilename());
-		if(optional.isPresent()) {
-			String extension = optional.get();
+	public void addProduct1(@Valid AddProductCommand command, BindingResult result) throws InternalException {
+		if (result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
+		Optional<String> optionalEx = stringUtilities.getExtension(command.file.getOriginalFilename());
+		if(optionalEx.isPresent()) {
+			String extension = optionalEx.get();
 			if(!extension.equals("jpg") && !extension.equals("png")) {
 				throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
 			}
@@ -162,24 +173,27 @@ public class ProductManagementController {
 			
 			UUID ctgId = UUID.fromString(command.categoryId);
 			
-			Category category = categoryRepository.findById(ctgId).get();
-			
-			category.addProduct(new Product(null, command.name, code, command.cost, bytes, command.options == null ? null : String.join(";", command.options)));
-			
-			categoryRepository.save(category);
+			Optional<Category> optional = categoryRepository.findById(ctgId);
+			if(optional.isPresent()) {
+				Category category = optional.get();
+				category.addProduct(new Product(null, command.name, code, command.getCost(), bytes, command.options == null ? null : String.join(";", command.options)));
+				categoryRepository.save(category);
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new InternalException("Đã có lỗi, không thể thêm sản phẩm");
 		}
-		
-		return "";
 	}
 	
 	@GetMapping("/admin/product-management/edit")
 	@ResponseBody
-	public ModelAndView editProduct(String id) {
+	public ModelAndView editProduct(String id) throws InternalException {
 		UUID prdId = UUID.fromString(id);
 		
-		Product product = productRepository.findById(prdId).get();
+		Optional<Product> optional = productRepository.findById(prdId);
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy sản phẩm");
+		
+		Product product = optional.get();
 		List<ProductOption> options = optionRepository.findAll();
 		
 		Map<String, Object> model = new HashMap<>();
@@ -191,10 +205,14 @@ public class ProductManagementController {
 	
 	@PostMapping("/admin/product-management/edit")
 	@ResponseBody
-	public String editProduct1(@ModelAttribute AddProductCommand command) throws InternalException {
-		Optional<String> optional = stringUtilities.getExtension(command.file.getOriginalFilename());
-		if(optional.isPresent()) {
-			String extension = optional.get();
+	public void editProduct1(@Valid AddProductCommand command, BindingResult result) throws InternalException {
+		if (result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
+		Optional<String> optionalEx = stringUtilities.getExtension(command.file.getOriginalFilename());
+		if(optionalEx.isPresent()) {
+			String extension = optionalEx.get();
 			if(!extension.equals("jpg") && !extension.equals("png")) {
 				throw new InternalException("Sai định dạng ảnh (png hoặc jpg)");
 			}
@@ -202,29 +220,35 @@ public class ProductManagementController {
 		
 		try {
 			UUID id = UUID.fromString(command.id);
-			byte[] bytes = command.file.getBytes();
+			byte[] bytes = command.file.getBytes().length == 0 ? null : command.file.getBytes();
 			
-			Product product = productRepository.findById(id).get();
+			Optional<Product> optional = productRepository.findById(id);
+			if(!optional.isPresent())
+				throw new InternalException("Không tìm thấy sản phẩm");
+			
+			Product product = optional.get();
 			
 			product.setName(command.name);
-			product.setCost(command.cost);
-			if(bytes.length != 0)
-				product.setImage(bytes);
+			product.setCost(command.getCost());
+			product.setImage(bytes);
 			product.setOptions(command.options == null ? null : String.join(";", command.options));
 			
 			productRepository.save(product);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new InternalException("Đã có lỗi, không thể thêm sản phẩm");
 		}
-		
-		return "";
 	}
 	
 	@PostMapping("/admin/product-management/delete")
 	@ResponseBody
-	public void deleteProduct(String id) {
+	public void deleteProduct(String id) throws InternalException {
 		UUID prdId = UUID.fromString(id);
-		Product product = productRepository.findById(prdId).get();
+		
+		Optional<Product> optional = productRepository.findById(prdId);
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy sản phẩm");
+		
+		Product product = optional.get();
 		
 		for (DiscountProduct discount : product.getDiscounts()) {
 			discount.deleteProduct(prdId);

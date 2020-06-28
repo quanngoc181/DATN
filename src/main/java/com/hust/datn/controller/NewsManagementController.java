@@ -64,7 +64,13 @@ public class NewsManagementController {
 	
 	@PostMapping("/admin/news-management/add")
 	@ResponseBody
-	public void addNews1(String title, String description, String content) {
+	public void addNews1(String title, String description, String content) throws InternalException {
+		if(title == null || title.trim().isEmpty())
+			throw new InternalException("Tiêu đề không hợp lệ");
+		
+		if(description == null || description.trim().isEmpty())
+			throw new InternalException("Mô tả ngắn không hợp lệ");
+		
 		newsRepository.save(new News(null, title, description, content));
 	}
 	
@@ -76,17 +82,27 @@ public class NewsManagementController {
 	
 	@GetMapping("/admin/news-management/edit")
 	@ResponseBody
-	public ModelAndView editNews(String id) {
-		News news = newsRepository.findById(UUID.fromString(id)).get();
+	public ModelAndView editNews(String id) throws InternalException {
+		Optional<News> optional = newsRepository.findById(UUID.fromString(id));
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy bài viết");
+		
+		News news = optional.get();
 		return new ModelAndView("partial/edit-news", "news", news);
 	}
 	
 	@PostMapping("/admin/news-management/edit")
 	@ResponseBody
 	public void editNews1(String id, String title, String description, String content) throws InternalException {
+		if(title == null || title.trim().isEmpty())
+			throw new InternalException("Tiêu đề không hợp lệ");
+		
+		if(description == null || description.trim().isEmpty())
+			throw new InternalException("Mô tả ngắn không hợp lệ");
+		
 		Optional<News> news = newsRepository.findById(UUID.fromString(id));
 		if(!news.isPresent())
-			throw new InternalException("Không tìm thấy tin tức");
+			throw new InternalException("Không tìm thấy bài viết");
 		
 		News n = news.get();
 		n.setTitle(title);

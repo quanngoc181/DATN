@@ -2,9 +2,16 @@ package com.hust.datn.command;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
+import com.hust.datn.exception.InternalException;
+import com.hust.datn.validator.ValidPhone;
+
 public class AddOrderCommand {
+	@NotBlank(message = "Người mua không hợp lệ")
 	public String orderName;
 	
+	@ValidPhone(message = "Số điện thoại không hợp lệ")
 	public String orderPhone;
 	
 	public String note;
@@ -12,6 +19,7 @@ public class AddOrderCommand {
 	public List<OrderProductCommand> products;
 	
 	public AddOrderCommand() {
+		super();
 	}
 
 	public AddOrderCommand(String orderName, String orderPhone, String note, List<OrderProductCommand> products) {
@@ -20,6 +28,15 @@ public class AddOrderCommand {
 		this.orderPhone = orderPhone;
 		this.note = note;
 		this.products = products;
+	}
+	
+	public void validate() throws InternalException {
+		if(products.size() == 0)
+			throw new InternalException("Đơn hàng chưa có sản phẩm");
+		
+		for (OrderProductCommand product : products) {
+			// check trùng sản phẩm
+		}
 	}
 
 	public String getNote() {

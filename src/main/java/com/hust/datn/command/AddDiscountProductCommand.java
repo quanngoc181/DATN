@@ -2,23 +2,44 @@ package com.hust.datn.command;
 
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotBlank;
+
 import com.hust.datn.enums.DiscountUnit;
+import com.hust.datn.exception.InternalException;
+import com.hust.datn.validator.ValidCost;
+import com.hust.datn.validator.ValidDate;
+import com.hust.datn.validator.ValidTime;
 
 public class AddDiscountProductCommand {
 	public String id;
+	
+	@NotBlank(message = "Mô tả không hợp lệ")
 	public String description;
-	public int amount;
+	
+	@ValidCost(message = "Số tiền không hợp lệ")
+	public String amount;
+	
 	public int unit;
+	
+	@ValidDate(message = "Ngày bắt đầu không hợp lệ")
 	public String startDate;
+	
+	@ValidTime(message = "Thời gian bắt đầu không hợp lệ")
 	public String startTime;
+	
+	@ValidDate(message = "Ngày kết thúc không hợp lệ")
 	public String endDate;
+	
+	@ValidTime(message = "Thời gian kết thúc không hợp lệ")
 	public String endTime;
+	
 	public String products;
 
 	public AddDiscountProductCommand() {
+		super();
 	}
 
-	public AddDiscountProductCommand(String id, String description, int amount, int unit, String startDate,
+	public AddDiscountProductCommand(String id, String description, String amount, int unit, String startDate,
 			String startTime, String endDate, String endTime, String products) {
 		super();
 		this.id = id;
@@ -30,6 +51,24 @@ public class AddDiscountProductCommand {
 		this.endDate = endDate;
 		this.endTime = endTime;
 		this.products = products;
+	}
+	
+	public void validate() throws InternalException {
+		try {
+			int a = Integer.parseInt(amount);
+			if(unit == 0) {
+				if(a < 0 || a > 100)
+					throw new Exception();
+			} else {
+				if(a < 0)
+					throw new Exception();
+			}
+		} catch (Exception e) {
+			throw new InternalException("Số tiền không hợp lệ");
+		}
+		
+		if(getStartDateTime().compareTo(getEndDateTime()) >= 0)
+			throw new InternalException("Thời gian bắt đầu phải nhỏ hơn thời gian hết thúc");
 	}
 
 	public String getProducts() {
@@ -75,10 +114,10 @@ public class AddDiscountProductCommand {
 	}
 
 	public int getAmount() {
-		return amount;
+		return Integer.parseInt(amount);
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 

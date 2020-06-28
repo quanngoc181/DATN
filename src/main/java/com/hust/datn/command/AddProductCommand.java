@@ -1,19 +1,31 @@
 package com.hust.datn.command;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
+
 import org.springframework.web.multipart.MultipartFile;
+
+import com.hust.datn.validator.ValidCost;
 
 public class AddProductCommand {
 	public String id;
 	public String categoryId;
+	
+	@NotBlank(message = "Tên sản phẩm không hợp lệ")
 	public String name;
-	public int cost;
+	
+	@ValidCost(message = "Giá tiền không hợp lệ")
+	public String cost;
+	
 	public MultipartFile file;
 	public String[] options;
 	
 	public AddProductCommand() {
+		super();
 	}
 
-	public AddProductCommand(String id, String categoryId, String name, int cost, MultipartFile file, String[] options) {
+	public AddProductCommand(String id, String categoryId, String name, String cost, MultipartFile file, String[] options) {
 		super();
 		this.id = id;
 		this.categoryId = categoryId;
@@ -56,10 +68,10 @@ public class AddProductCommand {
 	}
 
 	public int getCost() {
-		return cost;
+		return Integer.parseInt(cost);
 	}
 
-	public void setCost(int cost) {
+	public void setCost(String cost) {
 		this.cost = cost;
 	}
 

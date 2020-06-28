@@ -95,7 +95,6 @@ $(function() {
 	$('#add-option-submit').on('click', function(e) {
 		e.preventDefault();
 		let value = $('#add-option-name').val().trim();
-		if(value.length == 0) return;
 		let type = $('.add-option-type:checked').val();
 		
 		$.ajax({
@@ -157,7 +156,6 @@ $(function() {
 		e.preventDefault();
 		let id = $('#edit-option-id').val();
 		let value = $('#edit-option-name').val().trim();
-		if(value.length == 0) return;
 		let type = $('.edit-option-type:checked').val();
 		
 		$.ajax({

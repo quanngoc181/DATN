@@ -1,12 +1,16 @@
 package com.hust.datn.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -14,6 +18,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -64,45 +69,40 @@ public class OrderManagementController {
 	SimpMessagingTemplate messagingTemplate;
 
 	@GetMapping("/admin/order-management")
-	public String index(Model model) {
+	public String index() {
+		return "admin/order-management";
+	}
+	
+	@GetMapping("/admin/order-management/fetchOrder")
+	@ResponseBody
+	public ModelAndView fetchOrder(int type, int status, String keyword) {
+		String key = keyword == null ? "" : keyword;
 		List<Order> orders = orderRepository.findAll(Sort.by(Sort.Direction.DESC, "createAt"));
 
-		List<Order> unpaidOrder = orders.stream()
-				.filter(order -> order.getType() == OrderType.ONLINE && order.getStatus() == OrderStatus.UNPAID)
+		List<Order> retOrders = orders.stream()
+				.filter(order -> order.getType() == OrderType.values()[type] && order.getStatus() == OrderStatus.values()[status] &&
+								(order.getId().toString().contains(key) || (order.getOrderAccount() == null ? "" : order.getOrderAccount()).contains(key)))
 				.collect(Collectors.toList());
-		List<Order> paidOrder = orders.stream()
-				.filter(order -> order.getType() == OrderType.ONLINE && order.getStatus() == OrderStatus.PAID)
-				.collect(Collectors.toList());
-		List<Order> processingOrder = orders.stream()
-				.filter(order -> order.getType() == OrderType.ONLINE && order.getStatus() == OrderStatus.PROCESSING)
-				.collect(Collectors.toList());
-		List<Order> deliveringOrder = orders.stream()
-				.filter(order -> order.getType() == OrderType.ONLINE && order.getStatus() == OrderStatus.DELIVERING)
-				.collect(Collectors.toList());
-		List<Order> completedOrder = orders.stream()
-				.filter(order -> order.getType() == OrderType.ONLINE && order.getStatus() == OrderStatus.COMPLETED)
-				.collect(Collectors.toList());
-		List<Order> pickupOrder = orders.stream().filter(order -> order.getType() == OrderType.PICKUP)
-				.collect(Collectors.toList());
-
-		model.addAttribute("unpaidOrder", unpaidOrder);
-		model.addAttribute("paidOrder", paidOrder);
-		model.addAttribute("processingOrder", processingOrder);
-		model.addAttribute("deliveringOrder", deliveringOrder);
-		model.addAttribute("completedOrder", completedOrder);
-		model.addAttribute("pickupOrder", pickupOrder);
-
-		return "admin/order-management";
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("orders", retOrders);
+		model.put("status", status);
+		model.put("keyword", key);
+		
+		if(type == 1)
+			return new ModelAndView("partial/order-list-offline", model);
+		
+		return new ModelAndView("partial/order-list", model);
 	}
 
 	@PostMapping("/admin/order-management/change-status")
 	@ResponseBody
 	public void changeStatus(String id, int status) throws InternalException {
-		Optional<Order> o = orderRepository.findById(UUID.fromString(id));
-		if (!o.isPresent())
+		Optional<Order> optional = orderRepository.findById(UUID.fromString(id));
+		if (!optional.isPresent())
 			throw new InternalException("Không tìm thấy đơn hàng");
 
-		Order order = o.get();
+		Order order = optional.get();
 		order.setStatus(OrderStatus.values()[status]);
 
 		orderRepository.save(order);
@@ -129,7 +129,13 @@ public class OrderManagementController {
 
 	@PostMapping("/admin/order-management/add")
 	@ResponseBody
-	public String addOrder1(@RequestBody AddOrderCommand orderData) {
+	public String addOrder1(@RequestBody @Valid AddOrderCommand orderData, BindingResult result) throws InternalException {
+		if (result.hasErrors()) {
+			throw new InternalException(result.getAllErrors().get(0).getDefaultMessage());
+		}
+		
+		orderData.validate();
+		
 		Order order = new Order();
 
 		order.setOrderName(orderData.orderName);

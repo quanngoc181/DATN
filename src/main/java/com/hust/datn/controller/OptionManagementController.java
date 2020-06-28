@@ -1,5 +1,6 @@
 package com.hust.datn.controller;
 
+import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -91,7 +92,10 @@ public class OptionManagementController {
 
 	@PostMapping("/admin/option-management/add")
 	@ResponseBody
-	public void addOption(String name, int type) {
+	public void addOption(String name, int type) throws InternalException {
+		if(name == null || name.trim().isEmpty())
+			throw new InternalException("Tên tùy chọn không hợp lệ");
+		
 		optionRepository.save(new ProductOption(null, name, OptionType.values()[type]));
 	}
 
@@ -102,7 +106,18 @@ public class OptionManagementController {
 		if (optional.isPresent()) {
 			ProductOption option = optional.get();
 			option.setName(name);
-			option.setType(OptionType.values()[type]);
+			
+			OptionType newType = OptionType.values()[type];
+			if(option.getType().equals(OptionType.MULTIPLE) && newType.equals(OptionType.SINGLE)) {
+				if(option.getItems().size() > 0) {
+					for (OptionItem item : option.getItems()) {
+						item.setDefault(false);
+					}
+					OptionItem first = (OptionItem) option.getItems().toArray()[0];
+					first.setDefault(true);
+				}
+			}
+			option.setType(newType);
 			optionRepository.save(option);
 		}
 	}
@@ -111,31 +126,66 @@ public class OptionManagementController {
 	@ResponseBody
 	public void deleteOption(String id) {
 		UUID optionId = UUID.fromString(id);
-		optionRepository.deleteById(optionId);
+		if(id != null)
+			optionRepository.deleteById(optionId);
 	}
 	
 	@PostMapping("/admin/option-management/add-item")
 	@ResponseBody
-	public void addItem(String optionId, String name, int cost, boolean isDefault) {
-		ProductOption option = optionRepository.findById(UUID.fromString(optionId)).get();
-		option.addItem(new OptionItem(null, name, cost, isDefault));
+	public void addItem(String optionId, String name, String cost, boolean isDefault) throws InternalException {
+		if(name == null || name.trim().isEmpty())
+			throw new InternalException("Tên lựa chọn không hợp lệ");
+		
+		int c;
+		try {
+			c = Integer.parseInt(cost);
+			if(c < 0) throw new Exception();
+		} catch (Exception e) {
+			throw new InternalException("Giá lựa chọn không hợp lệ");
+		}
+		
+		Optional<ProductOption> optional = optionRepository.findById(UUID.fromString(optionId));
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy tùy chọn");
+		
+		ProductOption option = optional.get();
+		option.addItem(new OptionItem(null, name, c, isDefault));
 		optionRepository.save(option);
 	}
 	
 	@PostMapping("/admin/option-management/edit-item")
 	@ResponseBody
-	public void editItem(String id, String name, int cost, boolean isDefault) throws InternalException {
-		ProductOption option = itemRepository.findById(UUID.fromString(id)).get().getOption();
-		option.editItem(new OptionItem(UUID.fromString(id), name, cost, isDefault));
+	public void editItem(String id, String name, String cost, boolean isDefault) throws InternalException {
+		if(name == null || name.trim().isEmpty())
+			throw new InternalException("Tên lựa chọn không hợp lệ");
+		
+		int c;
+		try {
+			c = Integer.parseInt(cost);
+			if(c < 0) throw new Exception();
+		} catch (Exception e) {
+			throw new InternalException("Giá lựa chọn không hợp lệ");
+		}
+		
+		Optional<OptionItem> optional = itemRepository.findById(UUID.fromString(id));
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy lựa chọn");
+		
+		ProductOption option = optional.get().getOption();
+		option.editItem(new OptionItem(UUID.fromString(id), name, c, isDefault));
 		optionRepository.save(option);
 	}
 	
 	@PostMapping("/admin/option-management/delete-item")
 	@ResponseBody
-	public void deleteItem(String id) {
+	public void deleteItem(String id) throws InternalException {
 		UUID itemId = UUID.fromString(id);
 		
-		ProductOption option = itemRepository.findById(itemId).get().getOption();
+		Optional<OptionItem> optional = itemRepository.findById(itemId);
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy lựa chọn");
+		
+		ProductOption option = optional.get().getOption();
 		
 		option.deleteItem(itemId);
 
