@@ -92,9 +92,6 @@ public class UsersManagementController {
 		Account account = accountRepository.findByUsername(username);
 		map.put("account", account);
 		
-		String encodedAvatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		map.put("avatar", encodedAvatar);
-		
 		Set<ReceiveAddress> reList = account.getReceiveAddresses();
 		map.put("reList", reList);
 		

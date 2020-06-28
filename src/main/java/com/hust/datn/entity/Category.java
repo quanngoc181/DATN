@@ -34,23 +34,20 @@ public class Category extends ParentEntity {
 		this.name = name;
 		this.categoryCode = code;
 	}
-	
+
 	public Category filter(String keyword, String discount) {
 		List<Product> products = this.products.stream()
-				.filter(product ->
-					product.getName().toLowerCase().contains(keyword.toLowerCase()) &&
-					(discount.equals("all") ? true : product.isDiscount())
-				)
+				.filter(product -> product.getName().toLowerCase().contains(keyword.toLowerCase()) && (discount.equals("all") ? true : product.isDiscount()))
 				.collect(Collectors.toList());
 		this.products = new HashSet<>(products);
 		return this;
 	}
-	
+
 	public void addProduct(Product product) {
 		product.setCategory(this);
 		this.products.add(product);
 	}
-	
+
 	public void deleteProduct(UUID id) {
 		Product product = this.products.stream().filter(prd -> id.equals(prd.getId())).findAny().orElse(null);
 

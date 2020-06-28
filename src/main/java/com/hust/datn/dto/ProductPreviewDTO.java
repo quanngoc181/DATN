@@ -36,16 +36,12 @@ public class ProductPreviewDTO {
 	}
 	
 	public static ProductPreviewDTO fromProduct(Product product) {
-		String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
-		
-		return new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), product.getDiscountCost(), avatar,
+		return new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), product.getDiscountCost(), product.getImageString(),
 				product.getCategory().getName(), product.getOptions() == null ? "" : product.getOptions(), null, product.getDiscounts());
 	}
 	
 	public static ProductPreviewDTO fromProduct(Product product, List<ProductOption> optionArray) {
-		String avatar = product.getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.getImage()));
-		
-		return new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), product.getDiscountCost(), avatar,
+		return new ProductPreviewDTO(product.getId(), product.getName(), product.getProductCode(), product.getCost(), product.getDiscountCost(), product.getImageString(),
 				product.getCategory().getName(), product.getOptions() == null ? "" : product.getOptions(), optionArray, product.getDiscounts());
 	}
 }

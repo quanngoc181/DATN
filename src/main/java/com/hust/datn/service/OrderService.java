@@ -79,8 +79,7 @@ public class OrderService {
 			if(product.isPresent()) {
 				productDto.setCode(product.get().getProductCode());
 				productDto.setName(product.get().getName());
-				String image = product.get().getImage() == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(product.get().getImage()));
-				productDto.setImage(image);
+				productDto.setImage(product.get().getImageString());
 				productDto.setCost(product.get().getDiscountCost());
 				
 				CartDTO cartDTO = cartService.getCartDTO(cart);

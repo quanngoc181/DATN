@@ -18,7 +18,7 @@
 				<div class="center menus"></div>
 				<div class="right menus">
 					<div class="d-flex align-items-center">
-						<img th:src="${avatar}" class="avatar">
+						<img th:src="${user.getAvatarString()}" class="avatar">
 						<div class="dropdown">
 							<a href="#" class="menu dropdown-link" th:text="${user.lastName}"></a>
 							<div class="dropdown-container">
@@ -64,6 +64,7 @@
 		<section class="content">
 			<div class="row">
 				<div class="col-12 col-sm-9">
+					<p class="text-center" th:if="${news == null}">Không tìm thấy bài viết!!!</p>
 					<div class="card" th:if="${news != null}">
 						<div class="card-body">
 							<h1 class="news-title" th:text="${news.title}"></h1>

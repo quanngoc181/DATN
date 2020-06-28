@@ -17,7 +17,9 @@ public class Cart extends ParentEntity {
 	@Column(columnDefinition = "varchar(MAX)")
 	private String items;
 	
-	public Cart() { }
+	public Cart() {
+		super();
+	}
 
 	public Cart(UUID id, UUID userId, UUID productId, int amount, String items) {
 		super();

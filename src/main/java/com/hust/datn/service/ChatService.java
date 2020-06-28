@@ -40,7 +40,7 @@ public class ChatService {
 				dto.message = message.getContent();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
 				dto.date = message.getCreateAt().format(formatter);
-				dto.avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
+				dto.avatar = account.getAvatarString();
 			} else {
 				dto.sender = "Admin";
 				dto.original = true;
@@ -69,7 +69,7 @@ public class ChatService {
 				dto.message = message.getContent();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
 				dto.date = message.getCreateAt().format(formatter);
-				dto.avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
+				dto.avatar = account.getAvatarString();
 			} else {
 				dto.sender = "Admin";
 				dto.original = false;
@@ -96,8 +96,6 @@ public class ChatService {
 		for (String user : users) {
 			Account account = accountRepository.findByUsername(user);
 			
-			String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-			
 			boolean seen = true;
 			List<ChatMessage> userMessages = total.stream().filter(obj -> obj.getSender().equals(user)).collect(Collectors.toList());
 			for (ChatMessage message : userMessages) {
@@ -107,7 +105,7 @@ public class ChatService {
 				}
 			}
 			
-			ContactItem contact = new ContactItem(user, avatar, account.getFirstName() + " " + account.getLastName(), seen);
+			ContactItem contact = new ContactItem(user, account.getAvatarString(), account.getFirstName() + " " + account.getLastName(), seen);
 			contacts.add(contact);
 		}
 		

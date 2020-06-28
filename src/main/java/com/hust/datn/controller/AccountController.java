@@ -79,7 +79,7 @@ public class AccountController {
 		int accNum = accountService.generateAccountNumber();
 		Account account = new Account(null, command.username, command.firstName, command.lastName, accNum,
 				DateUtilities.parseDate(command.birthday), command.gender, command.phone, command.email,
-				command.address, 0, null);
+				command.address, null);
 		account.initReceiveAddress();
 		accountRepository.save(account);
 	}
@@ -120,10 +120,11 @@ public class AccountController {
 	}
 	
 	@GetMapping("/reset-password")
-	public String resetPassword(String rpt, Model model) {
+	public String resetPassword(String rpt, Model model) throws InternalException {
 		ResetPasswordToken reset = resetPasswordTokenRepository.findByToken(UUID.fromString(rpt));
 		
-		if(reset == null || reset.getExpiredTime().compareTo(LocalDateTime.now()) < 0) return "redirect:/";
+		if(reset == null || reset.getExpiredTime().compareTo(LocalDateTime.now()) < 0)
+			throw new InternalException();
 		
 		model.addAttribute("rpt", rpt);
 		

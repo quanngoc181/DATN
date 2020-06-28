@@ -58,10 +58,6 @@ public class OrderController {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("user", account);
 
-		String avatar = account.getAvatar() == null ? "/images/default-avatar.png"
-				: new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		model.addAttribute("avatar", avatar);
-
 		OrderDTO orderDTO = orderService.createOrderDTO(account.getId());
 		model.addAttribute("order", orderDTO);
 
@@ -113,9 +109,6 @@ public class OrderController {
 	public String myOrder(Authentication auth, Model model) {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("user", account);
-
-		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		model.addAttribute("avatar", avatar);
 
 		List<Order> orders = orderRepository.findByOrderAccountIdOrderByCreateAtDesc(account.getId());
 

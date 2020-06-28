@@ -36,9 +36,6 @@ public class CartController {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("user", account);
 		
-		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		model.addAttribute("avatar", avatar);
-		
 		List<Cart> carts = cartRepository.findByUserId(account.getId());
 		List<CartDTO> dtos = new ArrayList<>();
 		for (Cart cart : carts) {

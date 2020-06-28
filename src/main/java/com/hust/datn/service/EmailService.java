@@ -21,7 +21,7 @@ public class EmailService {
 		message.setSubject("Q•Beverage - Lấy lại mật khẩu");
 		message.setText("Chào quý khách,\r\nChúng tôi nhận được yêu cầy lấy lại mật khẩu từ tài khoản " + username +
 				". Vui lòng truy cập đường link bên dưới để thực hiện lấy lại mật khẩu:\r\nhttps://localhost/reset-password?rpt=" + token +
-				"\r\nLưu ý: link trên chỉ có tác dụng trong vòng 1h");
+				"\r\nLưu ý: link trên chỉ có tác dụng trong vòng 1 giờ");
 		emailSender.send(message);
 	}
 }

@@ -1,6 +1,7 @@
 package com.hust.datn.entity;
 
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -40,8 +41,6 @@ public class Account extends ParentEntity {
 	@Nationalized
 	private String address;
 
-	private int money;
-
 	@Column(columnDefinition = "varbinary(MAX)")
 	private byte[] avatar;
 
@@ -53,8 +52,8 @@ public class Account extends ParentEntity {
 	}
 
 	public Account(UUID id, String username, String firstName, String lastName, int accountNumber, LocalDate birthday,
-			int gender, String phone, String email, String address, int money, byte[] avatar) {
-		super.setId(id);
+			int gender, String phone, String email, String address, byte[] avatar) {
+		this.setId(id);
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -64,15 +63,13 @@ public class Account extends ParentEntity {
 		this.phone = phone;
 		this.email = email;
 		this.address = address;
-		this.money = money;
 		this.avatar = avatar;
 	}
 
 	public void initReceiveAddress() {
 		String call = this.gender == 1 ? "Anh" : "Chị";
 
-		ReceiveAddress receiveAddress = new ReceiveAddress(null, "Địa chỉ 1", call.concat(" ").concat(this.lastName),
-				this.phone, this.address, true);
+		ReceiveAddress receiveAddress = new ReceiveAddress(null, "Địa chỉ 1", call.concat(" ").concat(this.lastName), this.phone, this.address, true);
 		receiveAddress.setAccount(this);
 
 		this.receiveAddresses = new HashSet<>();
@@ -130,6 +127,11 @@ public class Account extends ParentEntity {
 				throw new InternalException("Không thể xóa địa chỉ mặc định");
 			this.receiveAddresses.remove(address);
 		}
+	}
+	
+	public String getAvatarString() {
+		String avt = this.avatar == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(this.avatar));
+		return avt;
 	}
 
 	public void setUsername(String username) {
@@ -198,14 +200,6 @@ public class Account extends ParentEntity {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public int getMoney() {
-		return money;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
 	}
 
 	public byte[] getAvatar() {

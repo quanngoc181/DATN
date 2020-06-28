@@ -1,6 +1,7 @@
 package com.hust.datn.entity;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Set;
 import java.util.UUID;
 
@@ -73,6 +74,11 @@ public class Product extends ParentEntity {
 	
 	public boolean isDiscount() {
 		return this.getDiscountCost() != this.getCost();
+	}
+	
+	public String getImageString() {
+		String avt = this.image == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(this.image));
+		return avt;
 	}
 
 	public Set<DiscountProduct> getDiscounts() {

@@ -1,5 +1,6 @@
 package com.hust.datn.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +31,20 @@ public class CartService {
 	public CartService() { }
 	
 	public int getDetailCost(Cart cart) {
-		Product product = productRepository.findById(cart.getProductId()).get();
+		Optional<Product> optional = productRepository.findById(cart.getProductId());
+		if(!optional.isPresent())
+			return 0;
+		Product product = optional.get();
 		int cost = product.getDiscountCost();
 		
-		if(!cart.getItems().isEmpty())
+		if(cart.getItems() != null && !cart.getItems().isEmpty())
 			for (String item : cart.getItems().split(";")) {
 				UUID itemId = UUID.fromString(item);
-				OptionItem optionItem = itemRepository.findById(itemId).get();
-				cost += optionItem.getCost();
+				Optional<OptionItem> option = itemRepository.findById(itemId);
+				if(option.isPresent()) {
+					OptionItem optionItem = option.get();
+					cost += optionItem.getCost();
+				}
 			}
 		
 		return cart.getAmount() * cost;

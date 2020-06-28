@@ -44,7 +44,8 @@ public class OrderProduct extends ParentEntity {
 	}
 	
 	public String getImageString() {
-		return this.image == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(this.image));
+		String avt = this.image == null ? "/images/default-product.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(this.image));
+		return avt;
 	}
 
 	public Order getOrder() {

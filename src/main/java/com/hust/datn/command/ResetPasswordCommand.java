@@ -12,6 +12,7 @@ public class ResetPasswordCommand {
 	public String token;
 	
 	public ResetPasswordCommand() {
+		super();
 	}
 
 	public ResetPasswordCommand(String newpass, String confirmpass, String token) {

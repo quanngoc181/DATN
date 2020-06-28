@@ -20,7 +20,7 @@ public class AccountDTO {
 	
 	public AccountDTO(Account account) {
 		super();
-		this.avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
+		this.avatar = account.getAvatarString();
 		this.lastname = account.getLastName();
 	}
 }

@@ -32,7 +32,7 @@ public class ReceiveAddress extends ParentEntity {
 	}
 
 	public ReceiveAddress(UUID id, String addressName, String name, String phone, String address, boolean def) {
-		super.setId(id);
+		this.setId(id);
 		this.addressName = addressName;
 		this.name = name;
 		this.phone = phone;

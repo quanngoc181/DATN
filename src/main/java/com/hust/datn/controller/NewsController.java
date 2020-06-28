@@ -52,8 +52,6 @@ public class NewsController {
 	public String newsManagement1(Authentication auth, Model model, String id) {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("user", account);
-		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		model.addAttribute("avatar", avatar);
 		
 		List<News> newsList = newsRepository.findAll();
 		model.addAttribute("newsList", newsList);

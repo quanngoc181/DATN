@@ -18,7 +18,7 @@
 				<div class="center menus"></div>
 				<div class="right menus">
 					<div class="d-flex align-items-center">
-						<img th:src="${avatar}" class="avatar">
+						<img th:src="${account.getAvatarString()}" class="avatar">
 						<div class="dropdown">
 							<a href="#" class="menu dropdown-link" th:text="${account.lastName}"></a>
 							<div class="dropdown-container">

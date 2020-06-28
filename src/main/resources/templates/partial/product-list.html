@@ -14,7 +14,7 @@
 				<div class="content">
 					<h5 class="name" th:text="${product.name + ' - ' + product.productCode}"></h5>
 					<p class="cost" th:if="${product.cost != product.discountCost}">
-						<span th:text="${product.cost} + ' đ'"></span>
+						<span class="text-muted" th:text="${product.cost} + ' đ'"></span>
 					</p>
 					<p class="discountCost">
 						<span th:text="${product.discountCost} + ' đ'"></span>

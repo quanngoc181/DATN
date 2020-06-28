@@ -26,6 +26,7 @@ import com.hust.datn.entity.Cart;
 import com.hust.datn.entity.Category;
 import com.hust.datn.entity.Product;
 import com.hust.datn.entity.ProductOption;
+import com.hust.datn.exception.InternalException;
 import com.hust.datn.repository.AccountRepository;
 import com.hust.datn.repository.CartRepository;
 import com.hust.datn.repository.CategoryRepository;
@@ -34,6 +35,7 @@ import com.hust.datn.repository.ProductRepository;
 import com.hust.datn.service.CartService;
 import com.hust.datn.service.CategoryService;
 import com.hust.datn.service.OptionService;
+import com.hust.datn.utilities.StringUtilities;
 
 @Controller
 public class ProductController {
@@ -61,10 +63,14 @@ public class ProductController {
 	@Autowired
 	CartRepository cartRepository;
 	
+	@Autowired
+	StringUtilities stringUtilities;
+	
 	@GetMapping("/product")
 	public String product(Model model) {
 		List<Category> categories = categoryRepository.findAll();
 		model.addAttribute("categories", categories);
+		
 		return "product";
 	}
 	
@@ -72,17 +78,17 @@ public class ProductController {
 	public String userProduct(Authentication auth, Model model) {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("user", account);
-		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		model.addAttribute("avatar", avatar);
+		
 		List<Category> categories = categoryRepository.findAll();
 		model.addAttribute("categories", categories);
+		
 		return "user/product";
 	}
 	
 	@GetMapping("/product/fetch-product")
 	@ResponseBody
 	public ModelAndView fetchProduct(@ModelAttribute SearchCommand command) {
-		List<UUID> uuids = command.getUUIDs();
+		List<UUID> uuids = stringUtilities.uuidsFromString(command.categories);
 		List<CategoryDTO> dtos = new ArrayList<>();
 		
 		for (UUID uuid : uuids) {
@@ -102,9 +108,14 @@ public class ProductController {
 	
 	@GetMapping("/user/product/add-to-cart")
 	@ResponseBody
-	public ModelAndView getDetail(String id) {
+	public ModelAndView getDetail(String id) throws InternalException {
 		UUID prdId = UUID.fromString(id);
-		Product product = productRepository.findById(prdId).get();
+		
+		Optional<Product> optional = productRepository.findById(prdId);
+		if(!optional.isPresent())
+			throw new InternalException("Không tìm thấy sản phẩm");
+		Product product = optional.get();
+		
 		List<ProductOption> options = optionService.optionsFromString(product.getOptions());
 		ProductPreviewDTO productPreviewDTO = ProductPreviewDTO.fromProduct(product, options);
 		
@@ -112,12 +123,6 @@ public class ProductController {
 		model.put("product", productPreviewDTO);
 		
 		return new ModelAndView("/partial/add-to-cart", model);
-	}
-	
-	@GetMapping("/user/product/calculate-total-cost")
-	@ResponseBody
-	public String calculateTotalCost(String id, int amount, String items) {
-		return "" + cartService.getDetailCost(new Cart(null, null, UUID.fromString(id), amount, items));
 	}
 	
 	@PostMapping("/user/product/add-to-cart")
@@ -132,5 +137,11 @@ public class ProductController {
 			cart.setAmount(cart.getAmount() + amount);
 			cartRepository.save(cart);
 		}
+	}
+	
+	@GetMapping("/user/product/calculate-total-cost")
+	@ResponseBody
+	public int calculateTotalCost(String id, int amount, String items) {
+		return cartService.getDetailCost(new Cart(null, null, UUID.fromString(id), amount, items));
 	}
 }

@@ -10,6 +10,7 @@ public class SearchCommand {
 	public String discount;
 	
 	public SearchCommand() {
+		super();
 	}
 
 	public SearchCommand(String keyword, String categories, String discount) {
@@ -17,17 +18,6 @@ public class SearchCommand {
 		this.keyword = keyword;
 		this.categories = categories;
 		this.discount = discount;
-	}
-	
-	public List<UUID> getUUIDs() {
-		List<UUID> uuids = new ArrayList<>();
-		if(this.categories.isEmpty())
-			return uuids;
-		String[] ids = this.categories.split(";");
-		for (String id : ids) {
-			uuids.add(UUID.fromString(id));
-		}
-		return uuids;
 	}
 
 	public String getKeyword() {

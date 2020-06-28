@@ -4,14 +4,12 @@
 			<div class="card card-primary">
 				<div class="card-body box-profile">
 					<div class="text-center position-relative">
-						<img class="profile-user-img img-fluid img-circle" th:src="${avatar}" alt="Avatar" style="height: 100px; object-fit: cover;">
+						<img class="profile-user-img img-fluid img-circle" th:src="${account.getAvatarString()}" alt="Avatar" style="height: 100px; object-fit: cover;">
 					</div>
 	
 					<h3 th:text="${account.firstName + ' ' + account.lastName}" class="profile-username text-center"></h3>
 					
-					<p th:text="${account.username + ' - ' + account.accountNumber}" class="text-muted text-center mb-0"></p>
-					
-					<p class="font-weight-bold text-center">Số dư: <span th:text="${account.money} + ' đ'"></span></p>
+					<p th:text="${account.username + ' - ' + account.accountNumber}" class="text-muted text-center"></p>
 	
 					<ul class="list-group list-group-unbordered">
 						<li class="list-group-item">

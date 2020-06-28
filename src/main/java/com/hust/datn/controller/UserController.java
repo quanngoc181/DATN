@@ -52,10 +52,10 @@ public class UserController {
 	public String userIndex(Authentication auth, Model model) {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("user", account);
-		String avatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		model.addAttribute("avatar", avatar);
+		
 		SettingDTO setting = constantService.getAll();
 		model.addAttribute("setting", setting);
+		
 		return "user/index";
 	}
 
@@ -92,9 +92,6 @@ public class UserController {
 	public String updateInfo(Authentication auth, Model model) {
 		Account account = accountRepository.findByUsername(auth.getName());
 		model.addAttribute("account", account);
-		
-		String encodedAvatar = account.getAvatar() == null ? "/images/default-avatar.png" : new String("data:image/;base64,").concat(Base64.getEncoder().encodeToString(account.getAvatar()));
-		model.addAttribute("avatar", encodedAvatar);
 		
 		Set<ReceiveAddress> reList = account.getReceiveAddresses();
 		model.addAttribute("reList", reList);

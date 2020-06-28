@@ -19,6 +19,7 @@ public class ResetPasswordToken extends ParentEntity {
 	private LocalDateTime expiredTime;
 	
 	public ResetPasswordToken() {
+		super();
 	}
 
 	public ResetPasswordToken(UUID userId, UUID token, LocalDateTime expiredTime) {
