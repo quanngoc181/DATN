@@ -43,8 +43,7 @@ public class ChatManagementController {
 	public ModelAndView update() {
 		List<ChatMessage> total = userChatRepository.findAll();
 
-		Comparator<ChatMessage> compareByDate = (ChatMessage o1, ChatMessage o2) -> o1.getCreateAt()
-				.compareTo(o2.getCreateAt());
+		Comparator<ChatMessage> compareByDate = (ChatMessage o1, ChatMessage o2) -> o1.getCreateAt().compareTo(o2.getCreateAt());
 		Collections.sort(total, compareByDate.reversed());
 
 		List<ContactItem> contacts = chatService.getContactList(total);
