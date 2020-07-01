@@ -1,5 +1,7 @@
 package com.hust.datn.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,10 @@ public class DefaultController {
 			SettingDTO setting = constantService.getAll();
 			model.addAttribute("setting", setting);
 			return "index";
-		} else if(auth.getAuthorities().size() == 1)
-			return "redirect:/user";
-		return "redirect:/admin";
+		} else if(auth.getAuthorities().toString().contains("ROLE_ADMIN")) {
+			return "redirect:/admin";
+		}
+		return "redirect:/user";
 	}
 
 	@GetMapping("/login")

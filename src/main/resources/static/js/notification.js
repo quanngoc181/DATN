@@ -16,7 +16,7 @@ $(function() {
 
 function updateNotification() {
 	$.ajax({
-		url : "/user/notification/update",
+		url : "/notification/update",
 		data: { },
 		success : function(data) {
 			$('.notification-container').find('.os-content').html(data);
@@ -34,7 +34,7 @@ function updateNotification() {
 		let id = $(this).data('id');
 
 		$.ajax({
-			url : "/user/notification/seen",
+			url : "/notification/seen",
 			method: 'post',
 			data: {
 				id: id

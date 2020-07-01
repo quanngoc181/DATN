@@ -22,11 +22,11 @@ public class NotificationController {
 	@Autowired
 	NotificationRepository notificationRepository;
 	
-	@GetMapping("/user/notification/update")
+	@GetMapping("/notification/update")
 	@ResponseBody
 	public ModelAndView update(Authentication auth) {
 		String username = auth.getName();
-		if(auth.getAuthorities().size() == 2) {
+		if(auth.getAuthorities().toString().contains("ROLE_ADMIN")) {
 			username = "SYSTEM";
 		}
 		List<Notification> notifications = notificationRepository.findByReceiverOrderByCreateAtDesc(username);
@@ -39,7 +39,7 @@ public class NotificationController {
 		return new ModelAndView("/partial/notification", model);
 	}
 	
-	@PostMapping("/user/notification/seen")
+	@PostMapping("/notification/seen")
 	@ResponseBody
 	public void seen(String id) {
 		Optional<Notification> notification = notificationRepository.findById(UUID.fromString(id));

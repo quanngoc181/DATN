@@ -2,6 +2,7 @@ package com.hust.datn.controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hust.datn.entity.Authorities;
 import com.hust.datn.entity.Notification;
 import com.hust.datn.entity.Order;
 import com.hust.datn.enums.OrderStatus;
 import com.hust.datn.exception.InternalException;
+import com.hust.datn.repository.AuthoritiesRepository;
 import com.hust.datn.repository.NotificationRepository;
 import com.hust.datn.repository.OrderRepository;
 import com.stripe.Stripe;
@@ -26,6 +29,9 @@ import com.stripe.param.PaymentIntentCreateParams;
 
 @Controller
 public class PaymentController {
+	@Autowired
+	AuthoritiesRepository authoritiesRepository;
+	
 	@Autowired
 	OrderRepository orderRepository;
 	
@@ -73,7 +79,11 @@ public class PaymentController {
 		notificationRepository.save(new Notification(od.getOrderAccount(), "Thanh toán thành công đơn hàng " + od.getId().toString(), "/user/my-order", false));
 		notificationRepository.save(new Notification("SYSTEM", "Có đơn hàng vừa mới được thanh toán " + od.getId().toString(), "/admin/order-management", false));
 		
+		List<Authorities> authors = authoritiesRepository.findAll();
+		for (Authorities author : authors) {
+			if(author.getAuthority().equals("ROLE_ADMIN"))
+			messagingTemplate.convertAndSendToUser(author.getUsername(), "/queue/notification-updates", "");
+		}
 		messagingTemplate.convertAndSendToUser(od.getOrderAccount(), "/queue/notification-updates", "");
-		messagingTemplate.convertAndSendToUser("admin", "/queue/notification-updates", "");
 	}
 }

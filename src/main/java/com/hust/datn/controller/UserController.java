@@ -61,10 +61,7 @@ public class UserController {
 
 	@GetMapping("/user/login-success")
 	public String loginSuccess(Authentication auth) {
-		if (auth.getAuthorities().size() == 2)
-			return "redirect:/admin";
-		else
-			return "redirect:/user";
+		return "redirect:/";
 	}
 
 	@GetMapping("/user/change-password")

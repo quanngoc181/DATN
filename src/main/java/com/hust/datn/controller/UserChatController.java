@@ -17,12 +17,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hust.datn.dto.UserMessageDTO;
+import com.hust.datn.entity.Authorities;
 import com.hust.datn.entity.ChatMessage;
+import com.hust.datn.entity.Users;
+import com.hust.datn.repository.AuthoritiesRepository;
 import com.hust.datn.repository.UserChatRepository;
+import com.hust.datn.repository.UserRepository;
 import com.hust.datn.service.ChatService;
 
 @Controller
 public class UserChatController {
+	@Autowired
+	UserRepository userRepository;
+	
+	@Autowired
+	AuthoritiesRepository authoritiesRepository;
+	
 	@Autowired
 	UserChatRepository userChatRepository;
 
@@ -53,7 +63,11 @@ public class UserChatController {
 		model.put("messages", dtos);
 		model.put("unSeen", unSeen);
 		
-		messagingTemplate.convertAndSendToUser("admin", "/queue/chat-updates", "");
+		List<Authorities> authors = authoritiesRepository.findAll();
+		for (Authorities author : authors) {
+			if(author.getAuthority().equals("ROLE_ADMIN"))
+			messagingTemplate.convertAndSendToUser(author.getUsername(), "/queue/chat-updates", "");
+		}
 
 		return new ModelAndView("/partial/user-conversation", model);
 	}
