@@ -16,15 +16,20 @@ import org.springframework.stereotype.Service;
 import com.hust.datn.dto.ContactItem;
 import com.hust.datn.dto.UserMessageDTO;
 import com.hust.datn.entity.Account;
+import com.hust.datn.entity.Authorities;
 import com.hust.datn.entity.ChatMessage;
 import com.hust.datn.entity.Users;
 import com.hust.datn.repository.AccountRepository;
+import com.hust.datn.repository.AuthoritiesRepository;
 import com.hust.datn.repository.UserRepository;
 
 @Service
 public class ChatService {
 	@Autowired
 	AccountRepository accountRepository;
+	
+	@Autowired
+	AuthoritiesRepository authoritiesRepository;
 	
 	public ChatService() {
 		super();
@@ -97,19 +102,23 @@ public class ChatService {
 //				.collect(Collectors.toList());
 		
 		List<Account> users = accountRepository.findAll();
+		List<Authorities> authors = authoritiesRepository.findByAuthority("ROLE_ADMIN");
 
 		for (Account user : users) {
-			boolean seen = true;
-			List<ChatMessage> userMessages = total.stream().filter(obj -> obj.getSender().equals(user.getUsername())).collect(Collectors.toList());
-			for (ChatMessage message : userMessages) {
-				if(!message.isSeen()) {
-					seen = false;
-					break;
+			boolean exist = authors.stream().map(author -> author.getUsername()).anyMatch(username -> username.equals(user.getUsername()));
+			if(!exist) {
+				boolean seen = true;
+				List<ChatMessage> userMessages = total.stream().filter(obj -> obj.getSender().equals(user.getUsername())).collect(Collectors.toList());
+				for (ChatMessage message : userMessages) {
+					if(!message.isSeen()) {
+						seen = false;
+						break;
+					}
 				}
+				
+				ContactItem contact = new ContactItem(user.getUsername(), user.getAvatarString(), user.getFirstName() + " " + user.getLastName(), seen);
+				contacts.add(contact);
 			}
-			
-			ContactItem contact = new ContactItem(user.getUsername(), user.getAvatarString(), user.getFirstName() + " " + user.getLastName(), seen);
-			contacts.add(contact);
 		}
 		
 		return contacts;
