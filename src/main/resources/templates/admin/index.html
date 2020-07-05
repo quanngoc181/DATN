@@ -4,7 +4,7 @@
 <th:block th:include="fragment/head"></th:block>
 <link rel="stylesheet" href="/css/admin.css" />
 </head>
-<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed" th:attr="data-enabledaccount=${account.enabledAccount},data-disabledaccount=${account.disabledAccount},data-adminaccount=${account.adminAccount},data-memberaccount=${account.memberAccount},data-monthsaccount=${account.monthsAccount},data-amountsaccount=${account.amountsAccount}">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed" th:attr="data-enabledaccount=${statistic.enabledAccount},data-disabledaccount=${statistic.disabledAccount},data-adminaccount=${statistic.adminAccount},data-memberaccount=${statistic.memberAccount},data-monthsaccount=${statistic.monthsAccount},data-amountsaccount=${statistic.amountsAccount},data-amountsorder=${statistic.amountsOrder},data-valuesorder=${statistic.valuesOrder}">
 	<div class="wrapper">
 		<th:block th:include="fragment/admin-nav"></th:block>
 
@@ -19,19 +19,19 @@
 
 				<h5 class="mb-2">Thống kê tài khoản</h5>
 				<div class="row">
-					<div class="col">
+					<div class="col-4">
 						<div class="info-box">
 							<span class="info-box-icon bg-primary">
-								<i class="far fa-envelope"></i>
+								<i class="fas fa-user-circle"></i>
 							</span>
 
 							<div class="info-box-content">
-								<span class="info-box-text">Tổng</span>
-								<span class="info-box-number" th:text="${account.allAccount}"></span>
+								<span class="info-box-text">Tổng tài khoản</span>
+								<span class="info-box-number" th:text="${statistic.allAccount}"></span>
 							</div>
 						</div>
 					</div>
-					<div class="col">
+					<div class="col-4">
 						<div class="info-box">
 							<span class="info-box-icon bg-info">
 								<i class="far fa-check-square"></i>
@@ -39,11 +39,11 @@
 
 							<div class="info-box-content">
 								<span class="info-box-text">Enable</span>
-								<span class="info-box-number" th:text="${account.enabledAccount}"></span>
+								<span class="info-box-number" th:text="${statistic.enabledAccount}"></span>
 							</div>
 						</div>
 					</div>
-					<div class="col">
+					<div class="col-4">
 						<div class="info-box">
 							<span class="info-box-icon bg-danger">
 								<i class="far fa-times-circle"></i>
@@ -51,11 +51,11 @@
 
 							<div class="info-box-content">
 								<span class="info-box-text">Disable</span>
-								<span class="info-box-number" th:text="${account.disabledAccount}"></span>
+								<span class="info-box-number" th:text="${statistic.disabledAccount}"></span>
 							</div>
 						</div>
 					</div>
-					<div class="col">
+					<div class="col-4">
 						<div class="info-box">
 							<span class="info-box-icon bg-warning">
 								<i class="fas fa-user-shield"></i>
@@ -63,11 +63,11 @@
 
 							<div class="info-box-content">
 								<span class="info-box-text">Quản trị viên</span>
-								<span class="info-box-number" th:text="${account.adminAccount}"></span>
+								<span class="info-box-number" th:text="${statistic.adminAccount}"></span>
 							</div>
 						</div>
 					</div>
-					<div class="col">
+					<div class="col-4">
 						<div class="info-box">
 							<span class="info-box-icon bg-success">
 								<i class="fas fa-user"></i>
@@ -75,38 +75,27 @@
 
 							<div class="info-box-content">
 								<span class="info-box-text">Thành viên</span>
-								<span class="info-box-number" th:text="${account.memberAccount}"></span>
+								<span class="info-box-number" th:text="${statistic.memberAccount}"></span>
 							</div>
 						</div>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="col-6">
-						<div class="card">
-							<div class="card-header">
-								<h3 class="card-title">Tài khoản tạo mới hàng tháng</h3>
-							</div>
-							<div class="card-body">
-								<div class="chart-responsive">
-									<canvas id="accountChart" height="200"></canvas>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-3">
+					<div class="col-2"></div>
+					<div class="col-4">
 						<div class="card">
 							<div class="card-header">
 								<h3 class="card-title">Tài khoản</h3>
 							</div>
 							<div class="card-body">
 								<div class="row">
-									<div class="col-md-8">
+									<div class="col-md-6">
 										<div class="chart-responsive">
-											<canvas id="pieChart1" height="200"></canvas>
+											<canvas id="accountPieChart1" height="200"></canvas>
 										</div>
 									</div>
-									<div class="col-md-4">
+									<div class="col-md-6">
 										<ul class="chart-legend clearfix">
 											<li>
 												<i class="fas fa-circle text-primary"></i>
@@ -122,19 +111,19 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-3">
+					<div class="col-4">
 						<div class="card">
 							<div class="card-header">
 								<h3 class="card-title">Tài khoản</h3>
 							</div>
 							<div class="card-body">
 								<div class="row">
-									<div class="col-md-8">
+									<div class="col-md-6">
 										<div class="chart-responsive">
-											<canvas id="pieChart2" height="200"></canvas>
+											<canvas id="accountPieChart2" height="200"></canvas>
 										</div>
 									</div>
-									<div class="col-md-4">
+									<div class="col-md-6">
 										<ul class="chart-legend clearfix">
 											<li>
 												<i class="fas fa-circle text-primary"></i>
@@ -150,9 +139,235 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-2"></div>
+					<div class="col-8 offset-2">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Tài khoản tạo mới hàng tháng</h3>
+							</div>
+							<div class="card-body">
+								<div class="chart-responsive">
+									<canvas id="accountBarChart" height="200"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				
 				<h5 class="mb-2">Thống kê đơn hàng</h5>
+				<div class="row">
+					<div class="col-4">
+						<div class="info-box">
+							<span class="info-box-icon bg-primary">
+								<i class="fas fa-bullseye"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Tổng đơn hàng</span>
+								<span class="info-box-number" th:text="${statistic.allOrder}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="info-box">
+							<span class="info-box-icon bg-info">
+								<i class="fas fa-bullseye"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Chưa thanh toán</span>
+								<span class="info-box-number" th:text="${statistic.unpaidOrder}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="info-box">
+							<span class="info-box-icon bg-danger">
+								<i class="fas fa-bullseye"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Đã thanh toán</span>
+								<span class="info-box-number" th:text="${statistic.paidOrder}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="info-box">
+							<span class="info-box-icon bg-warning">
+								<i class="fas fa-bullseye"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Đang chờ</span>
+								<span class="info-box-number" th:text="${statistic.processingOrder}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="info-box">
+							<span class="info-box-icon bg-success">
+								<i class="fas fa-bullseye"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Đang giao</span>
+								<span class="info-box-number" th:text="${statistic.deliveringOrder}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="info-box">
+							<span class="info-box-icon bg-secondary">
+								<i class="fas fa-bullseye"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Đã hoàn thành</span>
+								<span class="info-box-number" th:text="${statistic.completedOrder}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="info-box">
+							<span class="info-box-icon bg-light">
+								<i class="fas fa-bullseye"></i>
+							</span>
+
+							<div class="info-box-content">
+								<span class="info-box-text">Tại quầy</span>
+								<span class="info-box-number" th:text="${statistic.pickupOrder}"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-4 offset-2">
+						<div class="form-group row">
+							<label for="month-picker" class="col col-form-label">Chọn tháng</label>
+							<div class="col">
+								<input type="text" class="form-control" name="month" id="month-picker" data-toggle="monthpicker">
+							</div>
+						</div>
+					</div>
+					<div class="col-6"></div>
+					<div class="col-2"></div>
+					<div class="col-4">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Số lượng đơn hàng</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="chart-responsive">
+											<canvas id="orderPieChart1" height="200"></canvas>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<ul class="chart-legend clearfix">
+											<li>
+												<i class="fas fa-circle text-primary"></i>
+												Chưa thanh toán
+											</li>
+											<li>
+												<i class="fas fa-circle text-success"></i>
+												Đã thanh toán
+											</li>
+											<li>
+												<i class="fas fa-circle text-secondary"></i>
+												Đang chờ
+											</li>
+											<li>
+												<i class="fas fa-circle text-danger"></i>
+												Đang giao
+											</li>
+											<li>
+												<i class="fas fa-circle text-warning"></i>
+												Đã hoàn thành
+											</li>
+											<li>
+												<i class="fas fa-circle text-info"></i>
+												Tại quầy
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Giá trị đơn hàng</h3>
+							</div>
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="chart-responsive">
+											<canvas id="orderPieChart2" height="200"></canvas>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<ul class="chart-legend clearfix">
+											<li>
+												<i class="fas fa-circle text-primary"></i>
+												Chưa thanh toán
+											</li>
+											<li>
+												<i class="fas fa-circle text-success"></i>
+												Đã thanh toán
+											</li>
+											<li>
+												<i class="fas fa-circle text-secondary"></i>
+												Đang chờ
+											</li>
+											<li>
+												<i class="fas fa-circle text-danger"></i>
+												Đang giao
+											</li>
+											<li>
+												<i class="fas fa-circle text-warning"></i>
+												Đã hoàn thành
+											</li>
+											<li>
+												<i class="fas fa-circle text-info"></i>
+												Tại quầy
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-2"></div>
+					<div class="col-8 offset-2">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Số lượng đơn hàng hàng tháng</h3>
+							</div>
+							<div class="card-body">
+								<div class="chart-responsive">
+									<canvas id="orderBarChart1" height="200"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-2"></div>
+					<div class="col-8 offset-2">
+						<div class="card">
+							<div class="card-header">
+								<h3 class="card-title">Giá trị đơn hàng hàng tháng</h3>
+							</div>
+							<div class="card-body">
+								<div class="chart-responsive">
+									<canvas id="orderBarChart2" height="200"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
 			</section>
 		</div>
