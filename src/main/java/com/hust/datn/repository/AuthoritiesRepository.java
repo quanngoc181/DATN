@@ -9,4 +9,5 @@ import com.hust.datn.entity.AuthorityId;
 
 public interface AuthoritiesRepository extends JpaRepository<Authorities, AuthorityId> {
 	List<Authorities> findByAuthority(String author);
+	int countByAuthority(String author);
 }
