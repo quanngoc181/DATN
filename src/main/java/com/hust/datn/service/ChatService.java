@@ -2,7 +2,6 @@ package com.hust.datn.service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,10 +17,8 @@ import com.hust.datn.dto.UserMessageDTO;
 import com.hust.datn.entity.Account;
 import com.hust.datn.entity.Authorities;
 import com.hust.datn.entity.ChatMessage;
-import com.hust.datn.entity.Users;
 import com.hust.datn.repository.AccountRepository;
 import com.hust.datn.repository.AuthoritiesRepository;
-import com.hust.datn.repository.UserRepository;
 
 @Service
 public class ChatService {

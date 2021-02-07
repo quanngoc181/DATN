@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hust.datn.dto.UserMessageDTO;
 import com.hust.datn.entity.Authorities;
 import com.hust.datn.entity.ChatMessage;
-import com.hust.datn.entity.Users;
 import com.hust.datn.repository.AuthoritiesRepository;
 import com.hust.datn.repository.UserChatRepository;
 import com.hust.datn.repository.UserRepository;

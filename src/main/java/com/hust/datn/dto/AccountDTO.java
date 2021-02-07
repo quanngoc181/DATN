@@ -1,7 +1,5 @@
 package com.hust.datn.dto;
 
-import java.util.Base64;
-
 import com.hust.datn.entity.Account;
 
 public class AccountDTO {

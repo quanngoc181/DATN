@@ -33,10 +33,6 @@ public class AddOrderCommand {
 	public void validate() throws InternalException {
 		if(products.size() == 0)
 			throw new InternalException("Đơn hàng chưa có sản phẩm");
-		
-		for (OrderProductCommand product : products) {
-			// check trùng sản phẩm
-		}
 	}
 
 	public String getNote() {

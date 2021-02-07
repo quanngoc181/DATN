@@ -1,9 +1,5 @@
 package com.hust.datn.command;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 public class SearchCommand {
 	public String keyword;
 	public String categories;
